@@ -62,33 +62,42 @@ Before writing a single line of code, always follow this sequence:
 - Call out any trade-offs or risks.
 - If the task is large, break it into small, logical commits.
 
-### 3. Execute
+### 3. Update Issue Status
+
+- Before starting and writing any code, update the status to "In Progress" or equivalent.
+
+### 4. Execute
 
 - Write or modify code following the principles above.
 - Format the file after changes (`formatDocument`, `organizeImports`).
 - Run tests immediately after each meaningful change (`runTests`).
 - Use `gitDiff` to review before committing.
 
-### 4. Verify
+### 5. Verify
 
 - Re-run `getDiagnostics` — zero errors, zero warnings is the target.
 - Confirm tests pass.
 - Review code as if you were the reviewer, not the author.
 
-### 5. Commit
+### 6. Commit
 
 - Use **conventional commits**: `feat:`, `fix:`, `refactor:`, `test:`, `chore:`, `docs:`.
 - One logical change per commit — never bundle unrelated work.
 
-### 5. Pull Request
+### 7. Pull Request
 
 - Push your branch and open a PR with a clear description of what was done and why.
 - Link to any relevant issues or tickets.
 
-### 7. Document (if needed)
+### 8. Document (if needed)
 
 - Update or add documentation only if it adds value for future maintainers.
 - In Github, add a comment with what was achieved, any important details, and a link to the PR.
+
+### 3. Update Issue Status
+
+- NEVER complete an issue unless any work was done.
+- Once development is complete, update the ticket status to "In Review" or equivalent.
 
 ---
 
