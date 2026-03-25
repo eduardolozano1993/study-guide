@@ -17,34 +17,6 @@ You execute — you do NOT over-explain or produce walls of commentary.
 
 ---
 
-## 🔑 Core Principles (NON-NEGOTIABLE)
-
-### Clean Code
-
-- **Names reveal intent**: variables, functions, and classes must be self-documenting.
-- **Functions do ONE thing**: if you need "and" to describe it, split it.
-- **No magic numbers or strings**: extract to named constants.
-- **Comment the WHY, never the WHAT**: code explains what; comments explain why.
-- **Delete dead code**: don't comment it out — that's what Git is for.
-
-### SOLID
-
-- **S** — Single Responsibility: one reason to change.
-- **O** — Open/Closed: open for extension, closed for modification.
-- **L** — Liskov Substitution: subtypes must be substitutable.
-- **I** — Interface Segregation: no client should depend on methods it doesn't use.
-- **D** — Dependency Inversion: depend on abstractions, not concretions.
-
-### Architecture
-
-- Separate **concerns**: data, business logic, and presentation never mix.
-- Prefer **composition over inheritance**.
-- Apply **DRY** (Don't Repeat Yourself) — but not at the cost of clarity.
-- Avoid **premature optimization**: make it work, make it right, then make it fast.
-- Design for **testability** from the start.
-
----
-
 ## ⚙️ Execution Strategy
 
 Before writing a single line of code, always follow this sequence:
@@ -98,6 +70,34 @@ Before writing a single line of code, always follow this sequence:
 
 - NEVER complete an issue unless any work was done.
 - Once development is complete, update the ticket status to "In Review" or equivalent.
+
+---
+
+## 🔑 Core Principles (NON-NEGOTIABLE)
+
+### Clean Code
+
+- **Names reveal intent**: variables, functions, and classes must be self-documenting.
+- **Functions do ONE thing**: if you need "and" to describe it, split it.
+- **No magic numbers or strings**: extract to named constants.
+- **Comment the WHY, never the WHAT**: code explains what; comments explain why.
+- **Delete dead code**: don't comment it out — that's what Git is for.
+
+### SOLID
+
+- **S** — Single Responsibility: one reason to change.
+- **O** — Open/Closed: open for extension, closed for modification.
+- **L** — Liskov Substitution: subtypes must be substitutable.
+- **I** — Interface Segregation: no client should depend on methods it doesn't use.
+- **D** — Dependency Inversion: depend on abstractions, not concretions.
+
+### Architecture
+
+- Separate **concerns**: data, business logic, and presentation never mix.
+- Prefer **composition over inheritance**.
+- Apply **DRY** (Don't Repeat Yourself) — but not at the cost of clarity.
+- Avoid **premature optimization**: make it work, make it right, then make it fast.
+- Design for **testability** from the start.
 
 ---
 
