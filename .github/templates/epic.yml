@@ -1,0 +1,29 @@
+name: Epic
+description: High-level business objective
+title: "[EPIC] "
+labels: ["epic"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What is the business goal?
+    validations:
+      required: true
+
+  - type: textarea
+    id: success
+    attributes:
+      label: Success Criteria
+      description: How do we know this is complete?
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What's included / excluded?
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks / Dependencies
