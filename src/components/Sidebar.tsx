@@ -110,47 +110,15 @@ export function Sidebar() {
           <span className="text-2xl">📖</span>
           Study Guide
         </h1>
-        <p className="text-xs text-muted-foreground mt-1">
-          Learn at your own pace
-        </p>
       </div>
 
       {/* Navigation */}
       <nav className="p-3">
-        {/* Quick Links */}
-        <div className="mb-4">
-          <a
-            href="#"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
-          >
-            <span>🏠</span>
-            <span>Home</span>
-          </a>
-        </div>
-
         {/* Main Menu */}
         <div className="space-y-1">
           {menuItems.map((item, index) => (
             <MenuItemComponent key={index} item={item} />
           ))}
-        </div>
-
-        {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-border">
-          <a
-            href="#"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors text-sm"
-          >
-            <span>⚙️</span>
-            <span>Settings</span>
-          </a>
-          <a
-            href="#"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors text-sm"
-          >
-            <span>❓</span>
-            <span>Help & Support</span>
-          </a>
         </div>
       </nav>
     </aside>

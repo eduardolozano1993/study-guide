@@ -5,9 +5,9 @@ import { Sidebar } from "./components/Sidebar";
 
 function App() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar />
-      <main className="flex-1 p-6">
+      <main className="flex-1 overflow-y-auto p-6">
         <h1>Study Guide</h1>
         <SampleCard />
       </main>
