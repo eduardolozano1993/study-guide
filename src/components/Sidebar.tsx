@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface MenuItem {
   label: string;
@@ -61,7 +61,7 @@ function MenuItemComponent({ item, depth = 0 }: MenuItemProps) {
       <li>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-left text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+          className="flex items-center justify-between w-full px-3 py-3 rounded-lg text-left text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
           style={{ paddingLeft: `${indent + 12}px` }}
         >
           <span className="flex items-center gap-2">
@@ -91,7 +91,7 @@ function MenuItemComponent({ item, depth = 0 }: MenuItemProps) {
     <li>
       <a
         href={item.href || "#"}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+        className="flex items-center gap-2 px-3 py-3 rounded-lg text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
         style={{ paddingLeft: `${indent + 36}px` }}
       >
         <span className="text-base">{item.icon}</span>
@@ -102,25 +102,84 @@ function MenuItemComponent({ item, depth = 0 }: MenuItemProps) {
 }
 
 export function Sidebar() {
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const closeMobileSidebar = () => setIsMobileOpen(false);
+
   return (
-    <aside className="sticky left-0 top-0 h-screen w-[280px] flex-shrink-0 bg-card border-r border-border overflow-y-auto">
-      {/* Header */}
-      <div className="p-4 border-b border-border">
-        <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
-          <span className="text-2xl">📖</span>
-          Study Guide
-        </h1>
+    <>
+      {/* Mobile Header with Hamburger */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-30 bg-background border-b border-border">
+        <button
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          className="p-4 min-w-[44px] min-h-[44px] flex items-center justify-center"
+          aria-label="Toggle menu"
+        >
+          <span className="text-2xl">{isMobileOpen ? "✕" : "☰"}</span>
+        </button>
       </div>
 
-      {/* Navigation */}
-      <nav className="p-3">
-        {/* Main Menu */}
-        <div className="space-y-1">
-          {menuItems.map((item, index) => (
-            <MenuItemComponent key={index} item={item} />
-          ))}
-        </div>
-      </nav>
-    </aside>
+      {/* Mobile Overlay Backdrop */}
+      {isMobile && isMobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          onClick={closeMobileSidebar}
+          onTouchStart={closeMobileSidebar}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          ${isMobile ? "fixed top-0 left-0 h-full z-50" : "relative"}
+          ${isMobileOpen ? "translate-x-0" : isMobile ? "-translate-x-full" : ""}
+          w-64 bg-background border-r border-border transition-transform duration-300 ease-in-out
+        `}
+      >
+        {/* Mobile Close Button */}
+        {isMobile && (
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <span className="flex items-center gap-2 font-semibold text-lg text-black">
+              <span>📖</span>
+              <span>Study Guide</span>
+            </span>
+            <button
+              onClick={closeMobileSidebar}
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-xl"
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
+        {/* Desktop Header */}
+        {!isMobile && (
+          <div className="p-4 border-b border-border">
+            <h2 className="flex items-center gap-2 font-semibold text-lg text-black">
+              <span>📖</span>
+              <span>Study Guide</span>
+            </h2>
+          </div>
+        )}
+
+        {/* Navigation */}
+        <nav className="overflow-y-auto h-[calc(100%-64px)]">
+          <ul className="p-2 space-y-1">
+            {menuItems.map((item, index) => (
+              <MenuItemComponent key={index} item={item} />
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    </>
   );
 }
