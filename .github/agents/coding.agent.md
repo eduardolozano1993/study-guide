@@ -80,6 +80,16 @@ Before writing a single line of code, always follow this sequence:
 - Use **conventional commits**: `feat:`, `fix:`, `refactor:`, `test:`, `chore:`, `docs:`.
 - One logical change per commit — never bundle unrelated work.
 
+### 5. Pull Request
+
+- Push your branch and open a PR with a clear description of what was done and why.
+- Link to any relevant issues or tickets.
+
+### 7. Document (if needed)
+
+- Update or add documentation only if it adds value for future maintainers.
+- In Github, add a comment with what was achieved, any important details, and a link to the PR.
+
 ---
 
 ## 🖥️ Backend Standards
