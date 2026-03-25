@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface MenuItem {
   label: string;
@@ -53,16 +54,26 @@ interface MenuItemProps {
 
 function MenuItemComponent({ item, depth = 0 }: MenuItemProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
   const hasChildren = item.children && item.children.length > 0;
   const indent = depth * 4;
+
+  const isActive =
+    item.href && item.href !== "#" && location.pathname === item.href;
 
   if (hasChildren) {
     return (
       <li>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center justify-between w-full px-3 py-3 rounded-lg text-left text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+          className={`flex items-center justify-between w-full px-3 py-3 rounded-lg text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+            isActive
+              ? "bg-accent text-accent-foreground font-semibold"
+              : "text-foreground hover:bg-accent hover:text-accent-foreground"
+          }`}
           style={{ paddingLeft: `${indent + 12}px` }}
+          aria-expanded={isOpen}
+          aria-current={isActive ? "page" : undefined}
         >
           <span className="flex items-center gap-2">
             <span className="text-base">{item.icon}</span>
@@ -91,8 +102,13 @@ function MenuItemComponent({ item, depth = 0 }: MenuItemProps) {
     <li>
       <a
         href={item.href || "#"}
-        className="flex items-center gap-2 px-3 py-3 rounded-lg text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+        className={`flex items-center gap-2 px-3 py-3 rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+          isActive
+            ? "bg-accent text-accent-foreground font-semibold"
+            : "text-foreground hover:bg-accent hover:text-accent-foreground"
+        }`}
         style={{ paddingLeft: `${indent + 36}px` }}
+        aria-current={isActive ? "page" : undefined}
       >
         <span className="text-base">{item.icon}</span>
         <span className="text-sm">{item.label}</span>
