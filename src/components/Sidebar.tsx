@@ -1,94 +1,84 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
-interface MenuItem {
-  label: string;
-  icon?: string;
-  children?: MenuItem[];
-  href?: string;
-}
-
-const menuItems: MenuItem[] = [
-  {
-    label: "Getting Started",
-    icon: "📚",
-    children: [
-      { label: "Introduction", href: "#" },
-      { label: "Installation", href: "#" },
-      { label: "Quick Start", href: "#" },
-    ],
-  },
-  {
-    label: "Core Concepts",
-    icon: "💡",
-    children: [
-      { label: "Components", href: "#" },
-      { label: "State Management", href: "#" },
-      { label: "Data Flow", href: "#" },
-    ],
-  },
-  {
-    label: "Advanced Topics",
-    icon: "🚀",
-    children: [
-      { label: "Performance", href: "#" },
-      { label: "Testing", href: "#" },
-      { label: "Deployment", href: "#" },
-    ],
-  },
-  {
-    label: "Resources",
-    icon: "🔗",
-    children: [
-      { label: "Documentation", href: "#" },
-      { label: "API Reference", href: "#" },
-      { label: "Community", href: "#" },
-    ],
-  },
-];
+import type { MenuItem } from "@/core/interfaces/menuItem.interface";
+import { MENU_ITEMS } from "@/core/data/menuItems";
 
 interface MenuItemProps {
   item: MenuItem;
   depth?: number;
 }
 
+const depthStyles = {
+  0: {
+    button: "text-lg font-semibold px-3 py-2",
+    link: "text-lg font-medium px-3 py-2",
+    icon: "text-base",
+    label: "text-lg",
+    chevron: "text-xs",
+  },
+  1: {
+    button: "text-sm font-medium px-3 py-1.5",
+    link: "text-sm font-normal px-3 py-1",
+    icon: "text-sm",
+    label: "text-sm",
+    chevron: "text-xs",
+  },
+  2: {
+    button: "text-sm font-normal px-3 py-1",
+    link: "text-sm font-normal px-3 py-1",
+    icon: "text-xs",
+    label: "text-xs",
+    chevron: "text-xs",
+  },
+};
+
+const getIndent = (depth: number) => {
+  return 12 + depth * 6; // 12px base + 6px per level (4-8px range)
+};
+
 function MenuItemComponent({ item, depth = 0 }: MenuItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const hasChildren = item.children && item.children.length > 0;
-  const indent = depth * 4;
+  const styles =
+    depthStyles[depth as keyof typeof depthStyles] || depthStyles[2];
+  const indent = getIndent(depth);
 
   const isActive =
     item.href && item.href !== "#" && location.pathname === item.href;
+
+  const activeClasses = isActive
+    ? "bg-primary/10 text-foreground font-medium"
+    : "text-foreground hover:bg-accent/50";
+  const inactiveClasses = isActive
+    ? "bg-primary/10 text-foreground font-medium"
+    : "text-foreground hover:bg-accent/50";
 
   if (hasChildren) {
     return (
       <li>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`flex items-center justify-between w-full px-3 py-3 rounded-lg text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
-            isActive
-              ? "bg-accent text-accent-foreground font-semibold"
-              : "text-foreground hover:bg-accent hover:text-accent-foreground"
-          }`}
-          style={{ paddingLeft: `${indent + 12}px` }}
+          className={`flex items-center justify-between w-full rounded-lg text-left transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${activeClasses} ${styles.button}`}
+          style={{
+            paddingLeft: `${indent}px`,
+            paddingRight: `${indent / 2}px`,
+          }}
           aria-expanded={isOpen}
           aria-current={isActive ? "page" : undefined}
         >
-          <span className="flex items-center gap-2">
-            <span className="text-base">{item.icon}</span>
-            <span className="font-medium">{item.label}</span>
+          <span className="flex items-center gap-2.5">
+            {item.icon && <span className={styles.icon}>{item.icon}</span>}
+            <span className={styles.label}>{item.label}</span>
           </span>
           <span
-            className={`text-xs transition-transform duration-200 ${
-              isOpen ? "rotate-90" : ""
-            }`}
+            className={`${styles.chevron} transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
           >
             ▶
           </span>
         </button>
         {isOpen && (
-          <ul className="mt-1 space-y-1">
+          <ul className="mt-1 space-y-0.5">
             {item.children!.map((child, index) => (
               <MenuItemComponent key={index} item={child} depth={depth + 1} />
             ))}
@@ -102,16 +92,15 @@ function MenuItemComponent({ item, depth = 0 }: MenuItemProps) {
     <li>
       <a
         href={item.href || "#"}
-        className={`flex items-center gap-2 px-3 py-3 rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
-          isActive
-            ? "bg-accent text-accent-foreground font-semibold"
-            : "text-foreground hover:bg-accent hover:text-accent-foreground"
-        }`}
-        style={{ paddingLeft: `${indent + 36}px` }}
+        className={`flex items-center gap-2 rounded-lg transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${inactiveClasses} ${styles.link}`}
+        style={{
+          paddingLeft: `${indent + (item.icon ? 8 : 0)}px`,
+          paddingRight: `${indent / 2}px`,
+        }}
         aria-current={isActive ? "page" : undefined}
       >
-        <span className="text-base">{item.icon}</span>
-        <span className="text-sm">{item.label}</span>
+        {item.icon && <span className={styles.icon}>{item.icon}</span>}
+        <span className={styles.label}>{item.label}</span>
       </a>
     </li>
   );
@@ -180,7 +169,7 @@ export function Sidebar() {
         {/* Desktop Header */}
         {!isMobile && (
           <div className="p-4 border-b border-border">
-            <h2 className="flex items-center gap-2 font-semibold text-lg text-black">
+            <h2 className="flex items-center gap-2 font-bold text-lg text-foreground">
               <span>📖</span>
               <span>Study Guide</span>
             </h2>
@@ -190,7 +179,7 @@ export function Sidebar() {
         {/* Navigation */}
         <nav className="overflow-y-auto h-[calc(100%-64px)]">
           <ul className="p-2 space-y-1">
-            {menuItems.map((item, index) => (
+            {MENU_ITEMS.map((item, index) => (
               <MenuItemComponent key={index} item={item} />
             ))}
           </ul>
