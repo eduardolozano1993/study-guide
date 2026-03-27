@@ -1,7 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 import type { MenuItem } from "@/features/navigation/types/menuItem.interface";
 import { MENU_ITEMS } from "../data/menuItems";
+
+// Session storage key for persisted menu state
+const MENU_STATE_KEY = "sidebar-menu-state";
+
+const getStoredMenuState = (): Record<string, boolean> => {
+  try {
+    const stored = sessionStorage.getItem(MENU_STATE_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+};
+
+const storeMenuState = (state: Record<string, boolean>) => {
+  try {
+    sessionStorage.setItem(MENU_STATE_KEY, JSON.stringify(state));
+  } catch {
+    // ignore
+  }
+};
 
 export interface MenuItemProps {
   item: MenuItem;
@@ -46,15 +66,44 @@ const getIndent = (depth: number) => {
   return BASE_INDENT_PX + depth * INDENT_PER_LEVEL_PX;
 };
 
+// Custom hook to manage menu expanded state with sessionStorage persistence
+const useMenuExpanded = (itemLabel: string): [boolean, () => void] => {
+  const [isOpen, setIsOpen] = React.useState(() => {
+    return getStoredMenuState()[itemLabel] ?? false;
+  });
+
+  // Use ref to always read current state from sessionStorage, avoiding stale closures
+  const storedStateRef = React.useRef(getStoredMenuState());
+
+  const toggle = React.useCallback(() => {
+    const currentStored = storedStateRef.current;
+    const newValue = !currentStored[itemLabel];
+    // Build fresh state object to ensure clean updates
+    const newState: Record<string, boolean> = {};
+    // Preserve other items' state
+    for (const key of Object.keys(currentStored)) {
+      newState[key] = currentStored[key];
+    }
+    // Set new value for this item
+    newState[itemLabel] = newValue;
+    storedStateRef.current = newState;
+    storeMenuState(newState);
+    setIsOpen(newValue);
+  }, [itemLabel]);
+
+  return [isOpen, toggle];
+};
+
 export const MenuItemComponent = React.memo(function MenuItemComponent({
   item,
   depth = 0,
 }: MenuItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const hasChildren = item.children && item.children.length > 0;
   const styles = getDepthStyles(depth);
   const indent = getIndent(depth);
+
+  const [isOpen, toggleOpen] = useMenuExpanded(item.label);
 
   const isActive =
     item.href && item.href !== "#" && location.pathname === item.href;
@@ -67,7 +116,7 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
     return (
       <li>
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={toggleOpen}
           className={`flex items-center justify-between w-full rounded-lg text-left transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${linkClasses} ${styles.button}`}
           style={{
             paddingLeft: `${indent}px`,
