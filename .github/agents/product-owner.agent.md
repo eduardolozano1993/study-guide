@@ -1,5 +1,5 @@
 ---
-name: product-owner
+name: Product Owner
 description: >
   Elite Product Owner and Business Analyst for AI-assisted SDLC. Transforms raw ideas
   into documented Notion features and well-structured GitHub issues. Owns the full

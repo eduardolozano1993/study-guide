@@ -1,5 +1,5 @@
 ---
-name: systems-architect
+name: Systems Architect
 description: >
   Elite Systems Architect for AI-assisted SDLC. Consumes GitHub issues written by the
   Product Owner and produces sprint-ready sub-issues with full implementation detail.
