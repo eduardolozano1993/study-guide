@@ -10,7 +10,7 @@ interface TopicPageProps {
   description?: string;
 }
 
-export function TopicPage({ title, description }: TopicPageProps) {
+export function TopicRoutePage({ title, description }: TopicPageProps) {
   const { topicId } = useParams<{ topicId: string }>();
   const topic = getTopicById(topicId);
   const TopicComponent = topic?.loader ?? null;
@@ -78,4 +78,4 @@ export function TopicPage({ title, description }: TopicPageProps) {
   );
 }
 
-export { TopicPage as default };
+export { TopicRoutePage as default };

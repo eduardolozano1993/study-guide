@@ -21,16 +21,28 @@ export interface TopicDefinition {
 const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> = {
   // Lazy-load each study page so the landing bundle stays small and route changes only fetch what is needed.
   "html-semantics": React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/HtmlSemantics"),
+    () =>
+      import(
+        "@/domains/topics/content/frontend/core-web-fundamentals/html-semantics"
+      ),
   ),
   "css-box-model": React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/CssBoxModel"),
+    () =>
+      import(
+        "@/domains/topics/content/frontend/core-web-fundamentals/css-box-model"
+      ),
   ),
   "responsive-design": React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/ResponsiveDesign"),
+    () =>
+      import(
+        "@/domains/topics/content/frontend/core-web-fundamentals/responsive-design"
+      ),
   ),
   accessibility: React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/Accessibility"),
+    () =>
+      import(
+        "@/domains/topics/content/frontend/core-web-fundamentals/accessibility"
+      ),
   ),
 };
 
