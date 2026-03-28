@@ -12,6 +12,7 @@ export interface TopicDefinition {
 }
 
 const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> = {
+  // Lazy-load each study page so the landing bundle stays small and route changes only fetch what is needed.
   "html-semantics": React.lazy(
     () => import("@/pages/frontend/core-web-fundamentals/HtmlSemantics"),
   ),
@@ -57,6 +58,7 @@ const topicDefinitions: TopicDefinition[] = [
   },
 ];
 
+// Route lookups happen often, so keep an O(1) index instead of scanning the array for every navigation.
 const topicById = new Map(topicDefinitions.map((topic) => [topic.id, topic]));
 
 export function getTopicById(topicId: string | undefined) {

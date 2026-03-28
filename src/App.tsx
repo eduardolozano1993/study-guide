@@ -13,6 +13,7 @@ const DEFAULT_TITLE = "Study Guide";
 
 function HomePage() {
   useEffect(() => {
+    // Keep the browser tab aligned with the landing view when no topic is open.
     document.title = DEFAULT_TITLE;
   }, []);
 
@@ -32,13 +33,52 @@ function HomePage() {
   );
 }
 
-function AppShell() {
-  const location = useLocation();
+function MobileNavHeader() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-  useEffect(() => {
-    setMobileNavOpen(false);
-  }, [location.pathname]);
+  return (
+    <header className="border-b border-border/70 bg-white/80 backdrop-blur md:hidden">
+      <div className="flex items-center justify-between gap-3 px-4 py-3">
+        <div>
+          <p className="text-sm font-semibold tracking-[-0.03em] text-foreground">
+            Study Guide
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Browse topics and lessons
+          </p>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => setMobileNavOpen((value) => !value)}
+          aria-expanded={mobileNavOpen}
+          aria-controls="mobile-navigation"
+        >
+          <Menu className="h-4 w-4" />
+          Menu
+        </Button>
+      </div>
+
+      {mobileNavOpen && (
+        <div
+          id="mobile-navigation"
+          className="border-t border-border/70 bg-white/95 shadow-sm"
+        >
+          <Sidebar
+            showBrand={false}
+            navLabel="Study topics mobile navigation"
+            onNavigate={() => setMobileNavOpen(false)}
+            className="max-h-[70svh] overflow-y-auto"
+          />
+        </div>
+      )}
+    </header>
+  );
+}
+
+function AppShell() {
+  const location = useLocation();
 
   return (
     <div className="relative flex min-h-screen bg-background">
@@ -60,43 +100,7 @@ function AppShell() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="border-b border-border/70 bg-white/80 backdrop-blur md:hidden">
-          <div className="flex items-center justify-between gap-3 px-4 py-3">
-            <div>
-              <p className="text-sm font-semibold tracking-[-0.03em] text-foreground">
-                Study Guide
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Browse topics and lessons
-              </p>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setMobileNavOpen((value) => !value)}
-              aria-expanded={mobileNavOpen}
-              aria-controls="mobile-navigation"
-            >
-              <Menu className="h-4 w-4" />
-              Menu
-            </Button>
-          </div>
-
-          {mobileNavOpen && (
-            <div
-              id="mobile-navigation"
-              className="border-t border-border/70 bg-white/95 shadow-sm"
-            >
-              <Sidebar
-                showBrand={false}
-                navLabel="Study topics mobile navigation"
-                onNavigate={() => setMobileNavOpen(false)}
-                className="max-h-[70svh] overflow-y-auto"
-              />
-            </div>
-          )}
-        </header>
+        <MobileNavHeader key={location.pathname} />
 
         <main
           id="main-content"

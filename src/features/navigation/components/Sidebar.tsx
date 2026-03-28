@@ -8,6 +8,7 @@ const MENU_STATE_KEY = "sidebar-menu-state";
 
 const getStoredMenuState = (): Record<string, boolean> => {
   try {
+    // sessionStorage can be unavailable or contain stale JSON from an older app version.
     const stored = sessionStorage.getItem(MENU_STATE_KEY);
     return stored ? JSON.parse(stored) : {};
   } catch (error) {
@@ -20,6 +21,7 @@ const getStoredMenuState = (): Record<string, boolean> => {
 
 const storeMenuState = (state: Record<string, boolean>) => {
   try {
+    // Persist expansion across refreshes, but fail open if the browser rejects storage.
     sessionStorage.setItem(MENU_STATE_KEY, JSON.stringify(state));
   } catch (error) {
     if (import.meta.env.DEV) {
@@ -95,6 +97,7 @@ const useMenuExpanded = (
   const storedStateRef = React.useRef(getStoredMenuState());
 
   React.useEffect(() => {
+    // Auto-open the branch containing the active route so deep links stay visible.
     if (shouldBeOpen) {
       setIsOpen(true);
     }
@@ -106,6 +109,7 @@ const useMenuExpanded = (
     const newValue = !nextStoredValue;
     const newState: Record<string, boolean> = {};
 
+    // Clone the stored map before updating so unrelated branches keep their state.
     for (const key of Object.keys(currentStored)) {
       newState[key] = currentStored[key];
     }

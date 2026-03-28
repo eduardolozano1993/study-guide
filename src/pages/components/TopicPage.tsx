@@ -15,19 +15,23 @@ export function TopicPage({ title, description }: TopicPageProps) {
   const topic = getTopicById(topicId);
   const TopicComponent = topic?.loader ?? null;
   const headingRef = React.useRef<HTMLHeadingElement | null>(null);
+  // Allow callers to override the registry metadata, but keep a usable fallback for direct deep links.
   const computedTitle = title || topic?.title || "Topic";
   const supportingCopy =
     description ||
     (topic?.status === "coming-soon" ? "This topic is coming soon." : "");
+  // Announce success and failure states to assistive tech without changing the visible layout.
   const statusMessage = TopicComponent
     ? `Loaded topic: ${computedTitle}`
     : `Topic not found: ${computedTitle}`;
 
   useEffect(() => {
+    // Sync the tab title with the active lesson so browser history stays self-describing.
     document.title = `${computedTitle} | Study Guide`;
   }, [computedTitle]);
 
   useEffect(() => {
+    // Move focus to the new heading so screen readers announce route changes immediately.
     headingRef.current?.focus();
   }, [computedTitle]);
 
