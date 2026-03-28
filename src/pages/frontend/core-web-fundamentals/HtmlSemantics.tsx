@@ -15,7 +15,6 @@ export function HtmlSemantics() {
         icon="📜"
         title="Semantic HTML"
         description="Learn when to use article, section, nav, and aside elements for meaningful markup."
-        href="#"
       />
 
       <CollapsibleSection title="Why Semantic HTML Matters" defaultOpen={true}>
@@ -251,7 +250,6 @@ export function HtmlSemantics() {
         icon="📝"
         title="HTML Forms"
         description="Master form structure, validation, and accessibility for user input."
-        href="#"
       />
 
       <CollapsibleSection title="Form Structure & Best Practices">
@@ -418,7 +416,6 @@ input.addEventListener('input', () => {
         icon="🔍"
         title="SEO Fundamentals"
         description="Learn essential SEO techniques including meta tags, Open Graph, and structured data."
-        href="#"
       />
 
       <CollapsibleSection title="Title Tags & Meta Description">

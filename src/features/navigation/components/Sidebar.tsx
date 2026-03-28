@@ -10,7 +10,8 @@ const getStoredMenuState = (): Record<string, boolean> => {
   try {
     const stored = sessionStorage.getItem(MENU_STATE_KEY);
     return stored ? JSON.parse(stored) : {};
-  } catch {
+  } catch (e) {
+    console.warn("Failed to read menu state from sessionStorage:", e);
     return {};
   }
 };
@@ -18,8 +19,8 @@ const getStoredMenuState = (): Record<string, boolean> => {
 const storeMenuState = (state: Record<string, boolean>) => {
   try {
     sessionStorage.setItem(MENU_STATE_KEY, JSON.stringify(state));
-  } catch {
-    // ignore
+  } catch (e) {
+    console.warn("Failed to store menu state in sessionStorage:", e);
   }
 };
 
@@ -56,7 +57,9 @@ const getDepthStyles = (depth: number) => {
   if (depthStyles[depth as keyof typeof depthStyles]) {
     return depthStyles[depth as keyof typeof depthStyles];
   }
-  throw new Error(`Unsupported menu depth: ${depth}`);
+  // Fallback to deepest defined style instead of throwing
+  const maxDepth = Math.min(depth, 2); // clamp to max defined
+  return depthStyles[maxDepth as keyof typeof depthStyles];
 };
 
 const BASE_INDENT_PX = 12;
