@@ -32,6 +32,7 @@ export interface MenuItemProps {
   item: MenuItem;
   depth?: number;
   onNavigate?: () => void;
+  pathname: string;
 }
 
 const depthStyles = {
@@ -122,18 +123,19 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
   item,
   depth = 0,
   onNavigate,
+  pathname,
 }: MenuItemProps) {
-  const location = useLocation();
   const hasChildren = item.children && item.children.length > 0;
   const styles = getDepthStyles(depth);
   const indent = getIndent(depth);
-  const isInActivePath = itemContainsPath(item, location.pathname);
+  const isDisabled = item.disabled || item.href === "#";
+  const isInActivePath = itemContainsPath(item, pathname);
   const itemKey = item.id ?? `${depth}-${item.label}`;
 
   const [isOpen, toggleOpen] = useMenuExpanded(itemKey, isInActivePath);
 
   const isActive =
-    item.href && item.href !== "#" && location.pathname === item.href;
+    item.href && item.href !== "#" && pathname === item.href;
 
   const baseStateClasses = isActive
     ? "bg-primary text-primary-foreground shadow-sm"
@@ -169,10 +171,11 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
           <ul className="mt-1.5 space-y-1">
             {item.children!.map((child) => (
               <MenuItemComponent
-                key={`${child.label}-${depth + 1}`}
+                key={child.id ?? `${child.label}-${depth + 1}`}
                 item={child}
                 depth={depth + 1}
                 onNavigate={onNavigate}
+                pathname={pathname}
               />
             ))}
           </ul>
@@ -181,10 +184,28 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
     );
   }
 
+  if (isDisabled || !item.href) {
+    return (
+      <li>
+        <span
+          className={`flex cursor-not-allowed items-center gap-2 rounded-xl text-foreground/55 transition-all duration-200 ${styles.link}`}
+          style={{
+            paddingLeft: `${indent + (item.icon ? 8 : 0)}px`,
+            paddingRight: `${indent / 1.5}px`,
+          }}
+          aria-disabled="true"
+        >
+          {item.icon && <span className={styles.icon}>{item.icon}</span>}
+          <span className={styles.label}>{item.label}</span>
+        </span>
+      </li>
+    );
+  }
+
   return (
     <li>
       <Link
-        to={item.href || "#"}
+        to={item.href}
         onClick={onNavigate}
         className={`flex items-center gap-2 rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${baseStateClasses} ${styles.link}`}
         style={{
@@ -215,6 +236,8 @@ export function Sidebar({
   navLabel = "Study topics",
   className,
 }: SidebarProps) {
+  const { pathname } = useLocation();
+
   return (
     <div className={className}>
       {showBrand && (
@@ -236,9 +259,10 @@ export function Sidebar({
         <ul className="space-y-1.5">
           {menuItems.map((item) => (
             <MenuItemComponent
-              key={item.label}
+              key={item.id ?? item.label}
               item={item}
               onNavigate={onNavigate}
+              pathname={pathname}
             />
           ))}
         </ul>

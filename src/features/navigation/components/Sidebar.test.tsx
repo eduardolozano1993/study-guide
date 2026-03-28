@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 import { MemoryRouter } from "react-router-dom";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { MenuItem } from "@/features/navigation/types/menuItem.interface";
@@ -9,20 +9,20 @@ import { MenuItemComponent } from "./Sidebar";
 const mockItem: MenuItem = {
   id: "test-item",
   label: "Test Label",
-  icon: "📁",
+  icon: "item",
+  href: "/test-label",
 };
 
 const renderMenuItem = (item: MenuItem, initialPath: string = "/") => {
   return render(
     <MemoryRouter initialEntries={[initialPath]}>
-      <MenuItemComponent item={item} />
+      <MenuItemComponent item={item} pathname={initialPath} />
     </MemoryRouter>,
   );
 };
 
 describe("MenuItemComponent", () => {
   beforeEach(() => {
-    // Clear sessionStorage before each test to ensure clean state
     sessionStorage.removeItem("sidebar-menu-state");
   });
 
@@ -33,7 +33,8 @@ describe("MenuItemComponent", () => {
       renderMenuItem(itemWithHref, "/current-path");
 
       const link = screen.getByRole("link");
-      expect(link.className).toContain("bg-primary/10");
+      expect(link).toHaveAttribute("aria-current", "page");
+      expect(link.className).toContain("bg-primary");
     });
 
     it("does not apply active styling when href does not match", () => {
@@ -42,16 +43,19 @@ describe("MenuItemComponent", () => {
       renderMenuItem(itemWithHref, "/current-path");
 
       const link = screen.getByRole("link");
-      expect(link.className).not.toContain("bg-primary/10");
+      expect(link).not.toHaveAttribute("aria-current", "page");
     });
 
-    it("does not apply active styling when href is '#'", () => {
+    it("renders placeholder items as disabled text instead of links", () => {
       const itemWithHref: MenuItem = { ...mockItem, href: "#" };
 
       renderMenuItem(itemWithHref, "/");
 
-      const link = screen.getByRole("link");
-      expect(link.className).not.toContain("bg-primary/10");
+      expect(screen.queryByRole("link")).not.toBeInTheDocument();
+      expect(screen.getByText("Test Label")).toHaveAttribute(
+        "aria-disabled",
+        "true",
+      );
     });
   });
 

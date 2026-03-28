@@ -3,15 +3,7 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 import { ContentContainer, PageTitle, Paragraph } from "@/features/content";
 import { LoadingSpinner } from "@/shared/components/LoadingSpinner";
-
-const topicComponents: Record<
-  string,
-  React.LazyExoticComponent<React.ComponentType<object>>
-> = {
-  "html-semantics": React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/HtmlSemantics"),
-  ),
-};
+import { getTopicById } from "@/features/topics/topicRegistry";
 
 interface TopicPageProps {
   title?: string;
@@ -20,17 +12,16 @@ interface TopicPageProps {
 
 export function TopicPage({ title, description }: TopicPageProps) {
   const { topicId } = useParams<{ topicId: string }>();
-  const TopicComponent = topicId ? topicComponents[topicId] : null;
+  const topic = getTopicById(topicId);
+  const TopicComponent = topic?.loader ?? null;
   const headingRef = React.useRef<HTMLHeadingElement | null>(null);
-  const [statusMessage, setStatusMessage] = React.useState("");
-  const computedTitle =
-    title ||
-    (topicId
-      ? topicId
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ")
-      : "Topic");
+  const computedTitle = title || topic?.title || "Topic";
+  const supportingCopy =
+    description ||
+    (topic?.status === "coming-soon" ? "This topic is coming soon." : "");
+  const statusMessage = TopicComponent
+    ? `Loaded topic: ${computedTitle}`
+    : `Topic not found: ${computedTitle}`;
 
   useEffect(() => {
     document.title = `${computedTitle} | Study Guide`;
@@ -38,12 +29,7 @@ export function TopicPage({ title, description }: TopicPageProps) {
 
   useEffect(() => {
     headingRef.current?.focus();
-    setStatusMessage(
-      TopicComponent
-        ? `Loaded topic: ${computedTitle}`
-        : `Topic not found: ${computedTitle}`,
-    );
-  }, [TopicComponent, computedTitle]);
+  }, [computedTitle]);
 
   return (
     <ContentContainer>
@@ -57,11 +43,18 @@ export function TopicPage({ title, description }: TopicPageProps) {
             >
               {computedTitle}
             </PageTitle>
-            {description && (
-              <Paragraph className="mt-4 max-w-3xl">{description}</Paragraph>
+            {supportingCopy && (
+              <Paragraph className="mt-4 max-w-3xl">
+                {supportingCopy}
+              </Paragraph>
             )}
           </header>
-          <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          <div
+            className="sr-only"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             {statusMessage}
           </div>
           {TopicComponent ? (
