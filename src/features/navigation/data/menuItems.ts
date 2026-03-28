@@ -1,5 +1,7 @@
 import type { MenuItem } from "../types/menuItem.interface";
 
+export const BASE_PATH = "/study-guide";
+
 export const MENU_ITEMS: MenuItem[] = [
   {
     id: "frontend",
@@ -12,43 +14,59 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "html-semantics",
             label: "HTML — semantics, forms, SEO",
-            href: "#",
+            href: `${BASE_PATH}/topic/html-semantics`,
           },
           {
             id: "css-box-model",
             label: "CSS — box model, Flexbox, Grid",
-            href: "#",
+            href: `${BASE_PATH}/topic/css-box-model`,
           },
-          { id: "responsive-design", label: "Responsive design", href: "#" },
-          { id: "accessibility", label: "Accessibility (a11y)", href: "#" },
+          {
+            id: "responsive-design",
+            label: "Responsive design",
+            href: `${BASE_PATH}/topic/responsive-design`,
+          },
+          {
+            id: "accessibility",
+            label: "Accessibility (a11y)",
+            href: `${BASE_PATH}/topic/accessibility`,
+          },
         ],
       },
       {
         id: "javascript",
         label: "JavaScript",
         children: [
-          { id: "closures-scope", label: "Closures & scope", href: "#" },
+          {
+            id: "closures-scope",
+            label: "Closures & scope",
+            href: `${BASE_PATH}/topic/closures-scope`,
+          },
           {
             id: "prototypes-inheritance",
             label: "Prototypes & inheritance",
-            href: "#",
+            href: `${BASE_PATH}/topic/prototypes-inheritance`,
           },
           {
             id: "this-bind-call-apply",
             label: "this, bind, call, apply",
-            href: "#",
+            href: `${BASE_PATH}/topic/this-bind-call-apply`,
           },
           {
             id: "async-js",
             label: "Async JS — Promises, async/await",
-            href: "#",
+            href: `${BASE_PATH}/topic/async-js`,
           },
           {
             id: "event-loop",
             label: "Event loop — call stack, microtasks, task queue",
-            href: "#",
+            href: `${BASE_PATH}/topic/event-loop`,
           },
-          { id: "es6-plus", label: "ES6+ features", href: "#" },
+          {
+            id: "es6-plus",
+            label: "ES6+ features",
+            href: `${BASE_PATH}/topic/es6-plus`,
+          },
         ],
       },
       {
@@ -58,11 +76,23 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "critical-rendering-path",
             label: "Critical rendering path",
-            href: "#",
+            href: `${BASE_PATH}/topic/critical-rendering-path`,
           },
-          { id: "dom-virtual-dom", label: "DOM & Virtual DOM", href: "#" },
-          { id: "reflow-repaint", label: "Reflow vs repaint", href: "#" },
-          { id: "web-apis", label: "Web APIs", href: "#" },
+          {
+            id: "dom-virtual-dom",
+            label: "DOM & Virtual DOM",
+            href: `${BASE_PATH}/topic/dom-virtual-dom`,
+          },
+          {
+            id: "reflow-repaint",
+            label: "Reflow vs repaint",
+            href: `${BASE_PATH}/topic/reflow-repaint`,
+          },
+          {
+            id: "web-apis",
+            label: "Web APIs",
+            href: `${BASE_PATH}/topic/web-apis`,
+          },
         ],
       },
       {
@@ -72,23 +102,27 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "angular-change-detection",
             label: "Change Detection",
-            href: "#",
+            href: `${BASE_PATH}/topic/angular-change-detection`,
           },
           {
             id: "rxjs-observables",
             label: "RxJS (Observables, Operators)",
-            href: "#",
+            href: `${BASE_PATH}/topic/rxjs-observables`,
           },
           {
             id: "angular-forms",
             label: "Forms (Reactive vs Template)",
-            href: "#",
+            href: `${BASE_PATH}/topic/angular-forms`,
           },
-          { id: "http-interceptors", label: "HTTP & Interceptors", href: "#" },
+          {
+            id: "http-interceptors",
+            label: "HTTP & Interceptors",
+            href: `${BASE_PATH}/topic/http-interceptors`,
+          },
           {
             id: "angular-performance",
             label: "Performance (OnPush, trackBy)",
-            href: "#",
+            href: `${BASE_PATH}/topic/angular-performance`,
           },
         ],
       },
@@ -99,31 +133,43 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "react-component-architecture",
             label: "Component architecture",
-            href: "#",
+            href: `${BASE_PATH}/topic/react-component-architecture`,
           },
           {
             id: "react-hooks",
             label: "Hooks — useState, useEffect, useMemo, useCallback",
-            href: "#",
+            href: `${BASE_PATH}/topic/react-hooks`,
           },
           {
             id: "react-context",
             label: "Context vs external state (Redux, Zustand)",
-            href: "#",
+            href: `${BASE_PATH}/topic/react-state-management`,
           },
           {
             id: "react-rendering",
             label: "Rendering behavior & reconciliation",
-            href: "#",
+            href: `${BASE_PATH}/topic/react-rendering`,
           },
           {
             id: "react-performance",
             label: "Performance optimization",
-            href: "#",
+            href: `${BASE_PATH}/topic/react-performance`,
           },
-          { id: "react-lifecycle", label: "Lifecycle concepts", href: "#" },
-          { id: "react-forms", label: "Forms handling", href: "#" },
-          { id: "react-testing", label: "Testing — RTL & Jest", href: "#" },
+          {
+            id: "react-lifecycle",
+            label: "Lifecycle concepts",
+            href: `${BASE_PATH}/topic/react-lifecycle`,
+          },
+          {
+            id: "react-forms",
+            label: "Forms handling",
+            href: `${BASE_PATH}/topic/react-forms`,
+          },
+          {
+            id: "react-testing",
+            label: "Testing — RTL & Jest",
+            href: `${BASE_PATH}/topic/react-testing`,
+          },
         ],
       },
       {
