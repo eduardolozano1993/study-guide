@@ -7,10 +7,13 @@ import type { MenuItem } from "@/features/navigation/types/menuItem.interface";
 import { MenuItemComponent } from "./Sidebar";
 
 const mockItem: MenuItem = {
+  kind: "topic",
   id: "test-item",
   label: "Test Label",
   icon: "item",
   href: "/test-label",
+  status: "ready",
+  disabled: false,
 };
 
 const renderMenuItem = (item: MenuItem, initialPath: string = "/") => {
@@ -28,7 +31,10 @@ describe("MenuItemComponent", () => {
 
   describe("active state", () => {
     it("applies active styling when href matches current path", () => {
-      const itemWithHref: MenuItem = { ...mockItem, href: "/current-path" };
+      const itemWithHref: MenuItem = {
+        ...mockItem,
+        href: "/current-path",
+      };
 
       renderMenuItem(itemWithHref, "/current-path");
 
@@ -38,7 +44,10 @@ describe("MenuItemComponent", () => {
     });
 
     it("does not apply active styling when href does not match", () => {
-      const itemWithHref: MenuItem = { ...mockItem, href: "/other-path" };
+      const itemWithHref: MenuItem = {
+        ...mockItem,
+        href: "/other-path",
+      };
 
       renderMenuItem(itemWithHref, "/current-path");
 
@@ -47,7 +56,11 @@ describe("MenuItemComponent", () => {
     });
 
     it("renders placeholder items as disabled text instead of links", () => {
-      const itemWithHref: MenuItem = { ...mockItem, href: "#" };
+      const itemWithHref: MenuItem = {
+        ...mockItem,
+        href: "#",
+        status: "coming-soon",
+      };
 
       renderMenuItem(itemWithHref, "/");
 
@@ -56,16 +69,33 @@ describe("MenuItemComponent", () => {
         "aria-disabled",
         "true",
       );
+      expect(screen.getByText("Soon")).toBeInTheDocument();
     });
   });
 
   describe("expand/collapse", () => {
     it("shows children when clicked and has children", async () => {
       const parentItem: MenuItem = {
-        ...mockItem,
+        kind: "group",
+        id: "parent-item",
+        label: "Parent",
         children: [
-          { id: "child-1", label: "Child 1", href: "/child-1" },
-          { id: "child-2", label: "Child 2", href: "/child-2" },
+          {
+            kind: "topic",
+            id: "child-1",
+            label: "Child 1",
+            href: "/child-1",
+            status: "ready",
+            disabled: false,
+          },
+          {
+            kind: "topic",
+            id: "child-2",
+            label: "Child 2",
+            href: "/child-2",
+            status: "ready",
+            disabled: false,
+          },
         ],
       };
 
@@ -82,8 +112,19 @@ describe("MenuItemComponent", () => {
 
     it("hides children when clicked again to collapse", async () => {
       const parentItem: MenuItem = {
-        ...mockItem,
-        children: [{ id: "child-1", label: "Child 1" }],
+        kind: "group",
+        id: "parent-item",
+        label: "Parent",
+        children: [
+          {
+            kind: "topic",
+            id: "child-1",
+            label: "Child 1",
+            href: "/child-1",
+            status: "ready",
+            disabled: false,
+          },
+        ],
       };
 
       renderMenuItem(parentItem);
@@ -98,8 +139,19 @@ describe("MenuItemComponent", () => {
 
     it("toggles aria-expanded attribute correctly", async () => {
       const parentItem: MenuItem = {
-        ...mockItem,
-        children: [{ id: "child-1", label: "Child 1" }],
+        kind: "group",
+        id: "parent-item",
+        label: "Parent",
+        children: [
+          {
+            kind: "topic",
+            id: "child-1",
+            label: "Child 1",
+            href: "/child-1",
+            status: "ready",
+            disabled: false,
+          },
+        ],
       };
 
       renderMenuItem(parentItem);

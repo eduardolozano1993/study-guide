@@ -8,7 +8,6 @@ const MENU_STATE_KEY = "sidebar-menu-state";
 
 const getStoredMenuState = (): Record<string, boolean> => {
   try {
-    // sessionStorage can be unavailable or contain stale JSON from an older app version.
     const stored = sessionStorage.getItem(MENU_STATE_KEY);
     return stored ? JSON.parse(stored) : {};
   } catch (error) {
@@ -21,7 +20,6 @@ const getStoredMenuState = (): Record<string, boolean> => {
 
 const storeMenuState = (state: Record<string, boolean>) => {
   try {
-    // Persist expansion across refreshes, but fail open if the browser rejects storage.
     sessionStorage.setItem(MENU_STATE_KEY, JSON.stringify(state));
   } catch (error) {
     if (import.meta.env.DEV) {
@@ -76,21 +74,18 @@ const INDENT_PER_LEVEL_PX = 10;
 const getIndent = (depth: number) =>
   BASE_INDENT_PX + depth * INDENT_PER_LEVEL_PX;
 
-const statusLabels: Partial<Record<NonNullable<MenuItem["status"]>, string>> = {
+const statusLabels = {
   draft: "Draft",
-  ready: "",
   "coming-soon": "Soon",
   archived: "Archived",
-};
+} as const;
 
 const itemContainsPath = (item: MenuItem, pathname: string): boolean => {
-  if (item.href && item.href !== "#" && pathname === item.href) {
-    return true;
+  if (item.kind === "topic") {
+    return item.href !== "#" && pathname === item.href;
   }
 
-  return (
-    item.children?.some((child) => itemContainsPath(child, pathname)) ?? false
-  );
+  return item.children.some((child) => itemContainsPath(child, pathname));
 };
 
 const useMenuExpanded = (
@@ -104,7 +99,6 @@ const useMenuExpanded = (
   const storedStateRef = React.useRef(getStoredMenuState());
 
   React.useEffect(() => {
-    // Auto-open the branch containing the active route so deep links stay visible.
     if (shouldBeOpen) {
       setIsOpen(true);
     }
@@ -116,7 +110,6 @@ const useMenuExpanded = (
     const newValue = !nextStoredValue;
     const newState: Record<string, boolean> = {};
 
-    // Clone the stored map before updating so unrelated branches keep their state.
     for (const key of Object.keys(currentStored)) {
       newState[key] = currentStored[key];
     }
@@ -130,122 +123,121 @@ const useMenuExpanded = (
   return [isOpen, toggle];
 };
 
-export const MenuItemComponent = React.memo(function MenuItemComponent({
-  item,
-  depth = 0,
-  onNavigate,
-  pathname,
-}: MenuItemProps) {
-  const hasChildren = item.children && item.children.length > 0;
-  const styles = getDepthStyles(depth);
-  const indent = getIndent(depth);
-  const isDisabled = item.disabled || item.href === "#";
-  const isInActivePath = itemContainsPath(item, pathname);
-  const itemKey = item.id ?? `${depth}-${item.label}`;
-
-  const [isOpen, toggleOpen] = useMenuExpanded(itemKey, isInActivePath);
-
-  const isActive =
-    item.href && item.href !== "#" && pathname === item.href;
-
-  const baseStateClasses = isActive
-    ? "bg-primary text-primary-foreground shadow-sm"
-    : "text-foreground hover:bg-muted/80";
-
-  const parentStateClasses =
-    isInActivePath && !isActive
-      ? "bg-accent/70 text-foreground"
-      : baseStateClasses;
-
-  if (hasChildren) {
-    return (
-      <li>
-        <button
-          onClick={toggleOpen}
-          className={`flex w-full items-center justify-between rounded-xl text-left transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${parentStateClasses} ${styles.button}`}
-          style={{
-            paddingLeft: `${indent}px`,
-            paddingRight: `${indent / 1.5}px`,
-          }}
-          aria-expanded={isOpen}
-          aria-current={isActive ? "page" : undefined}
-        >
-          <span className="flex items-center gap-2.5">
-            {item.icon && <span className={styles.icon}>{item.icon}</span>}
-            <span className={styles.label}>{item.label}</span>
-            {item.status && item.status !== "ready" && (
-              <span className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                {statusLabels[item.status]}
-              </span>
-            )}
-          </span>
-          <ChevronRight
-            className={`${styles.chevron} h-4 w-4 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
-          />
-        </button>
-        {isOpen && (
-          <ul className="mt-1.5 space-y-1">
-            {item.children!.map((child) => (
-              <MenuItemComponent
-                key={child.id ?? `${child.label}-${depth + 1}`}
-                item={child}
-                depth={depth + 1}
-                onNavigate={onNavigate}
-                pathname={pathname}
-              />
-            ))}
-          </ul>
-        )}
-      </li>
-    );
+const renderStatusBadge = (item: MenuItem) => {
+  if (item.kind !== "topic" || item.status === "ready") {
+    return null;
   }
 
-  if (isDisabled || !item.href) {
+  return (
+    <span className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+      {statusLabels[item.status]}
+    </span>
+  );
+};
+
+export const NavigationItemComponent = React.memo(
+  function NavigationItemComponent({
+    item,
+    depth = 0,
+    onNavigate,
+    pathname,
+  }: MenuItemProps) {
+    const styles = getDepthStyles(depth);
+    const indent = getIndent(depth);
+    const isInActivePath = itemContainsPath(item, pathname);
+    const itemKey = item.id ?? `${depth}-${item.label}`;
+
+    const [isOpen, toggleOpen] = useMenuExpanded(itemKey, isInActivePath);
+
+    if (item.kind === "group") {
+      const isActive = false;
+      const baseStateClasses = "text-foreground hover:bg-muted/80";
+      const parentStateClasses = isInActivePath && !isActive
+        ? "bg-accent/70 text-foreground"
+        : baseStateClasses;
+
+      return (
+        <li>
+          <button
+            onClick={toggleOpen}
+            className={`flex w-full items-center justify-between rounded-xl text-left transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${parentStateClasses} ${styles.button}`}
+            style={{
+              paddingLeft: `${indent}px`,
+              paddingRight: `${indent / 1.5}px`,
+            }}
+            aria-expanded={isOpen}
+          >
+            <span className="flex items-center gap-2.5">
+              <span className={styles.label}>{item.label}</span>
+            </span>
+            <ChevronRight
+              className={`${styles.chevron} h-4 w-4 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
+            />
+          </button>
+          {isOpen && (
+            <ul className="mt-1.5 space-y-1">
+              {item.children.map((child) => (
+                <NavigationItemComponent
+                  key={child.id ?? `${child.label}-${depth + 1}`}
+                  item={child}
+                  depth={depth + 1}
+                  onNavigate={onNavigate}
+                  pathname={pathname}
+                />
+              ))}
+            </ul>
+          )}
+        </li>
+      );
+    }
+
+    const isActive = item.href !== "#" && pathname === item.href;
+    const isDisabled = item.disabled || item.href === "#";
+    const baseStateClasses = isActive
+      ? "bg-primary text-primary-foreground shadow-sm"
+      : "text-foreground hover:bg-muted/80";
+
+    if (isDisabled) {
+      return (
+        <li>
+          <span
+            className={`flex cursor-not-allowed items-center gap-2 rounded-xl text-foreground/55 transition-all duration-200 ${styles.link}`}
+            style={{
+              paddingLeft: `${indent + (item.icon ? 8 : 0)}px`,
+              paddingRight: `${indent / 1.5}px`,
+            }}
+            aria-disabled="true"
+          >
+            {item.icon && <span className={styles.icon}>{item.icon}</span>}
+            <span className={styles.label}>{item.label}</span>
+            {renderStatusBadge(item)}
+          </span>
+        </li>
+      );
+    }
+
     return (
       <li>
-        <span
-          className={`flex cursor-not-allowed items-center gap-2 rounded-xl text-foreground/55 transition-all duration-200 ${styles.link}`}
+        <Link
+          to={item.href}
+          onClick={onNavigate}
+          className={`flex items-center gap-2 rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${baseStateClasses} ${styles.link}`}
           style={{
             paddingLeft: `${indent + (item.icon ? 8 : 0)}px`,
             paddingRight: `${indent / 1.5}px`,
           }}
-          aria-disabled="true"
+          aria-current={isActive ? "page" : undefined}
         >
           {item.icon && <span className={styles.icon}>{item.icon}</span>}
           <span className={styles.label}>{item.label}</span>
-          {item.status && item.status !== "ready" && (
-            <span className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              {statusLabels[item.status]}
-            </span>
-          )}
-        </span>
+          {renderStatusBadge(item)}
+        </Link>
       </li>
     );
-  }
+  },
+);
 
-  return (
-    <li>
-      <Link
-        to={item.href}
-        onClick={onNavigate}
-        className={`flex items-center gap-2 rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${baseStateClasses} ${styles.link}`}
-        style={{
-          paddingLeft: `${indent + (item.icon ? 8 : 0)}px`,
-          paddingRight: `${indent / 1.5}px`,
-        }}
-        aria-current={isActive ? "page" : undefined}
-      >
-        {item.icon && <span className={styles.icon}>{item.icon}</span>}
-        <span className={styles.label}>{item.label}</span>
-        {item.status && item.status !== "ready" && (
-          <span className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            {statusLabels[item.status]}
-          </span>
-        )}
-      </Link>
-    </li>
-  );
-});
+export const MenuItemComponent = NavigationItemComponent;
 
 export interface SidebarProps {
   menuItems?: MenuItem[];
@@ -284,7 +276,7 @@ export function Sidebar({
       <nav aria-label={navLabel} className="h-full overflow-y-auto px-3 py-4">
         <ul className="space-y-1.5">
           {menuItems.map((item) => (
-            <MenuItemComponent
+            <NavigationItemComponent
               key={item.id ?? item.label}
               item={item}
               onNavigate={onNavigate}

@@ -1,11 +1,9 @@
-import type { TopicStatus } from "@/features/topics/topicRegistry";
+import type {
+  NavigationGroupNode,
+  NavigationNode,
+  NavigationTopicNode,
+} from "../model/navigationTree";
 
-export interface MenuItem {
-  id?: string;
-  label: string;
-  icon?: string;
-  children?: MenuItem[];
-  href?: string;
-  disabled?: boolean;
-  status?: TopicStatus;
-}
+export type MenuItem = NavigationNode;
+export type MenuGroupItem = NavigationGroupNode;
+export type MenuTopicItem = NavigationTopicNode;
