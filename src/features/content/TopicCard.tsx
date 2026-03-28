@@ -42,7 +42,7 @@ export function TopicCard({
     </Card>
   );
 
-  if (href && href !== "#") {
+  if (href) {
     return (
       <Link to={href} className="block">
         {content}

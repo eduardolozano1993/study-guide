@@ -21,6 +21,11 @@ const renderMenuItem = (item: MenuItem, initialPath: string = "/") => {
 };
 
 describe("MenuItemComponent", () => {
+  beforeEach(() => {
+    // Clear sessionStorage before each test to ensure clean state
+    sessionStorage.removeItem("sidebar-menu-state");
+  });
+
   describe("active state", () => {
     it("applies active styling when href matches current path", () => {
       const itemWithHref: MenuItem = { ...mockItem, href: "/current-path" };
