@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -20,19 +21,26 @@ export function TopicCard({
   const content = (
     <Card
       className={cn(
-        "hover:bg-muted/50 transition-colors cursor-pointer",
+        "overflow-hidden border border-border/80 bg-white/90 shadow-[0_14px_40px_rgba(15,23,42,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)]",
         className,
       )}
     >
-      <CardContent className="p-4">
-        <div className="flex items-start gap-3">
+      <CardContent className="p-0">
+        <div className="flex items-start gap-4 p-6 md:p-7">
           {icon && (
-            <span className="text-2xl leading-none shrink-0">{icon}</span>
+            <span className="mt-0.5 shrink-0 text-3xl leading-none">{icon}</span>
           )}
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-foreground mb-1">{title}</h3>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-4">
+              <h3 className="text-lg font-semibold tracking-[-0.03em] text-foreground md:text-xl">
+                {title}
+              </h3>
+              {href && (
+                <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
+              )}
+            </div>
             {description && (
-              <p className="text-sm text-muted-foreground line-clamp-2">
+              <p className="mt-2 max-w-2xl text-[0.98rem] leading-7 text-muted-foreground">
                 {description}
               </p>
             )}
@@ -44,7 +52,10 @@ export function TopicCard({
 
   if (href) {
     return (
-      <Link to={href} className="block">
+      <Link
+        to={href}
+        className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
         {content}
       </Link>
     );

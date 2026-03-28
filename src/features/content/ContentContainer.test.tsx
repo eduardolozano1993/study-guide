@@ -13,16 +13,15 @@ describe("ContentContainer", () => {
     expect(screen.getByText("Hello World")).toBeInTheDocument();
   });
 
-  it("applies correct styling classes", () => {
+  it("applies current layout classes", () => {
     const { container } = renderContentContainer();
     const div = container.firstChild;
     expect(div).toHaveClass(
       "mx-auto",
-      "max-w-[65ch]",
-      "px-4",
-      "md:px-6",
-      "lg:px-8",
-      "py-6",
+      "w-full",
+      "max-w-[88rem]",
+      "px-5",
+      "py-8",
     );
   });
 

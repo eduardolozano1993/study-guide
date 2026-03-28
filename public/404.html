@@ -2,30 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; img-src 'self' data: blob:; font-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ws: wss:"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>Study Guide</title>
-    <script>
-      (function redirectToIndex() {
-        var pathname = window.location.pathname;
-        var search = window.location.search;
-        var hash = window.location.hash;
-        var basePath = "/study-guide";
-
-        if (!pathname.startsWith(basePath)) {
-          return;
-        }
-
-        var routePath = pathname.slice(basePath.length) || "/";
-        var redirectUrl =
-          basePath +
-          "/?p=" +
-          encodeURIComponent(routePath) +
-          "&q=" +
-          encodeURIComponent(search.slice(1)) +
-          hash;
-
-        window.location.replace(redirectUrl);
-      })();
-    </script>
+    <script src="./route-restore.js"></script>
   </head>
   <body></body>
 </html>
