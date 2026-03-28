@@ -3,11 +3,18 @@ import * as React from "react";
 
 export type TopicStatus = "ready" | "coming-soon";
 
+export interface TopicMenuPathItem {
+  id: string;
+  label: string;
+}
+
 export interface TopicDefinition {
   id: string;
   title: string;
+  menuLabel: string;
   path: string;
   status: TopicStatus;
+  menuPath: TopicMenuPathItem[];
   loader?: LazyExoticComponent<ComponentType<object>>;
 }
 
@@ -27,33 +34,52 @@ const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> =
   ),
 };
 
+const frontendMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "core-web-fundamentals",
+    label: "Core Web Fundamentals",
+  },
+];
+
 const topicDefinitions: TopicDefinition[] = [
   {
     id: "html-semantics",
     title: "HTML Semantics",
+    menuLabel: "HTML semantics, forms, SEO",
     path: "/topic/html-semantics",
     status: "ready",
+    menuPath: frontendMenuPath,
     loader: topicLoaders["html-semantics"],
   },
   {
     id: "css-box-model",
     title: "CSS Box Model",
+    menuLabel: "CSS box model, Flexbox, Grid",
     path: "/topic/css-box-model",
     status: "ready",
+    menuPath: frontendMenuPath,
     loader: topicLoaders["css-box-model"],
   },
   {
     id: "responsive-design",
     title: "Responsive Design",
+    menuLabel: "Responsive design",
     path: "/topic/responsive-design",
     status: "ready",
+    menuPath: frontendMenuPath,
     loader: topicLoaders["responsive-design"],
   },
   {
     id: "accessibility",
     title: "Accessibility",
+    menuLabel: "Accessibility (a11y)",
     path: "/topic/accessibility",
     status: "ready",
+    menuPath: frontendMenuPath,
     loader: topicLoaders["accessibility"],
   },
 ];
