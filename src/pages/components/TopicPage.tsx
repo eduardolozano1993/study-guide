@@ -53,7 +53,7 @@ export function TopicPage({ title, description }: TopicPageProps) {
             <PageTitle
               ref={headingRef}
               tabIndex={-1}
-              className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="focus:outline-none"
             >
               {computedTitle}
             </PageTitle>
