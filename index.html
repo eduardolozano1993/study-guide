@@ -5,6 +5,26 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Study Guide</title>
+    <script>
+      (function restoreGitHubPagesRoute() {
+        var params = new URLSearchParams(window.location.search);
+        var path = params.get("p");
+
+        if (!path) {
+          return;
+        }
+
+        var query = params.get("q");
+        var restoredUrl =
+          window.location.origin +
+          window.location.pathname +
+          decodeURIComponent(path) +
+          (query ? "?" + decodeURIComponent(query) : "") +
+          window.location.hash;
+
+        window.history.replaceState(null, "", restoredUrl);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

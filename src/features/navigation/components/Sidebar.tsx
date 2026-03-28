@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import type { MenuItem } from "@/features/navigation/types/menuItem.interface";
 import { MENU_ITEMS } from "../data/menuItems";
 
@@ -155,8 +155,8 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
 
   return (
     <li>
-      <a
-        href={item.href || "#"}
+      <Link
+        to={item.href || "#"}
         className={`flex items-center gap-2 rounded-lg transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${linkClasses} ${styles.link}`}
         style={{
           paddingLeft: `${indent + (item.icon ? 8 : 0)}px`,
@@ -166,7 +166,7 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
       >
         {item.icon && <span className={styles.icon}>{item.icon}</span>}
         <span className={styles.label}>{item.label}</span>
-      </a>
+      </Link>
     </li>
   );
 });
