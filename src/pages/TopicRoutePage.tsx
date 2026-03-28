@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { ContentContainer, PageTitle, Paragraph } from "@/features/content";
 import { LoadingSpinner } from "@/shared/components/LoadingSpinner";
 import { getTopicById } from "@/features/topics/topicRegistry";
+import { TopicStatusPage } from "./TopicStatusPage";
 
 interface TopicPageProps {
   title?: string;
@@ -14,16 +15,8 @@ export function TopicRoutePage({ title, description }: TopicPageProps) {
   const { topicId } = useParams<{ topicId: string }>();
   const topic = getTopicById(topicId);
   const TopicComponent = topic?.loader ?? null;
+  const computedTitle = title || topic?.title || "Topic not found";
   const headingRef = React.useRef<HTMLHeadingElement | null>(null);
-  // Allow callers to override the registry metadata, but keep a usable fallback for direct deep links.
-  const computedTitle = title || topic?.title || "Topic";
-  const supportingCopy =
-    description ||
-    (topic?.status === "coming-soon" ? "This topic is coming soon." : "");
-  // Announce success and failure states to assistive tech without changing the visible layout.
-  const statusMessage = TopicComponent
-    ? `Loaded topic: ${computedTitle}`
-    : `Topic not found: ${computedTitle}`;
 
   useEffect(() => {
     // Sync the tab title with the active lesson so browser history stays self-describing.
@@ -31,9 +24,28 @@ export function TopicRoutePage({ title, description }: TopicPageProps) {
   }, [computedTitle]);
 
   useEffect(() => {
-    // Move focus to the new heading so screen readers announce route changes immediately.
     headingRef.current?.focus();
   }, [computedTitle]);
+
+  if (!topic) {
+    return (
+      <TopicStatusPage
+        title={computedTitle}
+        kind="not-found"
+        description={description}
+      />
+    );
+  }
+
+  if (topic.status !== "ready" || !TopicComponent) {
+    return (
+      <TopicStatusPage
+        title={computedTitle}
+        kind={topic.status}
+        description={description}
+      />
+    );
+  }
 
   return (
     <ContentContainer>
@@ -47,31 +59,15 @@ export function TopicRoutePage({ title, description }: TopicPageProps) {
             >
               {computedTitle}
             </PageTitle>
-            {supportingCopy && (
-              <Paragraph className="mt-4 max-w-3xl">
-                {supportingCopy}
-              </Paragraph>
+            {description && (
+              <Paragraph className="mt-4 max-w-3xl">{description}</Paragraph>
             )}
           </header>
-          <div
-            className="sr-only"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
+          <React.Suspense
+            fallback={<LoadingSpinner label="Loading topic..." />}
           >
-            {statusMessage}
-          </div>
-          {TopicComponent ? (
-            <React.Suspense
-              fallback={<LoadingSpinner label="Loading topic..." />}
-            >
-              <TopicComponent />
-            </React.Suspense>
-          ) : (
-            <Paragraph>
-              Topic not found. Select a topic from the menu to begin studying.
-            </Paragraph>
-          )}
+            <TopicComponent />
+          </React.Suspense>
         </section>
       </div>
     </ContentContainer>

@@ -1,3 +1,5 @@
+import type { TopicStatus } from "@/features/topics/topicRegistry";
+
 export interface MenuItem {
   id?: string;
   label: string;
@@ -5,4 +7,5 @@ export interface MenuItem {
   children?: MenuItem[];
   href?: string;
   disabled?: boolean;
+  status?: TopicStatus;
 }

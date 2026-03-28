@@ -41,4 +41,13 @@ describe("topic registry", () => {
       label: "Core Web Fundamentals",
     });
   });
+
+  it("marks placeholder lessons as coming soon in the registry", () => {
+    expect(
+      TOPIC_DEFINITIONS.filter((topic) => topic.status === "coming-soon"),
+    ).toHaveLength(3);
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "html-semantics")?.status,
+    ).toBe("ready");
+  });
 });

@@ -17,6 +17,10 @@ const createNode = (id: string, label: string, href?: string): MenuNode => ({
   children: new Map(),
 });
 
+const topicStatusById = new Map(
+  TOPIC_DEFINITIONS.map((topic) => [topic.id, topic.status]),
+);
+
 const buildMenuItems = (topics: typeof TOPIC_DEFINITIONS): MenuItem[] => {
   const rootNodes = new Map<string, MenuNode>();
 
@@ -54,6 +58,10 @@ const buildMenuItems = (topics: typeof TOPIC_DEFINITIONS): MenuItem[] => {
           id: node.id,
           label: node.label,
           href: node.href,
+          status: topicStatusById.get(node.id),
+          disabled:
+            topicStatusById.get(node.id) === "draft" ||
+            topicStatusById.get(node.id) === "archived",
         };
   };
 

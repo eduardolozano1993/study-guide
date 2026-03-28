@@ -1,7 +1,7 @@
 import type { ComponentType, LazyExoticComponent } from "react";
 import * as React from "react";
 
-export type TopicStatus = "ready" | "coming-soon";
+export type TopicStatus = "draft" | "ready" | "coming-soon" | "archived";
 
 export interface TopicMenuPathItem {
   id: string;
@@ -24,24 +24,6 @@ const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> =
     () =>
       import(
         "@/domains/topics/content/frontend/core-web-fundamentals/html-semantics"
-      ),
-  ),
-  "css-box-model": React.lazy(
-    () =>
-      import(
-        "@/domains/topics/content/frontend/core-web-fundamentals/css-box-model"
-      ),
-  ),
-  "responsive-design": React.lazy(
-    () =>
-      import(
-        "@/domains/topics/content/frontend/core-web-fundamentals/responsive-design"
-      ),
-  ),
-  accessibility: React.lazy(
-    () =>
-      import(
-        "@/domains/topics/content/frontend/core-web-fundamentals/accessibility"
       ),
   ),
 };
@@ -72,27 +54,24 @@ const topicDefinitions: TopicDefinition[] = [
     title: "CSS Box Model",
     menuLabel: "CSS box model, Flexbox, Grid",
     path: "/topic/css-box-model",
-    status: "ready",
+    status: "coming-soon",
     menuPath: frontendMenuPath,
-    loader: topicLoaders["css-box-model"],
   },
   {
     id: "responsive-design",
     title: "Responsive Design",
     menuLabel: "Responsive design",
     path: "/topic/responsive-design",
-    status: "ready",
+    status: "coming-soon",
     menuPath: frontendMenuPath,
-    loader: topicLoaders["responsive-design"],
   },
   {
     id: "accessibility",
     title: "Accessibility",
     menuLabel: "Accessibility (a11y)",
     path: "/topic/accessibility",
-    status: "ready",
+    status: "coming-soon",
     menuPath: frontendMenuPath,
-    loader: topicLoaders["accessibility"],
   },
 ];
 

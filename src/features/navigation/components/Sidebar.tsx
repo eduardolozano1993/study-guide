@@ -76,6 +76,13 @@ const INDENT_PER_LEVEL_PX = 10;
 const getIndent = (depth: number) =>
   BASE_INDENT_PX + depth * INDENT_PER_LEVEL_PX;
 
+const statusLabels: Partial<Record<NonNullable<MenuItem["status"]>, string>> = {
+  draft: "Draft",
+  ready: "",
+  "coming-soon": "Soon",
+  archived: "Archived",
+};
+
 const itemContainsPath = (item: MenuItem, pathname: string): boolean => {
   if (item.href && item.href !== "#" && pathname === item.href) {
     return true;
@@ -166,6 +173,11 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
           <span className="flex items-center gap-2.5">
             {item.icon && <span className={styles.icon}>{item.icon}</span>}
             <span className={styles.label}>{item.label}</span>
+            {item.status && item.status !== "ready" && (
+              <span className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                {statusLabels[item.status]}
+              </span>
+            )}
           </span>
           <ChevronRight
             className={`${styles.chevron} h-4 w-4 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
@@ -201,6 +213,11 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
         >
           {item.icon && <span className={styles.icon}>{item.icon}</span>}
           <span className={styles.label}>{item.label}</span>
+          {item.status && item.status !== "ready" && (
+            <span className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              {statusLabels[item.status]}
+            </span>
+          )}
         </span>
       </li>
     );
@@ -220,6 +237,11 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
       >
         {item.icon && <span className={styles.icon}>{item.icon}</span>}
         <span className={styles.label}>{item.label}</span>
+        {item.status && item.status !== "ready" && (
+          <span className="rounded-full border border-border/70 bg-background/80 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            {statusLabels[item.status]}
+          </span>
+        )}
       </Link>
     </li>
   );
