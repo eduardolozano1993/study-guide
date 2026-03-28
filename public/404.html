@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Study Guide</title>
+    <script>
+      (function redirectToIndex() {
+        var pathname = window.location.pathname;
+        var search = window.location.search;
+        var hash = window.location.hash;
+        var basePath = "/study-guide";
+
+        if (!pathname.startsWith(basePath)) {
+          return;
+        }
+
+        var routePath = pathname.slice(basePath.length) || "/";
+        var redirectUrl =
+          basePath +
+          "/?p=" +
+          encodeURIComponent(routePath) +
+          "&q=" +
+          encodeURIComponent(search.slice(1)) +
+          hash;
+
+        window.location.replace(redirectUrl);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

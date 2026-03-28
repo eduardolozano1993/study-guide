@@ -1,6 +1,7 @@
 import type { MenuItem } from "../types/menuItem.interface";
 
 export const BASE_PATH = "/study-guide";
+export const buildTopicPath = (topicId: string) => `/topic/${topicId}`;
 
 export const MENU_ITEMS: MenuItem[] = [
   {
@@ -14,22 +15,22 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "html-semantics",
             label: "HTML — semantics, forms, SEO",
-            href: `${BASE_PATH}/topic/html-semantics`,
+            href: buildTopicPath("html-semantics"),
           },
           {
             id: "css-box-model",
             label: "CSS — box model, Flexbox, Grid",
-            href: `${BASE_PATH}/topic/css-box-model`,
+            href: buildTopicPath("css-box-model"),
           },
           {
             id: "responsive-design",
             label: "Responsive design",
-            href: `${BASE_PATH}/topic/responsive-design`,
+            href: buildTopicPath("responsive-design"),
           },
           {
             id: "accessibility",
             label: "Accessibility (a11y)",
-            href: `${BASE_PATH}/topic/accessibility`,
+            href: buildTopicPath("accessibility"),
           },
         ],
       },
@@ -40,32 +41,32 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "closures-scope",
             label: "Closures & scope",
-            href: `${BASE_PATH}/topic/closures-scope`,
+            href: buildTopicPath("closures-scope"),
           },
           {
             id: "prototypes-inheritance",
             label: "Prototypes & inheritance",
-            href: `${BASE_PATH}/topic/prototypes-inheritance`,
+            href: buildTopicPath("prototypes-inheritance"),
           },
           {
             id: "this-bind-call-apply",
             label: "this, bind, call, apply",
-            href: `${BASE_PATH}/topic/this-bind-call-apply`,
+            href: buildTopicPath("this-bind-call-apply"),
           },
           {
             id: "async-js",
             label: "Async JS — Promises, async/await",
-            href: `${BASE_PATH}/topic/async-js`,
+            href: buildTopicPath("async-js"),
           },
           {
             id: "event-loop",
             label: "Event loop — call stack, microtasks, task queue",
-            href: `${BASE_PATH}/topic/event-loop`,
+            href: buildTopicPath("event-loop"),
           },
           {
             id: "es6-plus",
             label: "ES6+ features",
-            href: `${BASE_PATH}/topic/es6-plus`,
+            href: buildTopicPath("es6-plus"),
           },
         ],
       },
@@ -76,22 +77,22 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "critical-rendering-path",
             label: "Critical rendering path",
-            href: `${BASE_PATH}/topic/critical-rendering-path`,
+            href: buildTopicPath("critical-rendering-path"),
           },
           {
             id: "dom-virtual-dom",
             label: "DOM & Virtual DOM",
-            href: `${BASE_PATH}/topic/dom-virtual-dom`,
+            href: buildTopicPath("dom-virtual-dom"),
           },
           {
             id: "reflow-repaint",
             label: "Reflow vs repaint",
-            href: `${BASE_PATH}/topic/reflow-repaint`,
+            href: buildTopicPath("reflow-repaint"),
           },
           {
             id: "web-apis",
             label: "Web APIs",
-            href: `${BASE_PATH}/topic/web-apis`,
+            href: buildTopicPath("web-apis"),
           },
         ],
       },
@@ -102,27 +103,27 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "angular-change-detection",
             label: "Change Detection",
-            href: `${BASE_PATH}/topic/angular-change-detection`,
+            href: buildTopicPath("angular-change-detection"),
           },
           {
             id: "rxjs-observables",
             label: "RxJS (Observables, Operators)",
-            href: `${BASE_PATH}/topic/rxjs-observables`,
+            href: buildTopicPath("rxjs-observables"),
           },
           {
             id: "angular-forms",
             label: "Forms (Reactive vs Template)",
-            href: `${BASE_PATH}/topic/angular-forms`,
+            href: buildTopicPath("angular-forms"),
           },
           {
             id: "http-interceptors",
             label: "HTTP & Interceptors",
-            href: `${BASE_PATH}/topic/http-interceptors`,
+            href: buildTopicPath("http-interceptors"),
           },
           {
             id: "angular-performance",
             label: "Performance (OnPush, trackBy)",
-            href: `${BASE_PATH}/topic/angular-performance`,
+            href: buildTopicPath("angular-performance"),
           },
         ],
       },
@@ -133,42 +134,42 @@ export const MENU_ITEMS: MenuItem[] = [
           {
             id: "react-component-architecture",
             label: "Component architecture",
-            href: `${BASE_PATH}/topic/react-component-architecture`,
+            href: buildTopicPath("react-component-architecture"),
           },
           {
             id: "react-hooks",
             label: "Hooks — useState, useEffect, useMemo, useCallback",
-            href: `${BASE_PATH}/topic/react-hooks`,
+            href: buildTopicPath("react-hooks"),
           },
           {
             id: "react-context",
             label: "Context vs external state (Redux, Zustand)",
-            href: `${BASE_PATH}/topic/react-state-management`,
+            href: buildTopicPath("react-state-management"),
           },
           {
             id: "react-rendering",
             label: "Rendering behavior & reconciliation",
-            href: `${BASE_PATH}/topic/react-rendering`,
+            href: buildTopicPath("react-rendering"),
           },
           {
             id: "react-performance",
             label: "Performance optimization",
-            href: `${BASE_PATH}/topic/react-performance`,
+            href: buildTopicPath("react-performance"),
           },
           {
             id: "react-lifecycle",
             label: "Lifecycle concepts",
-            href: `${BASE_PATH}/topic/react-lifecycle`,
+            href: buildTopicPath("react-lifecycle"),
           },
           {
             id: "react-forms",
             label: "Forms handling",
-            href: `${BASE_PATH}/topic/react-forms`,
+            href: buildTopicPath("react-forms"),
           },
           {
             id: "react-testing",
             label: "Testing — RTL & Jest",
-            href: `${BASE_PATH}/topic/react-testing`,
+            href: buildTopicPath("react-testing"),
           },
         ],
       },
