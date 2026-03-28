@@ -7,10 +7,23 @@ import {
   SubHeader,
   TopicCard,
 } from "@/features/content";
+import { TopicLessonPage } from "@/features/content";
+import { htmlSemanticsLesson } from "./meta";
 
 export function HtmlSemantics() {
   return (
-    <div className="space-y-8">
+    <TopicLessonPage
+      title={htmlSemanticsLesson.title}
+      summary={htmlSemanticsLesson.summary}
+      eyebrow="Frontend / Core Web Fundamentals"
+      estimatedReadingTimeMinutes={htmlSemanticsLesson.estimatedReadingTimeMinutes}
+      difficulty={htmlSemanticsLesson.difficulty}
+      relatedTopics={[
+        { label: "CSS Box Model", href: "/topic/css-box-model" },
+        { label: "Accessibility", href: "/topic/accessibility" },
+      ]}
+    >
+      <div className="space-y-8">
       <TopicCard
         className="mb-2"
         icon="📜"
@@ -382,7 +395,8 @@ input.addEventListener("input", () => {
           <li>Add Open Graph tags for social previews.</li>
         </ul>
       </CollapsibleSection>
-    </div>
+      </div>
+    </TopicLessonPage>
   );
 }
 
