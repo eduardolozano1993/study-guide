@@ -8,7 +8,7 @@ function ContentContainer({
   return (
     <div
       className={cn(
-        "mx-auto max-w-[65ch] px-4 md:px-6 lg:px-8 py-6",
+        "mx-auto w-full max-w-[88rem] px-5 py-8 md:px-8 md:py-10 lg:px-12 lg:py-14",
         className,
       )}
       {...props}

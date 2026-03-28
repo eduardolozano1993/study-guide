@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Check, Copy } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vs } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { cn } from "@/lib/utils";
@@ -23,27 +24,34 @@ export function CodeBlock({
   };
 
   return (
-    <div className={cn("relative rounded-lg overflow-hidden my-4", className)}>
-      {/* Language label */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[#f3f4f6] dark:bg-[#1e1e1e] border-b border-border text-xs text-muted-foreground">
+    <div
+      className={cn(
+        "relative my-6 overflow-hidden rounded-2xl border border-border/80 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)]",
+        className,
+      )}
+    >
+      <div className="flex items-center justify-between border-b border-border/70 bg-slate-50 px-4 py-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
         <span>{language}</span>
         <button
           type="button"
           onClick={handleCopy}
-          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium tracking-[0.08em] text-muted-foreground transition-colors hover:bg-slate-200/70 hover:text-foreground"
         >
-          {copied ? "✓ Copied" : "Copy"}
+          {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+          {copied ? "Copied" : "Copy"}
         </button>
       </div>
 
-      {/* Code */}
       <SyntaxHighlighter
         language={language}
         style={vs}
         customStyle={{
           margin: 0,
           borderRadius: 0,
-          fontSize: "0.875rem",
+          fontSize: "0.95rem",
+          lineHeight: 1.7,
+          padding: "1.25rem 1.5rem",
+          background: "#fffdf9",
         }}
         codeTagProps={{
           className: "font-mono",

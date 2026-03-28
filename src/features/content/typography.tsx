@@ -9,7 +9,7 @@ export function PageTitle({ children, className }: TypographyProps) {
   return (
     <h1
       className={cn(
-        "text-3xl font-bold text-foreground leading-tight",
+        "text-4xl font-semibold tracking-[-0.05em] text-foreground leading-[0.95] md:text-5xl lg:text-6xl",
         className,
       )}
     >
@@ -22,7 +22,7 @@ export function SectionHeader({ children, className }: TypographyProps) {
   return (
     <h2
       className={cn(
-        "text-xl font-semibold text-foreground mt-8 mb-4",
+        "mt-14 text-2xl font-semibold tracking-[-0.035em] text-foreground md:text-3xl",
         className,
       )}
     >
@@ -35,7 +35,7 @@ export function SubHeader({ children, className }: TypographyProps) {
   return (
     <h3
       className={cn(
-        "text-base font-semibold text-foreground mt-6 mb-2",
+        "mt-8 text-lg font-semibold tracking-[-0.025em] text-foreground md:text-xl",
         className,
       )}
     >
@@ -46,7 +46,12 @@ export function SubHeader({ children, className }: TypographyProps) {
 
 export function Paragraph({ children, className }: TypographyProps) {
   return (
-    <p className={cn("text-sm leading-[1.7] text-foreground my-3", className)}>
+    <p
+      className={cn(
+        "my-4 text-base leading-8 text-muted-foreground md:text-[1.05rem]",
+        className,
+      )}
+    >
       {children}
     </p>
   );
