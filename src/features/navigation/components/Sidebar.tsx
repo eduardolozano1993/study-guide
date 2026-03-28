@@ -11,7 +11,9 @@ const getStoredMenuState = (): Record<string, boolean> => {
     const stored = sessionStorage.getItem(MENU_STATE_KEY);
     return stored ? JSON.parse(stored) : {};
   } catch (error) {
-    console.warn("Failed to read menu state from sessionStorage:", error);
+    if (import.meta.env.DEV) {
+      console.warn("Failed to read menu state from sessionStorage:", error);
+    }
     return {};
   }
 };
@@ -20,7 +22,9 @@ const storeMenuState = (state: Record<string, boolean>) => {
   try {
     sessionStorage.setItem(MENU_STATE_KEY, JSON.stringify(state));
   } catch (error) {
-    console.warn("Failed to store menu state in sessionStorage:", error);
+    if (import.meta.env.DEV) {
+      console.warn("Failed to store menu state in sessionStorage:", error);
+    }
   }
 };
 
