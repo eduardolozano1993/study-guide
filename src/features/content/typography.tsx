@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { cn } from "@/lib/utils";
 
 interface TypographyProps {
@@ -5,18 +7,24 @@ interface TypographyProps {
   className?: string;
 }
 
-export function PageTitle({ children, className }: TypographyProps) {
+export const PageTitle = React.forwardRef<
+  HTMLHeadingElement,
+  React.ComponentPropsWithoutRef<"h1">
+>(({ children, className, ...props }, ref) => {
   return (
     <h1
+      ref={ref}
       className={cn(
         "text-4xl font-semibold tracking-[-0.05em] text-foreground leading-[0.95] md:text-5xl lg:text-6xl",
         className,
       )}
+      {...props}
     >
       {children}
     </h1>
   );
-}
+});
+PageTitle.displayName = "PageTitle";
 
 export function SectionHeader({ children, className }: TypographyProps) {
   return (

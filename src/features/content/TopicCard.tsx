@@ -52,7 +52,10 @@ export function TopicCard({
 
   if (href) {
     return (
-      <Link to={href} className="block">
+      <Link
+        to={href}
+        className="block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      >
         {content}
       </Link>
     );

@@ -31,6 +31,7 @@ const storeMenuState = (state: Record<string, boolean>) => {
 export interface MenuItemProps {
   item: MenuItem;
   depth?: number;
+  onNavigate?: () => void;
 }
 
 const depthStyles = {
@@ -120,6 +121,7 @@ const useMenuExpanded = (
 export const MenuItemComponent = React.memo(function MenuItemComponent({
   item,
   depth = 0,
+  onNavigate,
 }: MenuItemProps) {
   const location = useLocation();
   const hasChildren = item.children && item.children.length > 0;
@@ -170,6 +172,7 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
                 key={`${child.label}-${depth + 1}`}
                 item={child}
                 depth={depth + 1}
+                onNavigate={onNavigate}
               />
             ))}
           </ul>
@@ -182,6 +185,7 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
     <li>
       <Link
         to={item.href || "#"}
+        onClick={onNavigate}
         className={`flex items-center gap-2 rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${baseStateClasses} ${styles.link}`}
         style={{
           paddingLeft: `${indent + (item.icon ? 8 : 0)}px`,
@@ -198,31 +202,47 @@ export const MenuItemComponent = React.memo(function MenuItemComponent({
 
 export interface SidebarProps {
   menuItems?: MenuItem[];
+  onNavigate?: () => void;
+  showBrand?: boolean;
+  navLabel?: string;
+  className?: string;
 }
 
-export function Sidebar({ menuItems = MENU_ITEMS }: SidebarProps) {
+export function Sidebar({
+  menuItems = MENU_ITEMS,
+  onNavigate,
+  showBrand = true,
+  navLabel = "Study topics",
+  className,
+}: SidebarProps) {
   return (
-    <>
-      <div className="border-b border-border/70 px-5 py-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-            <BookOpenText className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="text-xl font-semibold tracking-[-0.035em] text-foreground">
-              Study Guide
-            </h1>
+    <div className={className}>
+      {showBrand && (
+        <div className="border-b border-border/70 px-5 py-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <BookOpenText className="h-5 w-5" />
+            </div>
+            <div>
+              <h1 className="text-xl font-semibold tracking-[-0.035em] text-foreground">
+                Study Guide
+              </h1>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <nav className="h-[calc(100vh-134px)] overflow-y-auto px-3 py-4">
+      <nav aria-label={navLabel} className="h-full overflow-y-auto px-3 py-4">
         <ul className="space-y-1.5">
           {menuItems.map((item) => (
-            <MenuItemComponent key={item.label} item={item} />
+            <MenuItemComponent
+              key={item.label}
+              item={item}
+              onNavigate={onNavigate}
+            />
           ))}
         </ul>
       </nav>
-    </>
+    </div>
   );
 }
