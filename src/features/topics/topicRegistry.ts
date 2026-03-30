@@ -1,60 +1,77 @@
 import type { ComponentType, LazyExoticComponent } from "react";
 import * as React from "react";
 
-export type TopicStatus = "ready" | "coming-soon";
+export type TopicStatus = "draft" | "ready" | "coming-soon" | "archived";
+
+export interface TopicMenuPathItem {
+  id: string;
+  label: string;
+}
 
 export interface TopicDefinition {
   id: string;
   title: string;
+  menuLabel: string;
   path: string;
   status: TopicStatus;
+  menuPath: TopicMenuPathItem[];
   loader?: LazyExoticComponent<ComponentType<object>>;
 }
 
 const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> = {
   // Lazy-load each study page so the landing bundle stays small and route changes only fetch what is needed.
   "html-semantics": React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/HtmlSemantics"),
-  ),
-  "css-box-model": React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/CssBoxModel"),
-  ),
-  "responsive-design": React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/ResponsiveDesign"),
-  ),
-  accessibility: React.lazy(
-    () => import("@/pages/frontend/core-web-fundamentals/Accessibility"),
+    () =>
+      import(
+        "@/domains/topics/content/frontend/core-web-fundamentals/html-semantics"
+      ),
   ),
 };
+
+const frontendMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "core-web-fundamentals",
+    label: "Core Web Fundamentals",
+  },
+];
 
 const topicDefinitions: TopicDefinition[] = [
   {
     id: "html-semantics",
     title: "HTML Semantics",
+    menuLabel: "HTML semantics, forms, SEO",
     path: "/topic/html-semantics",
     status: "ready",
+    menuPath: frontendMenuPath,
     loader: topicLoaders["html-semantics"],
   },
   {
     id: "css-box-model",
     title: "CSS Box Model",
+    menuLabel: "CSS box model, Flexbox, Grid",
     path: "/topic/css-box-model",
-    status: "ready",
-    loader: topicLoaders["css-box-model"],
+    status: "coming-soon",
+    menuPath: frontendMenuPath,
   },
   {
     id: "responsive-design",
     title: "Responsive Design",
+    menuLabel: "Responsive design",
     path: "/topic/responsive-design",
-    status: "ready",
-    loader: topicLoaders["responsive-design"],
+    status: "coming-soon",
+    menuPath: frontendMenuPath,
   },
   {
     id: "accessibility",
     title: "Accessibility",
+    menuLabel: "Accessibility (a11y)",
     path: "/topic/accessibility",
-    status: "ready",
-    loader: topicLoaders["accessibility"],
+    status: "coming-soon",
+    menuPath: frontendMenuPath,
   },
 ];
 

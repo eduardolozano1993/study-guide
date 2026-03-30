@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
-import TopicPage from "./pages/components";
+import TopicPage from "./pages/TopicRoutePage";
 import { Sidebar } from "./features/navigation/components/Sidebar";
 import { BASE_PATH } from "./features/navigation/data/menuItems";
 import { ErrorBoundary } from "./shared/components/ErrorBoundary";
