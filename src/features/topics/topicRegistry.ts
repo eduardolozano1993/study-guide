@@ -26,6 +26,7 @@ const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> =
         "@/domains/topics/content/frontend/core-web-fundamentals/html-semantics"
       ),
   ),
+  dns: React.lazy(() => import("@/domains/topics/content/network/DNS")),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -36,6 +37,13 @@ const frontendMenuPath: TopicMenuPathItem[] = [
   {
     id: "core-web-fundamentals",
     label: "Core Web Fundamentals",
+  },
+];
+
+const networkMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "network",
+    label: "Network",
   },
 ];
 
@@ -72,6 +80,15 @@ const topicDefinitions: TopicDefinition[] = [
     path: "/topic/accessibility",
     status: "coming-soon",
     menuPath: frontendMenuPath,
+  },
+  {
+    id: "dns",
+    title: "DNS",
+    menuLabel: "DNS",
+    path: "/topic/dns",
+    status: "ready",
+    menuPath: networkMenuPath,
+    loader: topicLoaders.dns,
   },
 ];
 

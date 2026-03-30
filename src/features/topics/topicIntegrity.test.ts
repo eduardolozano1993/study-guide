@@ -2,6 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import { describe, expect, it } from "vitest";
 import { TOPIC_DEFINITIONS } from "./topicRegistry";
 import { htmlSemanticsLesson } from "@/domains/topics/content/frontend/core-web-fundamentals/html-semantics/meta";
+import { dnsLesson } from "@/domains/topics/content/network/DNS/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -31,5 +32,10 @@ describe("topic integrity", () => {
     expect(htmlSemanticsLesson.title.length).toBeGreaterThan(0);
     expect(htmlSemanticsLesson.summary.length).toBeGreaterThan(0);
     expect(htmlSemanticsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(dnsLesson.id).toBe("dns");
+    expect(dnsLesson.title.length).toBeGreaterThan(0);
+    expect(dnsLesson.summary.length).toBeGreaterThan(0);
+    expect(dnsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });

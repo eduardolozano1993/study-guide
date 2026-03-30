@@ -35,7 +35,7 @@ describe("topic registry", () => {
   });
 
   it("preserves the shared frontend navigation grouping", () => {
-    expect(MENU_ITEMS).toHaveLength(1);
+    expect(MENU_ITEMS).toHaveLength(2);
     expect(MENU_ITEMS[0]).toMatchObject({
       kind: "group",
       id: "frontend",
@@ -48,6 +48,11 @@ describe("topic registry", () => {
       id: "core-web-fundamentals",
       label: "Core Web Fundamentals",
     });
+    expect(MENU_ITEMS[1]).toMatchObject({
+      kind: "group",
+      id: "network",
+      label: "Network",
+    });
   });
 
   it("marks placeholder lessons as coming soon in the registry", () => {
@@ -56,6 +61,9 @@ describe("topic registry", () => {
     ).toHaveLength(3);
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "html-semantics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "dns")?.status,
     ).toBe("ready");
   });
 });
