@@ -88,5 +88,8 @@ describe("topic registry", () => {
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "graph-ql")?.status,
     ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "rest-graph-grcp")?.status,
+    ).toBe("ready");
   });
 });

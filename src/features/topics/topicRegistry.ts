@@ -18,25 +18,29 @@ export interface TopicDefinition {
   loader?: LazyExoticComponent<ComponentType<object>>;
 }
 
-const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> = {
+const topicLoaders: Record<
+  string,
+  LazyExoticComponent<ComponentType<object>>
+> = {
   // Lazy-load each study page so the landing bundle stays small and route changes only fetch what is needed.
   "html-semantics": React.lazy(
     () =>
-      import(
-        "@/domains/topics/content/frontend/core-web-fundamentals/html-semantics"
-      ),
+      import("@/domains/topics/content/frontend/core-web-fundamentals/html-semantics"),
   ),
   dns: React.lazy(() => import("@/domains/topics/content/network/DNS")),
   "http-1-2-3": React.lazy(
     () => import("@/domains/topics/content/network/HTTP-1-2-3"),
   ),
   tls: React.lazy(() => import("@/domains/topics/content/network/TLS")),
-  rest: React.lazy(() => import("@/domains/topics/content/api/rest")),
   "http-status-codes": React.lazy(
     () => import("@/domains/topics/content/api/http-status-codes"),
   ),
+  rest: React.lazy(() => import("@/domains/topics/content/api/rest")),
   grpc: React.lazy(() => import("@/domains/topics/content/api/grcp")),
   "graph-ql": React.lazy(() => import("@/domains/topics/content/api/graph-ql")),
+  "rest-graph-grcp": React.lazy(
+    () => import("@/domains/topics/content/api/rest-graph-grcp"),
+  ),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -126,15 +130,6 @@ const topicDefinitions: TopicDefinition[] = [
     loader: topicLoaders.tls,
   },
   {
-    id: "rest",
-    title: "REST",
-    menuLabel: "REST",
-    path: "/topic/rest",
-    status: "ready",
-    menuPath: apiMenuPath,
-    loader: topicLoaders.rest,
-  },
-  {
     id: "http-status-codes",
     title: "HTTP Status Codes",
     menuLabel: "HTTP status codes",
@@ -142,6 +137,15 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: apiMenuPath,
     loader: topicLoaders["http-status-codes"],
+  },
+  {
+    id: "rest",
+    title: "REST",
+    menuLabel: "REST",
+    path: "/topic/rest",
+    status: "ready",
+    menuPath: apiMenuPath,
+    loader: topicLoaders.rest,
   },
   {
     id: "grpc",
@@ -160,6 +164,15 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: apiMenuPath,
     loader: topicLoaders["graph-ql"],
+  },
+  {
+    id: "rest-graph-grcp",
+    title: "REST vs GraphQL vs gRPC",
+    menuLabel: "REST vs GraphQL vs gRPC",
+    path: "/topic/rest-graph-grcp",
+    status: "ready",
+    menuPath: apiMenuPath,
+    loader: topicLoaders["rest-graph-grcp"],
   },
 ];
 

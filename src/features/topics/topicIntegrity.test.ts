@@ -9,6 +9,7 @@ import { restLesson } from "@/domains/topics/content/api/rest/meta";
 import { httpStatusCodesLesson } from "@/domains/topics/content/api/http-status-codes/meta";
 import { grpcLesson } from "@/domains/topics/content/api/grcp/meta";
 import { graphQlLesson } from "@/domains/topics/content/api/graph-ql/meta";
+import { restGraphGrpcLesson } from "@/domains/topics/content/api/rest-graph-grcp/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -73,5 +74,10 @@ describe("topic integrity", () => {
     expect(graphQlLesson.title.length).toBeGreaterThan(0);
     expect(graphQlLesson.summary.length).toBeGreaterThan(0);
     expect(graphQlLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(restGraphGrpcLesson.id).toBe("rest-graph-grcp");
+    expect(restGraphGrpcLesson.title.length).toBeGreaterThan(0);
+    expect(restGraphGrpcLesson.summary.length).toBeGreaterThan(0);
+    expect(restGraphGrpcLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });
