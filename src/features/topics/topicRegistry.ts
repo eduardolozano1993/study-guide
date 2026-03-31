@@ -42,15 +42,17 @@ const topicLoaders: Record<
     () => import("@/domains/topics/content/api/rest-graph-grcp"),
   ),
   "load-balancer": React.lazy(
-    () => import("@/domains/topics/content/architecture/load-balancer"),
+    () => import("@/domains/topics/content/architecture/patterns/load-balancer"),
   ),
   "horizontal-vertical-scaling": React.lazy(
     () =>
       import(
-        "@/domains/topics/content/architecture/horizontal-vertical-scaling"
+        "@/domains/topics/content/architecture/patterns/horizontal-vertical-scaling"
       ),
   ),
-  cdn: React.lazy(() => import("@/domains/topics/content/architecture/cdn")),
+  cdn: React.lazy(
+    () => import("@/domains/topics/content/architecture/patterns/cdn"),
+  ),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
