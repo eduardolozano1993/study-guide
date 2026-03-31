@@ -102,5 +102,8 @@ describe("topic registry", () => {
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "horizontal-vertical-scaling")?.status,
     ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "cdn")?.status,
+    ).toBe("ready");
   });
 });

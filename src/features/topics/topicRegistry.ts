@@ -50,6 +50,7 @@ const topicLoaders: Record<
         "@/domains/topics/content/architecture/horizontal-vertical-scaling"
       ),
   ),
+  cdn: React.lazy(() => import("@/domains/topics/content/architecture/cdn")),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -207,6 +208,15 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: architectureMenuPath,
     loader: topicLoaders["horizontal-vertical-scaling"],
+  },
+  {
+    id: "cdn",
+    title: "CDN",
+    menuLabel: "CDN",
+    path: "/topic/cdn",
+    status: "ready",
+    menuPath: architectureMenuPath,
+    loader: topicLoaders.cdn,
   },
 ];
 
