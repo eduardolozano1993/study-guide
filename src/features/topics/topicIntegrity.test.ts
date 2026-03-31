@@ -5,6 +5,7 @@ import { htmlSemanticsLesson } from "@/domains/topics/content/frontend/core-web-
 import { dnsLesson } from "@/domains/topics/content/network/DNS/meta";
 import { http123Lesson } from "@/domains/topics/content/network/HTTP-1-2-3/meta";
 import { tlsLesson } from "@/domains/topics/content/network/TLS/meta";
+import { restLesson } from "@/domains/topics/content/api/rest/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -49,5 +50,10 @@ describe("topic integrity", () => {
     expect(tlsLesson.title.length).toBeGreaterThan(0);
     expect(tlsLesson.summary.length).toBeGreaterThan(0);
     expect(tlsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(restLesson.id).toBe("rest");
+    expect(restLesson.title.length).toBeGreaterThan(0);
+    expect(restLesson.summary.length).toBeGreaterThan(0);
+    expect(restLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });

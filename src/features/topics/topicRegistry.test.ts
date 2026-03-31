@@ -35,7 +35,7 @@ describe("topic registry", () => {
   });
 
   it("preserves the shared frontend navigation grouping", () => {
-    expect(MENU_ITEMS).toHaveLength(2);
+    expect(MENU_ITEMS).toHaveLength(3);
     expect(MENU_ITEMS[0]).toMatchObject({
       kind: "group",
       id: "frontend",
@@ -52,6 +52,11 @@ describe("topic registry", () => {
       kind: "group",
       id: "network",
       label: "Network",
+    });
+    expect(MENU_ITEMS[2]).toMatchObject({
+      kind: "group",
+      id: "api",
+      label: "API",
     });
   });
 
@@ -70,6 +75,9 @@ describe("topic registry", () => {
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "tls")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "rest")?.status,
     ).toBe("ready");
   });
 });

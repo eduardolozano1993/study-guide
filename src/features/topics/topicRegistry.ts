@@ -31,6 +31,7 @@ const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> =
     () => import("@/domains/topics/content/network/HTTP-1-2-3"),
   ),
   tls: React.lazy(() => import("@/domains/topics/content/network/TLS")),
+  rest: React.lazy(() => import("@/domains/topics/content/api/rest")),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -48,6 +49,13 @@ const networkMenuPath: TopicMenuPathItem[] = [
   {
     id: "network",
     label: "Network",
+  },
+];
+
+const apiMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "api",
+    label: "API",
   },
 ];
 
@@ -111,6 +119,15 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: networkMenuPath,
     loader: topicLoaders.tls,
+  },
+  {
+    id: "rest",
+    title: "REST",
+    menuLabel: "REST",
+    path: "/topic/rest",
+    status: "ready",
+    menuPath: apiMenuPath,
+    loader: topicLoaders.rest,
   },
 ];
 
