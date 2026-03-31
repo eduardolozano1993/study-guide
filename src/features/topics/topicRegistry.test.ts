@@ -79,5 +79,14 @@ describe("topic registry", () => {
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "rest")?.status,
     ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "http-status-codes")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "grpc")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "graph-ql")?.status,
+    ).toBe("ready");
   });
 });

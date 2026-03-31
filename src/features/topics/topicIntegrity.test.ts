@@ -6,6 +6,9 @@ import { dnsLesson } from "@/domains/topics/content/network/DNS/meta";
 import { http123Lesson } from "@/domains/topics/content/network/HTTP-1-2-3/meta";
 import { tlsLesson } from "@/domains/topics/content/network/TLS/meta";
 import { restLesson } from "@/domains/topics/content/api/rest/meta";
+import { httpStatusCodesLesson } from "@/domains/topics/content/api/http-status-codes/meta";
+import { grpcLesson } from "@/domains/topics/content/api/grcp/meta";
+import { graphQlLesson } from "@/domains/topics/content/api/graph-ql/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -55,5 +58,20 @@ describe("topic integrity", () => {
     expect(restLesson.title.length).toBeGreaterThan(0);
     expect(restLesson.summary.length).toBeGreaterThan(0);
     expect(restLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(httpStatusCodesLesson.id).toBe("http-status-codes");
+    expect(httpStatusCodesLesson.title.length).toBeGreaterThan(0);
+    expect(httpStatusCodesLesson.summary.length).toBeGreaterThan(0);
+    expect(httpStatusCodesLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(grpcLesson.id).toBe("grpc");
+    expect(grpcLesson.title.length).toBeGreaterThan(0);
+    expect(grpcLesson.summary.length).toBeGreaterThan(0);
+    expect(grpcLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(graphQlLesson.id).toBe("graph-ql");
+    expect(graphQlLesson.title.length).toBeGreaterThan(0);
+    expect(graphQlLesson.summary.length).toBeGreaterThan(0);
+    expect(graphQlLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });

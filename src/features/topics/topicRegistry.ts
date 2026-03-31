@@ -32,6 +32,11 @@ const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> =
   ),
   tls: React.lazy(() => import("@/domains/topics/content/network/TLS")),
   rest: React.lazy(() => import("@/domains/topics/content/api/rest")),
+  "http-status-codes": React.lazy(
+    () => import("@/domains/topics/content/api/http-status-codes"),
+  ),
+  grpc: React.lazy(() => import("@/domains/topics/content/api/grcp")),
+  "graph-ql": React.lazy(() => import("@/domains/topics/content/api/graph-ql")),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -128,6 +133,33 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: apiMenuPath,
     loader: topicLoaders.rest,
+  },
+  {
+    id: "http-status-codes",
+    title: "HTTP Status Codes",
+    menuLabel: "HTTP status codes",
+    path: "/topic/http-status-codes",
+    status: "ready",
+    menuPath: apiMenuPath,
+    loader: topicLoaders["http-status-codes"],
+  },
+  {
+    id: "grpc",
+    title: "gRPC",
+    menuLabel: "gRPC",
+    path: "/topic/grpc",
+    status: "ready",
+    menuPath: apiMenuPath,
+    loader: topicLoaders.grpc,
+  },
+  {
+    id: "graph-ql",
+    title: "GraphQL",
+    menuLabel: "GraphQL",
+    path: "/topic/graph-ql",
+    status: "ready",
+    menuPath: apiMenuPath,
+    loader: topicLoaders["graph-ql"],
   },
 ];
 
