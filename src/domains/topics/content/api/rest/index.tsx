@@ -292,6 +292,63 @@ Location: /users/42`}
           />
         </CollapsibleSection>
 
+        <SectionHeader>Sending REST Requests</SectionHeader>
+
+        <CollapsibleSection title="React, Angular, and Node.js Examples" collapsible={false}>
+          <SubHeader>React with fetch</SubHeader>
+          <CodeBlock
+            language="tsx"
+            code={`import { useEffect, useState } from "react";
+
+export function UsersList() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/users")
+      .then((response) => response.json())
+      .then((data) => setUsers(data));
+  }, []);
+
+  return <pre>{JSON.stringify(users, null, 2)}</pre>;
+}`}
+          />
+
+          <SubHeader>Angular with HttpClient</SubHeader>
+          <CodeBlock
+            language="typescript"
+            code={`import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+
+@Injectable({ providedIn: "root" })
+export class UsersService {
+  constructor(private http: HttpClient) {}
+
+  getUsers() {
+    return this.http.get("/api/users");
+  }
+}`}
+          />
+
+          <SubHeader>Node.js with fetch</SubHeader>
+          <CodeBlock
+            language="javascript"
+            code={`const response = await fetch("https://api.example.com/users", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer TOKEN",
+  },
+  body: JSON.stringify({
+    name: "Ada Lovelace",
+    email: "ada@example.com",
+  }),
+});
+
+const user = await response.json();
+console.log(user);`}
+          />
+        </CollapsibleSection>
+
         <SectionHeader>Quick Reference</SectionHeader>
 
         <CollapsibleSection title="REST Cheat Sheet">

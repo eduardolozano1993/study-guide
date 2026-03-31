@@ -262,6 +262,93 @@ fragment UserFields on User {
           </ul>
         </CollapsibleSection>
 
+        <SectionHeader>Sending GraphQL Requests</SectionHeader>
+
+        <CollapsibleSection title="React, Angular, and Node.js Examples" collapsible={false}>
+          <SubHeader>React with fetch</SubHeader>
+          <CodeBlock
+            language="tsx"
+            code={`const query = \`
+  query GetUser($id: ID!) {
+    user(id: $id) {
+      id
+      name
+      email
+    }
+  }
+\`;
+
+const response = await fetch("/graphql", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query,
+    variables: { id: "42" },
+  }),
+});
+
+const result = await response.json();`}
+          />
+
+          <SubHeader>Angular with HttpClient</SubHeader>
+          <CodeBlock
+            language="typescript"
+            code={`import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+
+@Injectable({ providedIn: "root" })
+export class UserApi {
+  constructor(private http: HttpClient) {}
+
+  getUser(id: string) {
+    return this.http.post("/graphql", {
+      query: \`
+        query GetUser($id: ID!) {
+          user(id: $id) {
+            id
+            name
+            email
+          }
+        }
+      \`,
+      variables: { id },
+    });
+  }
+}`}
+          />
+
+          <SubHeader>Node.js with fetch</SubHeader>
+          <CodeBlock
+            language="javascript"
+            code={`const response = await fetch("https://api.example.com/graphql", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer TOKEN",
+  },
+  body: JSON.stringify({
+    query: \`
+      mutation CreateUser($input: CreateUserInput!) {
+        createUser(input: $input) {
+          id
+          name
+        }
+      }
+    \`,
+    variables: {
+      input: {
+        name: "Ada Lovelace",
+        email: "ada@example.com",
+      },
+    },
+  }),
+});
+
+const result = await response.json();
+console.log(result);`}
+          />
+        </CollapsibleSection>
+
         <SectionHeader>Quick Reference</SectionHeader>
 
         <CollapsibleSection title="GraphQL Cheat Sheet">

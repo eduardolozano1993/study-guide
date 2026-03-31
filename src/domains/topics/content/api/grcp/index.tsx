@@ -247,6 +247,61 @@ INTERNAL`}
           </ul>
         </CollapsibleSection>
 
+        <SectionHeader>Sending gRPC Requests</SectionHeader>
+
+        <CollapsibleSection title="Node.js and Browser Examples" collapsible={false}>
+          <SubHeader>Node.js with a generated client</SubHeader>
+          <CodeBlock
+            language="javascript"
+            code={`import { credentials } from "@grpc/grpc-js";
+import { UserServiceClient } from "./generated/user_grpc_pb.js";
+import { GetUserRequest } from "./generated/user_pb.js";
+
+const client = new UserServiceClient(
+  "localhost:50051",
+  credentials.createInsecure(),
+);
+
+const request = new GetUserRequest();
+request.setId(42);
+
+client.getUser(request, (error, response) => {
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  console.log(response.toObject());
+});`}
+          />
+
+          <SubHeader>React or Angular in the browser with grpc-web</SubHeader>
+          <CodeBlock
+            language="typescript"
+            code={`import { UserServiceClient } from "./generated/UserServiceClientPb";
+import { GetUserRequest } from "./generated/user_pb";
+
+const client = new UserServiceClient("https://api.example.com");
+const request = new GetUserRequest();
+request.setId(42);
+
+client.getUser(request, {}, (error, response) => {
+  if (error) {
+    console.error(error.message);
+    return;
+  }
+
+  console.log(response.toObject());
+});`}
+          />
+
+          <Callout variant="note">
+            Direct browser use usually relies on `grpc-web` or an HTTP gateway.
+            Plain gRPC clients are most natural in Node.js and internal
+            services.
+          </Callout>
+        </CollapsibleSection>
+
         <SectionHeader>Quick Reference</SectionHeader>
 
         <CollapsibleSection title="gRPC Cheat Sheet">
