@@ -35,7 +35,7 @@ describe("topic registry", () => {
   });
 
   it("preserves the shared frontend navigation grouping", () => {
-    expect(MENU_ITEMS).toHaveLength(3);
+    expect(MENU_ITEMS).toHaveLength(4);
     expect(MENU_ITEMS[0]).toMatchObject({
       kind: "group",
       id: "frontend",
@@ -57,6 +57,11 @@ describe("topic registry", () => {
       kind: "group",
       id: "api",
       label: "API",
+    });
+    expect(MENU_ITEMS[3]).toMatchObject({
+      kind: "group",
+      id: "architecture",
+      label: "Architecture",
     });
   });
 
@@ -90,6 +95,12 @@ describe("topic registry", () => {
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "rest-graph-grcp")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "load-balancer")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "horizontal-vertical-scaling")?.status,
     ).toBe("ready");
   });
 });

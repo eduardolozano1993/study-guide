@@ -41,6 +41,15 @@ const topicLoaders: Record<
   "rest-graph-grcp": React.lazy(
     () => import("@/domains/topics/content/api/rest-graph-grcp"),
   ),
+  "load-balancer": React.lazy(
+    () => import("@/domains/topics/content/architecture/load-balancer"),
+  ),
+  "horizontal-vertical-scaling": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/architecture/horizontal-vertical-scaling"
+      ),
+  ),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -65,6 +74,13 @@ const apiMenuPath: TopicMenuPathItem[] = [
   {
     id: "api",
     label: "API",
+  },
+];
+
+const architectureMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "architecture",
+    label: "Architecture",
   },
 ];
 
@@ -173,6 +189,24 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: apiMenuPath,
     loader: topicLoaders["rest-graph-grcp"],
+  },
+  {
+    id: "load-balancer",
+    title: "Load Balancer",
+    menuLabel: "Load balancer",
+    path: "/topic/load-balancer",
+    status: "ready",
+    menuPath: architectureMenuPath,
+    loader: topicLoaders["load-balancer"],
+  },
+  {
+    id: "horizontal-vertical-scaling",
+    title: "Horizontal vs Vertical Scaling",
+    menuLabel: "Horizontal vs vertical scaling",
+    path: "/topic/horizontal-vertical-scaling",
+    status: "ready",
+    menuPath: architectureMenuPath,
+    loader: topicLoaders["horizontal-vertical-scaling"],
   },
 ];
 
