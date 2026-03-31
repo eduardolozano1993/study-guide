@@ -59,6 +59,12 @@ const topicLoaders: Record<
         "@/domains/topics/content/architecture/fundamentals/latency-vs-throughput"
       ),
   ),
+  "cap-theorem": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/architecture/fundamentals/cap-theorem"
+      ),
+  ),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -250,6 +256,15 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: architectureFundamentalsMenuPath,
     loader: topicLoaders["latency-vs-throughput"],
+  },
+  {
+    id: "cap-theorem",
+    title: "CAP Theorem",
+    menuLabel: "CAP theorem",
+    path: "/topic/cap-theorem",
+    status: "ready",
+    menuPath: architectureFundamentalsMenuPath,
+    loader: topicLoaders["cap-theorem"],
   },
 ];
 

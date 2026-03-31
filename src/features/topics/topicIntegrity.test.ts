@@ -14,6 +14,7 @@ import { loadBalancerLesson } from "@/domains/topics/content/architecture/patter
 import { horizontalVerticalScalingLesson } from "@/domains/topics/content/architecture/patterns/horizontal-vertical-scaling/meta";
 import { cdnLesson } from "@/domains/topics/content/architecture/patterns/cdn/meta";
 import { latencyVsThroughputLesson } from "@/domains/topics/content/architecture/fundamentals/latency-vs-throughput/meta";
+import { capTheoremLesson } from "@/domains/topics/content/architecture/fundamentals/cap-theorem/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -103,5 +104,10 @@ describe("topic integrity", () => {
     expect(latencyVsThroughputLesson.title.length).toBeGreaterThan(0);
     expect(latencyVsThroughputLesson.summary.length).toBeGreaterThan(0);
     expect(latencyVsThroughputLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(capTheoremLesson.id).toBe("cap-theorem");
+    expect(capTheoremLesson.title.length).toBeGreaterThan(0);
+    expect(capTheoremLesson.summary.length).toBeGreaterThan(0);
+    expect(capTheoremLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });

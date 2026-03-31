@@ -121,5 +121,8 @@ describe("topic registry", () => {
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "latency-vs-throughput")?.status,
     ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "cap-theorem")?.status,
+    ).toBe("ready");
   });
 });
