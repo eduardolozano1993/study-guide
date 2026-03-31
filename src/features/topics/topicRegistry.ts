@@ -53,6 +53,12 @@ const topicLoaders: Record<
   cdn: React.lazy(
     () => import("@/domains/topics/content/architecture/patterns/cdn"),
   ),
+  "latency-vs-throughput": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/architecture/fundamentals/latency-vs-throughput"
+      ),
+  ),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -84,6 +90,22 @@ const architectureMenuPath: TopicMenuPathItem[] = [
   {
     id: "architecture",
     label: "Architecture",
+  },
+];
+
+const architectureFundamentalsMenuPath: TopicMenuPathItem[] = [
+  ...architectureMenuPath,
+  {
+    id: "fundamentals",
+    label: "Fundamentals",
+  },
+];
+
+const architecturePatternsMenuPath: TopicMenuPathItem[] = [
+  ...architectureMenuPath,
+  {
+    id: "patterns",
+    label: "Patterns",
   },
 ];
 
@@ -199,7 +221,7 @@ const topicDefinitions: TopicDefinition[] = [
     menuLabel: "Load balancer",
     path: "/topic/load-balancer",
     status: "ready",
-    menuPath: architectureMenuPath,
+    menuPath: architecturePatternsMenuPath,
     loader: topicLoaders["load-balancer"],
   },
   {
@@ -208,7 +230,7 @@ const topicDefinitions: TopicDefinition[] = [
     menuLabel: "Horizontal vs vertical scaling",
     path: "/topic/horizontal-vertical-scaling",
     status: "ready",
-    menuPath: architectureMenuPath,
+    menuPath: architecturePatternsMenuPath,
     loader: topicLoaders["horizontal-vertical-scaling"],
   },
   {
@@ -217,8 +239,17 @@ const topicDefinitions: TopicDefinition[] = [
     menuLabel: "CDN",
     path: "/topic/cdn",
     status: "ready",
-    menuPath: architectureMenuPath,
+    menuPath: architecturePatternsMenuPath,
     loader: topicLoaders.cdn,
+  },
+  {
+    id: "latency-vs-throughput",
+    title: "Latency vs Throughput",
+    menuLabel: "Latency vs throughput",
+    path: "/topic/latency-vs-throughput",
+    status: "ready",
+    menuPath: architectureFundamentalsMenuPath,
+    loader: topicLoaders["latency-vs-throughput"],
   },
 ];
 

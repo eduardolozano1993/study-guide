@@ -1,4 +1,4 @@
-import { defineTopicLesson } from "../../defineTopicLesson";
+import { defineTopicLesson } from "../../../defineTopicLesson";
 
 export const horizontalVerticalScalingLesson = defineTopicLesson({
   id: "horizontal-vertical-scaling",

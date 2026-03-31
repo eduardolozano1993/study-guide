@@ -34,7 +34,7 @@ describe("topic registry", () => {
     ).toBe(true);
   });
 
-  it("preserves the shared frontend navigation grouping", () => {
+  it("preserves the shared top-level navigation grouping", () => {
     expect(MENU_ITEMS).toHaveLength(4);
     expect(MENU_ITEMS[0]).toMatchObject({
       kind: "group",
@@ -62,6 +62,19 @@ describe("topic registry", () => {
       kind: "group",
       id: "architecture",
       label: "Architecture",
+    });
+    const architectureGroup =
+      MENU_ITEMS[3].kind === "group" ? MENU_ITEMS[3] : null;
+    expect(architectureGroup?.children).toHaveLength(2);
+    expect(architectureGroup?.children?.[0]).toMatchObject({
+      kind: "group",
+      id: "patterns",
+      label: "Patterns",
+    });
+    expect(architectureGroup?.children?.[1]).toMatchObject({
+      kind: "group",
+      id: "fundamentals",
+      label: "Fundamentals",
     });
   });
 
@@ -104,6 +117,9 @@ describe("topic registry", () => {
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "cdn")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "latency-vs-throughput")?.status,
     ).toBe("ready");
   });
 });

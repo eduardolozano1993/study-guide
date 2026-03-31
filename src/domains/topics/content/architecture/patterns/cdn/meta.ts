@@ -1,4 +1,4 @@
-import { defineTopicLesson } from "../../defineTopicLesson";
+import { defineTopicLesson } from "../../../defineTopicLesson";
 
 export const cdnLesson = defineTopicLesson({
   id: "cdn",

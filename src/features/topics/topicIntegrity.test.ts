@@ -10,9 +10,10 @@ import { httpStatusCodesLesson } from "@/domains/topics/content/api/http-status-
 import { grpcLesson } from "@/domains/topics/content/api/grcp/meta";
 import { graphQlLesson } from "@/domains/topics/content/api/graph-ql/meta";
 import { restGraphGrpcLesson } from "@/domains/topics/content/api/rest-graph-grcp/meta";
-import { loadBalancerLesson } from "@/domains/topics/content/architecture/load-balancer/meta";
-import { horizontalVerticalScalingLesson } from "@/domains/topics/content/architecture/horizontal-vertical-scaling/meta";
-import { cdnLesson } from "@/domains/topics/content/architecture/cdn/meta";
+import { loadBalancerLesson } from "@/domains/topics/content/architecture/patterns/load-balancer/meta";
+import { horizontalVerticalScalingLesson } from "@/domains/topics/content/architecture/patterns/horizontal-vertical-scaling/meta";
+import { cdnLesson } from "@/domains/topics/content/architecture/patterns/cdn/meta";
+import { latencyVsThroughputLesson } from "@/domains/topics/content/architecture/fundamentals/latency-vs-throughput/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -97,5 +98,10 @@ describe("topic integrity", () => {
     expect(cdnLesson.title.length).toBeGreaterThan(0);
     expect(cdnLesson.summary.length).toBeGreaterThan(0);
     expect(cdnLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(latencyVsThroughputLesson.id).toBe("latency-vs-throughput");
+    expect(latencyVsThroughputLesson.title.length).toBeGreaterThan(0);
+    expect(latencyVsThroughputLesson.summary.length).toBeGreaterThan(0);
+    expect(latencyVsThroughputLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });

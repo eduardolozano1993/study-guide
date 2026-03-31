@@ -1,4 +1,4 @@
-import { defineTopicLesson } from "../../defineTopicLesson";
+import { defineTopicLesson } from "../../../defineTopicLesson";
 
 export const loadBalancerLesson = defineTopicLesson({
   id: "load-balancer",
