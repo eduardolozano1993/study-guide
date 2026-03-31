@@ -65,5 +65,11 @@ describe("topic registry", () => {
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "dns")?.status,
     ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "http-1-2-3")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "tls")?.status,
+    ).toBe("ready");
   });
 });

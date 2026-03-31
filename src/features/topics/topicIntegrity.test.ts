@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { TOPIC_DEFINITIONS } from "./topicRegistry";
 import { htmlSemanticsLesson } from "@/domains/topics/content/frontend/core-web-fundamentals/html-semantics/meta";
 import { dnsLesson } from "@/domains/topics/content/network/DNS/meta";
+import { http123Lesson } from "@/domains/topics/content/network/HTTP-1-2-3/meta";
+import { tlsLesson } from "@/domains/topics/content/network/TLS/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -37,5 +39,15 @@ describe("topic integrity", () => {
     expect(dnsLesson.title.length).toBeGreaterThan(0);
     expect(dnsLesson.summary.length).toBeGreaterThan(0);
     expect(dnsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(http123Lesson.id).toBe("http-1-2-3");
+    expect(http123Lesson.title.length).toBeGreaterThan(0);
+    expect(http123Lesson.summary.length).toBeGreaterThan(0);
+    expect(http123Lesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(tlsLesson.id).toBe("tls");
+    expect(tlsLesson.title.length).toBeGreaterThan(0);
+    expect(tlsLesson.summary.length).toBeGreaterThan(0);
+    expect(tlsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });

@@ -27,6 +27,10 @@ const topicLoaders: Record<string, LazyExoticComponent<ComponentType<object>>> =
       ),
   ),
   dns: React.lazy(() => import("@/domains/topics/content/network/DNS")),
+  "http-1-2-3": React.lazy(
+    () => import("@/domains/topics/content/network/HTTP-1-2-3"),
+  ),
+  tls: React.lazy(() => import("@/domains/topics/content/network/TLS")),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -89,6 +93,24 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: networkMenuPath,
     loader: topicLoaders.dns,
+  },
+  {
+    id: "http-1-2-3",
+    title: "HTTP/1.1, HTTP/2, HTTP/3",
+    menuLabel: "HTTP/1.1, 2, and 3",
+    path: "/topic/http-1-2-3",
+    status: "ready",
+    menuPath: networkMenuPath,
+    loader: topicLoaders["http-1-2-3"],
+  },
+  {
+    id: "tls",
+    title: "TLS",
+    menuLabel: "TLS",
+    path: "/topic/tls",
+    status: "ready",
+    menuPath: networkMenuPath,
+    loader: topicLoaders.tls,
   },
 ];
 
