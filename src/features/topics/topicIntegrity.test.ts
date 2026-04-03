@@ -16,6 +16,10 @@ import { cdnLesson } from "@/domains/topics/content/architecture/patterns/cdn/me
 import { redisLesson } from "@/domains/topics/content/architecture/patterns/redis/meta";
 import { latencyVsThroughputLesson } from "@/domains/topics/content/architecture/fundamentals/latency-vs-throughput/meta";
 import { capTheoremLesson } from "@/domains/topics/content/architecture/fundamentals/cap-theorem/meta";
+import { abstractionLesson } from "@/domains/topics/content/low-level-design/oop-concepts/abstraction/meta";
+import { encapsulationLesson } from "@/domains/topics/content/low-level-design/oop-concepts/encapsulation/meta";
+import { inheritanceLesson } from "@/domains/topics/content/low-level-design/oop-concepts/inheritance/meta";
+import { polymorphismLesson } from "@/domains/topics/content/low-level-design/oop-concepts/polymorphism/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -115,5 +119,25 @@ describe("topic integrity", () => {
     expect(capTheoremLesson.title.length).toBeGreaterThan(0);
     expect(capTheoremLesson.summary.length).toBeGreaterThan(0);
     expect(capTheoremLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(abstractionLesson.id).toBe("abstraction");
+    expect(abstractionLesson.title.length).toBeGreaterThan(0);
+    expect(abstractionLesson.summary.length).toBeGreaterThan(0);
+    expect(abstractionLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(encapsulationLesson.id).toBe("encapsulation");
+    expect(encapsulationLesson.title.length).toBeGreaterThan(0);
+    expect(encapsulationLesson.summary.length).toBeGreaterThan(0);
+    expect(encapsulationLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(inheritanceLesson.id).toBe("inheritance");
+    expect(inheritanceLesson.title.length).toBeGreaterThan(0);
+    expect(inheritanceLesson.summary.length).toBeGreaterThan(0);
+    expect(inheritanceLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(polymorphismLesson.id).toBe("polymorphism");
+    expect(polymorphismLesson.title.length).toBeGreaterThan(0);
+    expect(polymorphismLesson.summary.length).toBeGreaterThan(0);
+    expect(polymorphismLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });

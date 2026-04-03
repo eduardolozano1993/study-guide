@@ -68,6 +68,30 @@ const topicLoaders: Record<
         "@/domains/topics/content/architecture/fundamentals/cap-theorem"
       ),
   ),
+  abstraction: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/oop-concepts/abstraction"
+      ),
+  ),
+  encapsulation: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/oop-concepts/encapsulation"
+      ),
+  ),
+  inheritance: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/oop-concepts/inheritance"
+      ),
+  ),
+  polymorphism: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/oop-concepts/polymorphism"
+      ),
+  ),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -115,6 +139,21 @@ const architecturePatternsMenuPath: TopicMenuPathItem[] = [
   {
     id: "patterns",
     label: "Patterns",
+  },
+];
+
+const lowLevelDesignMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "low-level-design",
+    label: "Low-Level Design",
+  },
+];
+
+const oopConceptsMenuPath: TopicMenuPathItem[] = [
+  ...lowLevelDesignMenuPath,
+  {
+    id: "oop-concepts",
+    label: "OOP Concepts",
   },
 ];
 
@@ -277,6 +316,42 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: architectureFundamentalsMenuPath,
     loader: topicLoaders["cap-theorem"],
+  },
+  {
+    id: "abstraction",
+    title: "Abstraction",
+    menuLabel: "Abstraction",
+    path: "/topic/abstraction",
+    status: "ready",
+    menuPath: oopConceptsMenuPath,
+    loader: topicLoaders.abstraction,
+  },
+  {
+    id: "encapsulation",
+    title: "Encapsulation",
+    menuLabel: "Encapsulation",
+    path: "/topic/encapsulation",
+    status: "ready",
+    menuPath: oopConceptsMenuPath,
+    loader: topicLoaders.encapsulation,
+  },
+  {
+    id: "inheritance",
+    title: "Inheritance",
+    menuLabel: "Inheritance",
+    path: "/topic/inheritance",
+    status: "ready",
+    menuPath: oopConceptsMenuPath,
+    loader: topicLoaders.inheritance,
+  },
+  {
+    id: "polymorphism",
+    title: "Polymorphism",
+    menuLabel: "Polymorphism",
+    path: "/topic/polymorphism",
+    status: "ready",
+    menuPath: oopConceptsMenuPath,
+    loader: topicLoaders.polymorphism,
   },
 ];
 
