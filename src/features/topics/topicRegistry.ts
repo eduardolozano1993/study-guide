@@ -53,6 +53,9 @@ const topicLoaders: Record<
   cdn: React.lazy(
     () => import("@/domains/topics/content/architecture/patterns/cdn"),
   ),
+  redis: React.lazy(
+    () => import("@/domains/topics/content/architecture/patterns/redis"),
+  ),
   "latency-vs-throughput": React.lazy(
     () =>
       import(
@@ -247,6 +250,15 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: architecturePatternsMenuPath,
     loader: topicLoaders.cdn,
+  },
+  {
+    id: "redis",
+    title: "Redis",
+    menuLabel: "Redis",
+    path: "/topic/redis",
+    status: "ready",
+    menuPath: architecturePatternsMenuPath,
+    loader: topicLoaders.redis,
   },
   {
     id: "latency-vs-throughput",

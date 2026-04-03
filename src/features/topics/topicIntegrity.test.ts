@@ -13,6 +13,7 @@ import { restGraphGrpcLesson } from "@/domains/topics/content/api/rest-graph-grc
 import { loadBalancerLesson } from "@/domains/topics/content/architecture/patterns/load-balancer/meta";
 import { horizontalVerticalScalingLesson } from "@/domains/topics/content/architecture/patterns/horizontal-vertical-scaling/meta";
 import { cdnLesson } from "@/domains/topics/content/architecture/patterns/cdn/meta";
+import { redisLesson } from "@/domains/topics/content/architecture/patterns/redis/meta";
 import { latencyVsThroughputLesson } from "@/domains/topics/content/architecture/fundamentals/latency-vs-throughput/meta";
 import { capTheoremLesson } from "@/domains/topics/content/architecture/fundamentals/cap-theorem/meta";
 
@@ -99,6 +100,11 @@ describe("topic integrity", () => {
     expect(cdnLesson.title.length).toBeGreaterThan(0);
     expect(cdnLesson.summary.length).toBeGreaterThan(0);
     expect(cdnLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(redisLesson.id).toBe("redis");
+    expect(redisLesson.title.length).toBeGreaterThan(0);
+    expect(redisLesson.summary.length).toBeGreaterThan(0);
+    expect(redisLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
     expect(latencyVsThroughputLesson.id).toBe("latency-vs-throughput");
     expect(latencyVsThroughputLesson.title.length).toBeGreaterThan(0);

@@ -119,6 +119,9 @@ describe("topic registry", () => {
       TOPIC_DEFINITIONS.find((topic) => topic.id === "cdn")?.status,
     ).toBe("ready");
     expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "redis")?.status,
+    ).toBe("ready");
+    expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "latency-vs-throughput")?.status,
     ).toBe("ready");
     expect(
