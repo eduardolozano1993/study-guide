@@ -104,6 +104,54 @@ const topicLoaders: Record<
         "@/domains/topics/content/low-level-design/design-principles/object-oriented-principles"
       ),
   ),
+  "factory-method": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-patterns/creational-patterns/factory-method"
+      ),
+  ),
+  singleton: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-patterns/creational-patterns/singleton"
+      ),
+  ),
+  builder: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-patterns/creational-patterns/builder"
+      ),
+  ),
+  decorator: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-patterns/structural-patterns/decorator"
+      ),
+  ),
+  facade: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-patterns/structural-patterns/facade"
+      ),
+  ),
+  strategy: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-patterns/behavioral-patterns/strategy"
+      ),
+  ),
+  observer: React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-patterns/behavioral-patterns/observer"
+      ),
+  ),
+  "state-machine": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-patterns/behavioral-patterns/state-machine"
+      ),
+  ),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -174,6 +222,42 @@ const designPrinciplesMenuPath: TopicMenuPathItem[] = [
   {
     id: "design-principles",
     label: "Design Principles",
+  },
+];
+
+const creationalPatternsMenuPath: TopicMenuPathItem[] = [
+  ...lowLevelDesignMenuPath,
+  {
+    id: "design-patterns",
+    label: "Design Patterns",
+  },
+  {
+    id: "creational-patterns",
+    label: "Creational Patterns",
+  },
+];
+
+const structuralPatternsMenuPath: TopicMenuPathItem[] = [
+  ...lowLevelDesignMenuPath,
+  {
+    id: "design-patterns",
+    label: "Design Patterns",
+  },
+  {
+    id: "structural-patterns",
+    label: "Structural Patterns",
+  },
+];
+
+const behavioralPatternsMenuPath: TopicMenuPathItem[] = [
+  ...lowLevelDesignMenuPath,
+  {
+    id: "design-patterns",
+    label: "Design Patterns",
+  },
+  {
+    id: "behavioral-patterns",
+    label: "Behavioral Patterns",
   },
 ];
 
@@ -390,6 +474,78 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: designPrinciplesMenuPath,
     loader: topicLoaders["object-oriented-principles"],
+  },
+  {
+    id: "factory-method",
+    title: "Factory Method",
+    menuLabel: "Factory method",
+    path: "/topic/factory-method",
+    status: "ready",
+    menuPath: creationalPatternsMenuPath,
+    loader: topicLoaders["factory-method"],
+  },
+  {
+    id: "singleton",
+    title: "Singleton",
+    menuLabel: "Singleton",
+    path: "/topic/singleton",
+    status: "ready",
+    menuPath: creationalPatternsMenuPath,
+    loader: topicLoaders.singleton,
+  },
+  {
+    id: "builder",
+    title: "Builder",
+    menuLabel: "Builder",
+    path: "/topic/builder",
+    status: "ready",
+    menuPath: creationalPatternsMenuPath,
+    loader: topicLoaders.builder,
+  },
+  {
+    id: "decorator",
+    title: "Decorator",
+    menuLabel: "Decorator",
+    path: "/topic/decorator",
+    status: "ready",
+    menuPath: structuralPatternsMenuPath,
+    loader: topicLoaders.decorator,
+  },
+  {
+    id: "facade",
+    title: "Facade",
+    menuLabel: "Facade",
+    path: "/topic/facade",
+    status: "ready",
+    menuPath: structuralPatternsMenuPath,
+    loader: topicLoaders.facade,
+  },
+  {
+    id: "strategy",
+    title: "Strategy",
+    menuLabel: "Strategy",
+    path: "/topic/strategy",
+    status: "ready",
+    menuPath: behavioralPatternsMenuPath,
+    loader: topicLoaders.strategy,
+  },
+  {
+    id: "observer",
+    title: "Observer",
+    menuLabel: "Observer",
+    path: "/topic/observer",
+    status: "ready",
+    menuPath: behavioralPatternsMenuPath,
+    loader: topicLoaders.observer,
+  },
+  {
+    id: "state-machine",
+    title: "State Machine",
+    menuLabel: "State machine",
+    path: "/topic/state-machine",
+    status: "ready",
+    menuPath: behavioralPatternsMenuPath,
+    loader: topicLoaders["state-machine"],
   },
 ];
 

@@ -22,6 +22,14 @@ import { inheritanceLesson } from "@/domains/topics/content/low-level-design/oop
 import { polymorphismLesson } from "@/domains/topics/content/low-level-design/oop-concepts/polymorphism/meta";
 import { generalSoftwarePrinciplesLesson } from "@/domains/topics/content/low-level-design/design-principles/general-software-principles/meta";
 import { objectOrientedPrinciplesLesson } from "@/domains/topics/content/low-level-design/design-principles/object-oriented-principles/meta";
+import { factoryMethodLesson } from "@/domains/topics/content/low-level-design/design-patterns/creational-patterns/factory-method/meta";
+import { singletonLesson } from "@/domains/topics/content/low-level-design/design-patterns/creational-patterns/singleton/meta";
+import { builderLesson } from "@/domains/topics/content/low-level-design/design-patterns/creational-patterns/builder/meta";
+import { decoratorLesson } from "@/domains/topics/content/low-level-design/design-patterns/structural-patterns/decorator/meta";
+import { facadeLesson } from "@/domains/topics/content/low-level-design/design-patterns/structural-patterns/facade/meta";
+import { strategyLesson } from "@/domains/topics/content/low-level-design/design-patterns/behavioral-patterns/strategy/meta";
+import { observerLesson } from "@/domains/topics/content/low-level-design/design-patterns/behavioral-patterns/observer/meta";
+import { stateMachineLesson } from "@/domains/topics/content/low-level-design/design-patterns/behavioral-patterns/state-machine/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -151,5 +159,45 @@ describe("topic integrity", () => {
     expect(objectOrientedPrinciplesLesson.title.length).toBeGreaterThan(0);
     expect(objectOrientedPrinciplesLesson.summary.length).toBeGreaterThan(0);
     expect(objectOrientedPrinciplesLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(factoryMethodLesson.id).toBe("factory-method");
+    expect(factoryMethodLesson.title.length).toBeGreaterThan(0);
+    expect(factoryMethodLesson.summary.length).toBeGreaterThan(0);
+    expect(factoryMethodLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(singletonLesson.id).toBe("singleton");
+    expect(singletonLesson.title.length).toBeGreaterThan(0);
+    expect(singletonLesson.summary.length).toBeGreaterThan(0);
+    expect(singletonLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(builderLesson.id).toBe("builder");
+    expect(builderLesson.title.length).toBeGreaterThan(0);
+    expect(builderLesson.summary.length).toBeGreaterThan(0);
+    expect(builderLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(decoratorLesson.id).toBe("decorator");
+    expect(decoratorLesson.title.length).toBeGreaterThan(0);
+    expect(decoratorLesson.summary.length).toBeGreaterThan(0);
+    expect(decoratorLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(facadeLesson.id).toBe("facade");
+    expect(facadeLesson.title.length).toBeGreaterThan(0);
+    expect(facadeLesson.summary.length).toBeGreaterThan(0);
+    expect(facadeLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(strategyLesson.id).toBe("strategy");
+    expect(strategyLesson.title.length).toBeGreaterThan(0);
+    expect(strategyLesson.summary.length).toBeGreaterThan(0);
+    expect(strategyLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(observerLesson.id).toBe("observer");
+    expect(observerLesson.title.length).toBeGreaterThan(0);
+    expect(observerLesson.summary.length).toBeGreaterThan(0);
+    expect(observerLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(stateMachineLesson.id).toBe("state-machine");
+    expect(stateMachineLesson.title.length).toBeGreaterThan(0);
+    expect(stateMachineLesson.summary.length).toBeGreaterThan(0);
+    expect(stateMachineLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });
