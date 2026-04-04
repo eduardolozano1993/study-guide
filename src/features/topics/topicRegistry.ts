@@ -92,6 +92,18 @@ const topicLoaders: Record<
         "@/domains/topics/content/low-level-design/oop-concepts/polymorphism"
       ),
   ),
+  "general-software-principles": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-principles/general-software-principles"
+      ),
+  ),
+  "object-oriented-principles": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/low-level-design/design-principles/object-oriented-principles"
+      ),
+  ),
 };
 
 const frontendMenuPath: TopicMenuPathItem[] = [
@@ -154,6 +166,14 @@ const oopConceptsMenuPath: TopicMenuPathItem[] = [
   {
     id: "oop-concepts",
     label: "OOP Concepts",
+  },
+];
+
+const designPrinciplesMenuPath: TopicMenuPathItem[] = [
+  ...lowLevelDesignMenuPath,
+  {
+    id: "design-principles",
+    label: "Design Principles",
   },
 ];
 
@@ -352,6 +372,24 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: oopConceptsMenuPath,
     loader: topicLoaders.polymorphism,
+  },
+  {
+    id: "general-software-principles",
+    title: "General Software Principles",
+    menuLabel: "General software principles",
+    path: "/topic/general-software-principles",
+    status: "ready",
+    menuPath: designPrinciplesMenuPath,
+    loader: topicLoaders["general-software-principles"],
+  },
+  {
+    id: "object-oriented-principles",
+    title: "Object-Oriented Principles",
+    menuLabel: "Object-oriented principles",
+    path: "/topic/object-oriented-principles",
+    status: "ready",
+    menuPath: designPrinciplesMenuPath,
+    loader: topicLoaders["object-oriented-principles"],
   },
 ];
 

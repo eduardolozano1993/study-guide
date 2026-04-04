@@ -20,6 +20,8 @@ import { abstractionLesson } from "@/domains/topics/content/low-level-design/oop
 import { encapsulationLesson } from "@/domains/topics/content/low-level-design/oop-concepts/encapsulation/meta";
 import { inheritanceLesson } from "@/domains/topics/content/low-level-design/oop-concepts/inheritance/meta";
 import { polymorphismLesson } from "@/domains/topics/content/low-level-design/oop-concepts/polymorphism/meta";
+import { generalSoftwarePrinciplesLesson } from "@/domains/topics/content/low-level-design/design-principles/general-software-principles/meta";
+import { objectOrientedPrinciplesLesson } from "@/domains/topics/content/low-level-design/design-principles/object-oriented-principles/meta";
 
 describe("topic integrity", () => {
   it("keeps topic ids and routes unique", () => {
@@ -139,5 +141,15 @@ describe("topic integrity", () => {
     expect(polymorphismLesson.title.length).toBeGreaterThan(0);
     expect(polymorphismLesson.summary.length).toBeGreaterThan(0);
     expect(polymorphismLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(generalSoftwarePrinciplesLesson.id).toBe("general-software-principles");
+    expect(generalSoftwarePrinciplesLesson.title.length).toBeGreaterThan(0);
+    expect(generalSoftwarePrinciplesLesson.summary.length).toBeGreaterThan(0);
+    expect(generalSoftwarePrinciplesLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(objectOrientedPrinciplesLesson.id).toBe("object-oriented-principles");
+    expect(objectOrientedPrinciplesLesson.title.length).toBeGreaterThan(0);
+    expect(objectOrientedPrinciplesLesson.summary.length).toBeGreaterThan(0);
+    expect(objectOrientedPrinciplesLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
   });
 });
