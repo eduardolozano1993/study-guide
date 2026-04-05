@@ -7,7 +7,7 @@ describe("buildNavigationTree", () => {
   it("builds explicit group and topic nodes from the topic registry", () => {
     const tree = buildNavigationTree(TOPIC_DEFINITIONS);
 
-    expect(tree).toHaveLength(1);
+    expect(tree).toHaveLength(5);
     expect(tree[0]).toMatchObject({
       kind: "group",
       id: "frontend",
@@ -21,8 +21,8 @@ describe("buildNavigationTree", () => {
     expect(tree[0].children).toHaveLength(1);
     expect(tree[0].children[0]).toMatchObject({
       kind: "group",
-      id: "core-web-fundamentals",
-      label: "Core Web Fundamentals",
+      id: "fundamentals",
+      label: "Fundamentals",
     });
 
     if (tree[0].children[0].kind !== "group") {
@@ -31,5 +31,10 @@ describe("buildNavigationTree", () => {
 
     const leafKinds = tree[0].children[0].children.map((node) => node.kind);
     expect(leafKinds).toEqual(["topic", "topic", "topic", "topic"]);
+    expect(tree[4]).toMatchObject({
+      kind: "group",
+      id: "low-level-design",
+      label: "Low-Level Design",
+    });
   });
 });

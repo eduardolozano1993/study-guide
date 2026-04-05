@@ -25,21 +25,21 @@ const topicLoaders: Record<
   // Lazy-load each study page so the landing bundle stays small and route changes only fetch what is needed.
   "html-semantics": React.lazy(
     () =>
-      import("@/domains/topics/content/frontend/core-web-fundamentals/html-semantics"),
+      import("@/domains/topics/content/frontend/fundamentals/html-semantics"),
   ),
-  dns: React.lazy(() => import("@/domains/topics/content/network/DNS")),
+  dns: React.lazy(() => import("@/domains/topics/content/network/dns")),
   "http-1-2-3": React.lazy(
-    () => import("@/domains/topics/content/network/HTTP-1-2-3"),
+    () => import("@/domains/topics/content/network/http-1-2-3"),
   ),
-  tls: React.lazy(() => import("@/domains/topics/content/network/TLS")),
+  tls: React.lazy(() => import("@/domains/topics/content/network/tls")),
   "http-status-codes": React.lazy(
     () => import("@/domains/topics/content/api/http-status-codes"),
   ),
   rest: React.lazy(() => import("@/domains/topics/content/api/rest")),
-  grpc: React.lazy(() => import("@/domains/topics/content/api/grcp")),
+  grpc: React.lazy(() => import("@/domains/topics/content/api/grpc")),
   "graph-ql": React.lazy(() => import("@/domains/topics/content/api/graph-ql")),
-  "rest-graph-grcp": React.lazy(
-    () => import("@/domains/topics/content/api/rest-graph-grcp"),
+  "rest-graph-grpc": React.lazy(
+    () => import("@/domains/topics/content/api/rest-graph-grpc"),
   ),
   "load-balancer": React.lazy(
     () => import("@/domains/topics/content/architecture/patterns/load-balancer"),
@@ -160,8 +160,8 @@ const frontendMenuPath: TopicMenuPathItem[] = [
     label: "Frontend",
   },
   {
-    id: "core-web-fundamentals",
-    label: "Core Web Fundamentals",
+    id: "fundamentals",
+    label: "Fundamentals",
   },
 ];
 
@@ -199,6 +199,14 @@ const architecturePatternsMenuPath: TopicMenuPathItem[] = [
   {
     id: "patterns",
     label: "Patterns",
+  },
+];
+
+const authenticationPatternsMenuPath: TopicMenuPathItem[] = [
+  ...architecturePatternsMenuPath,
+  {
+    id: "authentication",
+    label: "Authentication",
   },
 ];
 
@@ -305,6 +313,14 @@ const topicDefinitions: TopicDefinition[] = [
     loader: topicLoaders.dns,
   },
   {
+    id: "tcp-ip",
+    title: "TCP/IP",
+    menuLabel: "TCP/IP",
+    path: "/topic/tcp-ip",
+    status: "coming-soon",
+    menuPath: networkMenuPath,
+  },
+  {
     id: "http-1-2-3",
     title: "HTTP/1.1, HTTP/2, HTTP/3",
     menuLabel: "HTTP/1.1, 2, and 3",
@@ -359,13 +375,69 @@ const topicDefinitions: TopicDefinition[] = [
     loader: topicLoaders["graph-ql"],
   },
   {
-    id: "rest-graph-grcp",
+    id: "rest-graph-grpc",
     title: "REST vs GraphQL vs gRPC",
     menuLabel: "REST vs GraphQL vs gRPC",
-    path: "/topic/rest-graph-grcp",
+    path: "/topic/rest-graph-grpc",
     status: "ready",
     menuPath: apiMenuPath,
-    loader: topicLoaders["rest-graph-grcp"],
+    loader: topicLoaders["rest-graph-grpc"],
+  },
+  {
+    id: "access-vs-refresh",
+    title: "Access vs Refresh Tokens",
+    menuLabel: "Access vs refresh tokens",
+    path: "/topic/access-vs-refresh",
+    status: "coming-soon",
+    menuPath: authenticationPatternsMenuPath,
+  },
+  {
+    id: "api-key",
+    title: "API Key",
+    menuLabel: "API key",
+    path: "/topic/api-key",
+    status: "coming-soon",
+    menuPath: authenticationPatternsMenuPath,
+  },
+  {
+    id: "basic-digest",
+    title: "Basic and Digest Auth",
+    menuLabel: "Basic and Digest auth",
+    path: "/topic/basic-digest",
+    status: "coming-soon",
+    menuPath: authenticationPatternsMenuPath,
+  },
+  {
+    id: "jwt-bearer",
+    title: "JWT Bearer",
+    menuLabel: "JWT bearer",
+    path: "/topic/jwt-bearer",
+    status: "coming-soon",
+    menuPath: authenticationPatternsMenuPath,
+  },
+  {
+    id: "oauth2-oidc",
+    title: "OAuth 2.0 and OIDC",
+    menuLabel: "OAuth 2.0 and OIDC",
+    path: "/topic/oauth2-oidc",
+    status: "coming-soon",
+    menuPath: authenticationPatternsMenuPath,
+  },
+  {
+    id: "session",
+    title: "Session Auth",
+    menuLabel: "Session auth",
+    path: "/topic/session",
+    status: "coming-soon",
+    menuPath: authenticationPatternsMenuPath,
+  },
+  {
+    id: "sso",
+    title: "Single Sign-On",
+    menuLabel: "Single sign-on",
+    path: "/topic/sso",
+    status: "coming-soon",
+    menuPath: authenticationPatternsMenuPath,
   },
   {
     id: "load-balancer",

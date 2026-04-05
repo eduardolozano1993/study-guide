@@ -35,7 +35,7 @@ describe("topic registry", () => {
   });
 
   it("preserves the shared top-level navigation grouping", () => {
-    expect(MENU_ITEMS).toHaveLength(4);
+    expect(MENU_ITEMS).toHaveLength(5);
     expect(MENU_ITEMS[0]).toMatchObject({
       kind: "group",
       id: "frontend",
@@ -45,8 +45,8 @@ describe("topic registry", () => {
     expect(firstGroup?.children).toHaveLength(1);
     expect(firstGroup?.children?.[0]).toMatchObject({
       kind: "group",
-      id: "core-web-fundamentals",
-      label: "Core Web Fundamentals",
+      id: "fundamentals",
+      label: "Fundamentals",
     });
     expect(MENU_ITEMS[1]).toMatchObject({
       kind: "group",
@@ -63,6 +63,11 @@ describe("topic registry", () => {
       id: "architecture",
       label: "Architecture",
     });
+    expect(MENU_ITEMS[4]).toMatchObject({
+      kind: "group",
+      id: "low-level-design",
+      label: "Low-Level Design",
+    });
     const architectureGroup =
       MENU_ITEMS[3].kind === "group" ? MENU_ITEMS[3] : null;
     expect(architectureGroup?.children).toHaveLength(2);
@@ -76,18 +81,33 @@ describe("topic registry", () => {
       id: "fundamentals",
       label: "Fundamentals",
     });
+    const patternsGroup =
+      architectureGroup?.children?.[0]?.kind === "group"
+        ? architectureGroup.children[0]
+        : null;
+    expect(patternsGroup?.children?.[0]).toMatchObject({
+      kind: "group",
+      id: "authentication",
+      label: "Authentication",
+    });
+    const lowLevelDesignGroup =
+      MENU_ITEMS[4].kind === "group" ? MENU_ITEMS[4] : null;
+    expect(lowLevelDesignGroup?.children?.length).toBeGreaterThan(0);
   });
 
   it("marks placeholder lessons as coming soon in the registry", () => {
     expect(
       TOPIC_DEFINITIONS.filter((topic) => topic.status === "coming-soon"),
-    ).toHaveLength(3);
+    ).toHaveLength(11);
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "html-semantics")?.status,
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "dns")?.status,
     ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "tcp-ip")?.status,
+    ).toBe("coming-soon");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "http-1-2-3")?.status,
     ).toBe("ready");
@@ -107,8 +127,29 @@ describe("topic registry", () => {
       TOPIC_DEFINITIONS.find((topic) => topic.id === "graph-ql")?.status,
     ).toBe("ready");
     expect(
-      TOPIC_DEFINITIONS.find((topic) => topic.id === "rest-graph-grcp")?.status,
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "rest-graph-grpc")?.status,
     ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "access-vs-refresh")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "api-key")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "basic-digest")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "jwt-bearer")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "oauth2-oidc")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "session")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "sso")?.status,
+    ).toBe("coming-soon");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "load-balancer")?.status,
     ).toBe("ready");

@@ -1,15 +1,15 @@
 import "@testing-library/jest-dom/vitest";
 import { describe, expect, it } from "vitest";
 import { TOPIC_DEFINITIONS } from "./topicRegistry";
-import { htmlSemanticsLesson } from "@/domains/topics/content/frontend/core-web-fundamentals/html-semantics/meta";
-import { dnsLesson } from "@/domains/topics/content/network/DNS/meta";
-import { http123Lesson } from "@/domains/topics/content/network/HTTP-1-2-3/meta";
-import { tlsLesson } from "@/domains/topics/content/network/TLS/meta";
+import { htmlSemanticsLesson } from "@/domains/topics/content/frontend/fundamentals/html-semantics/meta";
+import { dnsLesson } from "@/domains/topics/content/network/dns/meta";
+import { http123Lesson } from "@/domains/topics/content/network/http-1-2-3/meta";
+import { tlsLesson } from "@/domains/topics/content/network/tls/meta";
 import { restLesson } from "@/domains/topics/content/api/rest/meta";
 import { httpStatusCodesLesson } from "@/domains/topics/content/api/http-status-codes/meta";
-import { grpcLesson } from "@/domains/topics/content/api/grcp/meta";
+import { grpcLesson } from "@/domains/topics/content/api/grpc/meta";
 import { graphQlLesson } from "@/domains/topics/content/api/graph-ql/meta";
-import { restGraphGrpcLesson } from "@/domains/topics/content/api/rest-graph-grcp/meta";
+import { restGraphGrpcLesson } from "@/domains/topics/content/api/rest-graph-grpc/meta";
 import { loadBalancerLesson } from "@/domains/topics/content/architecture/patterns/load-balancer/meta";
 import { horizontalVerticalScalingLesson } from "@/domains/topics/content/architecture/patterns/horizontal-vertical-scaling/meta";
 import { cdnLesson } from "@/domains/topics/content/architecture/patterns/cdn/meta";
@@ -95,7 +95,7 @@ describe("topic integrity", () => {
     expect(graphQlLesson.summary.length).toBeGreaterThan(0);
     expect(graphQlLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
-    expect(restGraphGrpcLesson.id).toBe("rest-graph-grcp");
+    expect(restGraphGrpcLesson.id).toBe("rest-graph-grpc");
     expect(restGraphGrpcLesson.title.length).toBeGreaterThan(0);
     expect(restGraphGrpcLesson.summary.length).toBeGreaterThan(0);
     expect(restGraphGrpcLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
