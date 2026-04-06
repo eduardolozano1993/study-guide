@@ -42,11 +42,16 @@ describe("topic registry", () => {
       label: "Frontend",
     });
     const firstGroup = MENU_ITEMS[0].kind === "group" ? MENU_ITEMS[0] : null;
-    expect(firstGroup?.children).toHaveLength(1);
+    expect(firstGroup?.children).toHaveLength(2);
     expect(firstGroup?.children?.[0]).toMatchObject({
       kind: "group",
       id: "fundamentals",
       label: "Fundamentals",
+    });
+    expect(firstGroup?.children?.[1]).toMatchObject({
+      kind: "group",
+      id: "java-script",
+      label: "JavaScript",
     });
     expect(MENU_ITEMS[1]).toMatchObject({
       kind: "group",
@@ -98,9 +103,60 @@ describe("topic registry", () => {
   it("marks placeholder lessons as coming soon in the registry", () => {
     expect(
       TOPIC_DEFINITIONS.filter((topic) => topic.status === "coming-soon"),
-    ).toHaveLength(11);
+    ).toHaveLength(8);
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "html-semantics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "accessibility")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "css-box-model")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "css-layout")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "responsive-design")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "dom-events")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "browser-rendering")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "network-browser-apis")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "performance-fundamentals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "frontend-security")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "primitive-vs-reference-types")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "closures")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "objects-destructuring-spread-rest")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "promises-async-await")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "error-handling-javascript")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "dom-manipulation-basics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "esm-vs-commonjs")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "immutability")?.status,
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "dns")?.status,

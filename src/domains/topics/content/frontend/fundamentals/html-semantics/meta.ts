@@ -4,8 +4,8 @@ export const htmlSemanticsLesson = defineTopicLesson({
   id: "html-semantics",
   title: "Semantic HTML",
   summary:
-    "Learn how semantic HTML makes page structure clearer for browsers, assistive technology, and other developers, and how to choose the right element for each part of a document.",
-  estimatedReadingTimeMinutes: 18,
+    "Learn how to structure pages with meaningful HTML elements so browsers, assistive technology, and other developers can understand the document correctly.",
+  estimatedReadingTimeMinutes: 14,
   difficulty: "intro",
-  relatedTopicIds: ["css-box-model", "accessibility"],
+  relatedTopicIds: ["accessibility", "css-box-model", "dom-events"],
 });

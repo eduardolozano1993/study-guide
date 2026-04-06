@@ -27,6 +27,78 @@ const topicLoaders: Record<
     () =>
       import("@/domains/topics/content/frontend/fundamentals/html-semantics"),
   ),
+  accessibility: React.lazy(
+    () => import("@/domains/topics/content/frontend/fundamentals/accessibility"),
+  ),
+  "css-box-model": React.lazy(
+    () => import("@/domains/topics/content/frontend/fundamentals/css-box-model"),
+  ),
+  "css-layout": React.lazy(
+    () => import("@/domains/topics/content/frontend/fundamentals/css-layout"),
+  ),
+  "responsive-design": React.lazy(
+    () => import("@/domains/topics/content/frontend/fundamentals/responsive-design"),
+  ),
+  "dom-events": React.lazy(
+    () => import("@/domains/topics/content/frontend/fundamentals/dom-events"),
+  ),
+  "browser-rendering": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/fundamentals/browser-rendering"),
+  ),
+  "network-browser-apis": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/fundamentals/network-browser-apis"
+      ),
+  ),
+  "performance-fundamentals": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/fundamentals/performance-fundamentals"
+      ),
+  ),
+  "frontend-security": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/fundamentals/frontend-security"),
+  ),
+  "primitive-vs-reference-types": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/java-script/primitive-vs-reference-types"
+      ),
+  ),
+  closures: React.lazy(
+    () => import("@/domains/topics/content/frontend/java-script/closures"),
+  ),
+  "objects-destructuring-spread-rest": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/java-script/objects-destructuring-spread-rest"
+      ),
+  ),
+  "promises-async-await": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/java-script/promises-async-await"),
+  ),
+  "error-handling-javascript": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/java-script/error-handling-javascript"
+      ),
+  ),
+  "dom-manipulation-basics": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/java-script/dom-manipulation-basics"
+      ),
+  ),
+  "esm-vs-commonjs": React.lazy(
+    () => import("@/domains/topics/content/frontend/java-script/esm-vs-commonjs"),
+  ),
+  immutability: React.lazy(
+    () => import("@/domains/topics/content/frontend/java-script/immutability"),
+  ),
   dns: React.lazy(() => import("@/domains/topics/content/network/dns")),
   "http-1-2-3": React.lazy(
     () => import("@/domains/topics/content/network/http-1-2-3"),
@@ -165,6 +237,17 @@ const frontendMenuPath: TopicMenuPathItem[] = [
   },
 ];
 
+const frontendJavaScriptMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "java-script",
+    label: "JavaScript",
+  },
+];
+
 const networkMenuPath: TopicMenuPathItem[] = [
   {
     id: "network",
@@ -272,36 +355,165 @@ const behavioralPatternsMenuPath: TopicMenuPathItem[] = [
 const topicDefinitions: TopicDefinition[] = [
   {
     id: "html-semantics",
-    title: "HTML Semantics",
-    menuLabel: "HTML semantics, forms, SEO",
+    title: "Semantic HTML",
+    menuLabel: "Semantic HTML",
     path: "/topic/html-semantics",
     status: "ready",
     menuPath: frontendMenuPath,
     loader: topicLoaders["html-semantics"],
   },
   {
-    id: "css-box-model",
-    title: "CSS Box Model",
-    menuLabel: "CSS box model, Flexbox, Grid",
-    path: "/topic/css-box-model",
-    status: "coming-soon",
+    id: "accessibility",
+    title: "Accessibility Basics",
+    menuLabel: "Accessibility basics",
+    path: "/topic/accessibility",
+    status: "ready",
     menuPath: frontendMenuPath,
+    loader: topicLoaders.accessibility,
+  },
+  {
+    id: "css-box-model",
+    title: "CSS Box Model and Sizing",
+    menuLabel: "CSS box model and sizing",
+    path: "/topic/css-box-model",
+    status: "ready",
+    menuPath: frontendMenuPath,
+    loader: topicLoaders["css-box-model"],
+  },
+  {
+    id: "css-layout",
+    title: "CSS Layout: Flexbox, Grid, Positioning",
+    menuLabel: "CSS layout",
+    path: "/topic/css-layout",
+    status: "ready",
+    menuPath: frontendMenuPath,
+    loader: topicLoaders["css-layout"],
   },
   {
     id: "responsive-design",
-    title: "Responsive Design",
+    title: "Responsive Design and Mobile-First CSS",
     menuLabel: "Responsive design",
     path: "/topic/responsive-design",
-    status: "coming-soon",
+    status: "ready",
     menuPath: frontendMenuPath,
+    loader: topicLoaders["responsive-design"],
   },
   {
-    id: "accessibility",
-    title: "Accessibility",
-    menuLabel: "Accessibility (a11y)",
-    path: "/topic/accessibility",
-    status: "coming-soon",
+    id: "dom-events",
+    title: "DOM, Events, and Event Propagation",
+    menuLabel: "DOM and events",
+    path: "/topic/dom-events",
+    status: "ready",
     menuPath: frontendMenuPath,
+    loader: topicLoaders["dom-events"],
+  },
+  {
+    id: "browser-rendering",
+    title: "Browser Rendering Basics",
+    menuLabel: "Browser rendering basics",
+    path: "/topic/browser-rendering",
+    status: "ready",
+    menuPath: frontendMenuPath,
+    loader: topicLoaders["browser-rendering"],
+  },
+  {
+    id: "network-browser-apis",
+    title: "Network and Browser APIs",
+    menuLabel: "Network and browser APIs",
+    path: "/topic/network-browser-apis",
+    status: "ready",
+    menuPath: frontendMenuPath,
+    loader: topicLoaders["network-browser-apis"],
+  },
+  {
+    id: "performance-fundamentals",
+    title: "Performance Fundamentals",
+    menuLabel: "Performance fundamentals",
+    path: "/topic/performance-fundamentals",
+    status: "ready",
+    menuPath: frontendMenuPath,
+    loader: topicLoaders["performance-fundamentals"],
+  },
+  {
+    id: "frontend-security",
+    title: "Web Security Basics for Frontend",
+    menuLabel: "Web security basics",
+    path: "/topic/frontend-security",
+    status: "ready",
+    menuPath: frontendMenuPath,
+    loader: topicLoaders["frontend-security"],
+  },
+  {
+    id: "primitive-vs-reference-types",
+    title: "Primitive vs Reference Types",
+    menuLabel: "Primitive vs reference types",
+    path: "/topic/primitive-vs-reference-types",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders["primitive-vs-reference-types"],
+  },
+  {
+    id: "closures",
+    title: "Closures",
+    menuLabel: "Closures",
+    path: "/topic/closures",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders.closures,
+  },
+  {
+    id: "objects-destructuring-spread-rest",
+    title: "Objects, Destructuring, and Spread/Rest",
+    menuLabel: "Objects, destructuring, spread/rest",
+    path: "/topic/objects-destructuring-spread-rest",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders["objects-destructuring-spread-rest"],
+  },
+  {
+    id: "promises-async-await",
+    title: "Promises and Async/Await",
+    menuLabel: "Promises and async/await",
+    path: "/topic/promises-async-await",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders["promises-async-await"],
+  },
+  {
+    id: "error-handling-javascript",
+    title: "Error Handling in JavaScript",
+    menuLabel: "Error handling",
+    path: "/topic/error-handling-javascript",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders["error-handling-javascript"],
+  },
+  {
+    id: "dom-manipulation-basics",
+    title: "DOM Manipulation Basics",
+    menuLabel: "DOM manipulation basics",
+    path: "/topic/dom-manipulation-basics",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders["dom-manipulation-basics"],
+  },
+  {
+    id: "esm-vs-commonjs",
+    title: "Modules: ESM vs CommonJS",
+    menuLabel: "ESM vs CommonJS",
+    path: "/topic/esm-vs-commonjs",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders["esm-vs-commonjs"],
+  },
+  {
+    id: "immutability",
+    title: "Immutability",
+    menuLabel: "Immutability",
+    path: "/topic/immutability",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders.immutability,
   },
   {
     id: "dns",

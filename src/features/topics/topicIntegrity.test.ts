@@ -2,6 +2,23 @@ import "@testing-library/jest-dom/vitest";
 import { describe, expect, it } from "vitest";
 import { TOPIC_DEFINITIONS } from "./topicRegistry";
 import { htmlSemanticsLesson } from "@/domains/topics/content/frontend/fundamentals/html-semantics/meta";
+import { accessibilityLesson } from "@/domains/topics/content/frontend/fundamentals/accessibility/meta";
+import { cssBoxModelLesson } from "@/domains/topics/content/frontend/fundamentals/css-box-model/meta";
+import { cssLayoutLesson } from "@/domains/topics/content/frontend/fundamentals/css-layout/meta";
+import { responsiveDesignLesson } from "@/domains/topics/content/frontend/fundamentals/responsive-design/meta";
+import { domEventsLesson } from "@/domains/topics/content/frontend/fundamentals/dom-events/meta";
+import { browserRenderingLesson } from "@/domains/topics/content/frontend/fundamentals/browser-rendering/meta";
+import { networkBrowserApisLesson } from "@/domains/topics/content/frontend/fundamentals/network-browser-apis/meta";
+import { performanceFundamentalsLesson } from "@/domains/topics/content/frontend/fundamentals/performance-fundamentals/meta";
+import { frontendSecurityLesson } from "@/domains/topics/content/frontend/fundamentals/frontend-security/meta";
+import { primitiveVsReferenceTypesLesson } from "@/domains/topics/content/frontend/java-script/primitive-vs-reference-types/meta";
+import { closuresLesson } from "@/domains/topics/content/frontend/java-script/closures/meta";
+import { objectsDestructuringSpreadRestLesson } from "@/domains/topics/content/frontend/java-script/objects-destructuring-spread-rest/meta";
+import { promisesAsyncAwaitLesson } from "@/domains/topics/content/frontend/java-script/promises-async-await/meta";
+import { errorHandlingJavaScriptLesson } from "@/domains/topics/content/frontend/java-script/error-handling-javascript/meta";
+import { domManipulationBasicsLesson } from "@/domains/topics/content/frontend/java-script/dom-manipulation-basics/meta";
+import { esmVsCommonjsLesson } from "@/domains/topics/content/frontend/java-script/esm-vs-commonjs/meta";
+import { immutabilityLesson } from "@/domains/topics/content/frontend/java-script/immutability/meta";
 import { dnsLesson } from "@/domains/topics/content/network/dns/meta";
 import { http123Lesson } from "@/domains/topics/content/network/http-1-2-3/meta";
 import { tlsLesson } from "@/domains/topics/content/network/tls/meta";
@@ -59,6 +76,91 @@ describe("topic integrity", () => {
     expect(htmlSemanticsLesson.title.length).toBeGreaterThan(0);
     expect(htmlSemanticsLesson.summary.length).toBeGreaterThan(0);
     expect(htmlSemanticsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(accessibilityLesson.id).toBe("accessibility");
+    expect(accessibilityLesson.title.length).toBeGreaterThan(0);
+    expect(accessibilityLesson.summary.length).toBeGreaterThan(0);
+    expect(accessibilityLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(cssBoxModelLesson.id).toBe("css-box-model");
+    expect(cssBoxModelLesson.title.length).toBeGreaterThan(0);
+    expect(cssBoxModelLesson.summary.length).toBeGreaterThan(0);
+    expect(cssBoxModelLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(cssLayoutLesson.id).toBe("css-layout");
+    expect(cssLayoutLesson.title.length).toBeGreaterThan(0);
+    expect(cssLayoutLesson.summary.length).toBeGreaterThan(0);
+    expect(cssLayoutLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(responsiveDesignLesson.id).toBe("responsive-design");
+    expect(responsiveDesignLesson.title.length).toBeGreaterThan(0);
+    expect(responsiveDesignLesson.summary.length).toBeGreaterThan(0);
+    expect(responsiveDesignLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(domEventsLesson.id).toBe("dom-events");
+    expect(domEventsLesson.title.length).toBeGreaterThan(0);
+    expect(domEventsLesson.summary.length).toBeGreaterThan(0);
+    expect(domEventsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(browserRenderingLesson.id).toBe("browser-rendering");
+    expect(browserRenderingLesson.title.length).toBeGreaterThan(0);
+    expect(browserRenderingLesson.summary.length).toBeGreaterThan(0);
+    expect(browserRenderingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(networkBrowserApisLesson.id).toBe("network-browser-apis");
+    expect(networkBrowserApisLesson.title.length).toBeGreaterThan(0);
+    expect(networkBrowserApisLesson.summary.length).toBeGreaterThan(0);
+    expect(networkBrowserApisLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(performanceFundamentalsLesson.id).toBe("performance-fundamentals");
+    expect(performanceFundamentalsLesson.title.length).toBeGreaterThan(0);
+    expect(performanceFundamentalsLesson.summary.length).toBeGreaterThan(0);
+    expect(performanceFundamentalsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(frontendSecurityLesson.id).toBe("frontend-security");
+    expect(frontendSecurityLesson.title.length).toBeGreaterThan(0);
+    expect(frontendSecurityLesson.summary.length).toBeGreaterThan(0);
+    expect(frontendSecurityLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(primitiveVsReferenceTypesLesson.id).toBe("primitive-vs-reference-types");
+    expect(primitiveVsReferenceTypesLesson.title.length).toBeGreaterThan(0);
+    expect(primitiveVsReferenceTypesLesson.summary.length).toBeGreaterThan(0);
+    expect(primitiveVsReferenceTypesLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(closuresLesson.id).toBe("closures");
+    expect(closuresLesson.title.length).toBeGreaterThan(0);
+    expect(closuresLesson.summary.length).toBeGreaterThan(0);
+    expect(closuresLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(objectsDestructuringSpreadRestLesson.id).toBe("objects-destructuring-spread-rest");
+    expect(objectsDestructuringSpreadRestLesson.title.length).toBeGreaterThan(0);
+    expect(objectsDestructuringSpreadRestLesson.summary.length).toBeGreaterThan(0);
+    expect(objectsDestructuringSpreadRestLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(promisesAsyncAwaitLesson.id).toBe("promises-async-await");
+    expect(promisesAsyncAwaitLesson.title.length).toBeGreaterThan(0);
+    expect(promisesAsyncAwaitLesson.summary.length).toBeGreaterThan(0);
+    expect(promisesAsyncAwaitLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(errorHandlingJavaScriptLesson.id).toBe("error-handling-javascript");
+    expect(errorHandlingJavaScriptLesson.title.length).toBeGreaterThan(0);
+    expect(errorHandlingJavaScriptLesson.summary.length).toBeGreaterThan(0);
+    expect(errorHandlingJavaScriptLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(domManipulationBasicsLesson.id).toBe("dom-manipulation-basics");
+    expect(domManipulationBasicsLesson.title.length).toBeGreaterThan(0);
+    expect(domManipulationBasicsLesson.summary.length).toBeGreaterThan(0);
+    expect(domManipulationBasicsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(esmVsCommonjsLesson.id).toBe("esm-vs-commonjs");
+    expect(esmVsCommonjsLesson.title.length).toBeGreaterThan(0);
+    expect(esmVsCommonjsLesson.summary.length).toBeGreaterThan(0);
+    expect(esmVsCommonjsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(immutabilityLesson.id).toBe("immutability");
+    expect(immutabilityLesson.title.length).toBeGreaterThan(0);
+    expect(immutabilityLesson.summary.length).toBeGreaterThan(0);
+    expect(immutabilityLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
     expect(dnsLesson.id).toBe("dns");
     expect(dnsLesson.title.length).toBeGreaterThan(0);
