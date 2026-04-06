@@ -201,8 +201,8 @@ export function GeneralSoftwarePrinciples() {
 
         <CollapsibleSection title="The Five Principles in This Lesson" collapsible={false}>
           <Paragraph>
-            The image lists five common software design principles: KISS, DRY,
-            YAGNI, Separation of Concerns, and the Law of Demeter.
+            This lesson covers five common software design principles: KISS,
+            DRY, YAGNI, Separation of Concerns, and the Law of Demeter.
           </Paragraph>
           <Paragraph>
             They all push in the same direction: avoid unnecessary complexity,
@@ -222,6 +222,10 @@ export function GeneralSoftwarePrinciples() {
             KISS means prefer the simplest design that clearly solves the
             current problem. Simple code is easier to read, test, and change.
           </Paragraph>
+          <Paragraph>
+            Simple does not mean simplistic. The goal is to remove needless
+            moving parts, not to ignore real requirements or edge cases.
+          </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={kissBadExample} />
           <SubHeader>Good Example</SubHeader>
@@ -234,6 +238,10 @@ export function GeneralSoftwarePrinciples() {
           <Paragraph>
             DRY means avoid duplicating the same knowledge in multiple places.
             If a rule changes, you should not need to hunt down many copies.
+          </Paragraph>
+          <Paragraph>
+            The key word is knowledge. Repetition becomes a design problem when
+            multiple places encode the same business rule or decision.
           </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={dryBadExample} />
@@ -249,6 +257,10 @@ export function GeneralSoftwarePrinciples() {
             real requirement. Extra abstractions and extension points add cost
             immediately, even if they are never used.
           </Paragraph>
+          <Paragraph>
+            Good design leaves room to change later, but it does not pre-build
+            every hypothetical extension point on day one.
+          </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={yagniBadExample} />
           <SubHeader>Good Example</SubHeader>
@@ -263,6 +275,11 @@ export function GeneralSoftwarePrinciples() {
             handle different responsibilities. Validation, persistence, and
             notifications should not all be tangled into one class.
           </Paragraph>
+          <Paragraph>
+            The goal is not maximal fragmentation. The goal is to group closely
+            related behavior together and separate responsibilities that change
+            for different reasons.
+          </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={socBadExample} />
           <SubHeader>Good Example</SubHeader>
@@ -276,6 +293,10 @@ export function GeneralSoftwarePrinciples() {
             The Law of Demeter says an object should interact mainly with its
             direct collaborators, not reach through long chains of internal
             structure. That keeps coupling lower.
+          </Paragraph>
+          <Paragraph>
+            It is about reducing knowledge of another object&apos;s internals, not
+            banning every nested property access in application code.
           </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={lodBadExample} />

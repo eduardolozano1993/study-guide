@@ -189,8 +189,8 @@ export function ObjectOrientedPrinciples() {
 
         <CollapsibleSection title="The Five Principles in This Lesson" collapsible={false}>
           <Paragraph>
-            The image lists five object-oriented principles commonly grouped as
-            SOLID: SRP, OCP, LSP, ISP, and DIP.
+            This lesson covers five object-oriented principles commonly grouped
+            as SOLID: SRP, OCP, LSP, ISP, and DIP.
           </Paragraph>
           <Paragraph>
             Together they help you design types that are easier to extend,
@@ -211,6 +211,11 @@ export function ObjectOrientedPrinciples() {
             class handles business logic, persistence, and notifications, it is
             carrying multiple responsibilities.
           </Paragraph>
+          <Paragraph>
+            A responsibility is about a source of change, not just the number
+            of methods. A class can have several methods and still have one
+            coherent responsibility.
+          </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={srpBadExample} />
           <SubHeader>Good Example</SubHeader>
@@ -224,6 +229,11 @@ export function ObjectOrientedPrinciples() {
             OCP says software entities should be open for extension but closed
             for modification. Adding a new behavior should usually mean adding a
             new type, not repeatedly editing an existing conditional block.
+          </Paragraph>
+          <Paragraph>
+            This does not mean existing code should never change. It means the
+            design should place variation points where new behavior can be
+            introduced without constantly rewriting stable logic.
           </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={ocpBadExample} />
@@ -239,6 +249,10 @@ export function ObjectOrientedPrinciples() {
             expected without breaking correctness. If a subclass must throw or
             disable core inherited behavior, the hierarchy is probably wrong.
           </Paragraph>
+          <Paragraph>
+            In practice, this means subtypes should preserve the promises that
+            callers rely on, including valid operations and expected outcomes.
+          </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={lspBadExample} />
           <SubHeader>Good Example</SubHeader>
@@ -252,6 +266,10 @@ export function ObjectOrientedPrinciples() {
             ISP says clients should not be forced to depend on methods they do
             not use. Smaller focused interfaces are usually better than one
             oversized contract.
+          </Paragraph>
+          <Paragraph>
+            Smaller interfaces help implementations stay honest. If a class has
+            to throw for part of a contract, the interface is often too broad.
           </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={ispBadExample} />
@@ -267,6 +285,11 @@ export function ObjectOrientedPrinciples() {
             low-level concrete implementations. This reduces coupling and makes
             code easier to test and replace.
           </Paragraph>
+          <Paragraph>
+            The main benefit is not abstraction for its own sake. It is the
+            ability to swap infrastructure details without rewriting the policy
+            that uses them.
+          </Paragraph>
           <SubHeader>Bad Example</SubHeader>
           <CodeBlock language="ts" code={dipBadExample} />
           <SubHeader>Good Example</SubHeader>
@@ -279,6 +302,18 @@ export function ObjectOrientedPrinciples() {
         </CollapsibleSection>
 
         <SectionHeader>Quick Reference</SectionHeader>
+
+        <CollapsibleSection title="How to Use SOLID Well">
+          <Paragraph>
+            SOLID works best as a diagnostic tool. When code is rigid,
+            fragile, or hard to extend, these principles help explain why.
+          </Paragraph>
+          <Callout variant="tip">
+            Do not introduce extra classes or interfaces only to satisfy a
+            slogan. Apply the principle that solves the actual design problem
+            in front of you.
+          </Callout>
+        </CollapsibleSection>
 
         <CollapsibleSection title="Object-Oriented Principles Cheat Sheet">
           <CodeBlock

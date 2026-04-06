@@ -10,18 +10,18 @@ import {
 import { strategyLesson } from "./meta";
 
 const strategyExample = `interface ShippingStrategy {
-  calculate(costInCents: number): number;
+  shippingCostFor(subtotalInCents: number): number;
 }
 
 class StandardShipping implements ShippingStrategy {
-  calculate(costInCents: number) {
-    return costInCents + 500;
+  shippingCostFor(subtotalInCents: number) {
+    return subtotalInCents >= 5000 ? 0 : 500;
   }
 }
 
 class ExpressShipping implements ShippingStrategy {
-  calculate(costInCents: number) {
-    return costInCents + 1500;
+  shippingCostFor(_subtotalInCents: number) {
+    return 1500;
   }
 }
 
@@ -29,7 +29,11 @@ class CheckoutService {
   constructor(private readonly shippingStrategy: ShippingStrategy) {}
 
   total(subtotalInCents: number) {
-    return this.shippingStrategy.calculate(subtotalInCents);
+    const shippingCost = this.shippingStrategy.shippingCostFor(
+      subtotalInCents,
+    );
+
+    return subtotalInCents + shippingCost;
   }
 }
 
@@ -78,9 +82,22 @@ export function Strategy() {
         <CollapsibleSection title="Choosing a Shipping Policy" collapsible={false}>
           <Paragraph>
             `CheckoutService` works with any shipping strategy that implements
-            the same interface.
+            the same interface. The strategy decides only the shipping policy,
+            while the checkout flow still owns the total calculation.
           </Paragraph>
           <CodeBlock language="ts" code={strategyExample} />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="How to Spot a Good Strategy Boundary" collapsible={false}>
+          <Paragraph>
+            A good strategy interface isolates the part of the behavior that
+            truly varies. In this example, the variable part is how shipping is
+            priced, not how the final order total is assembled.
+          </Paragraph>
+          <Callout variant="note">
+            If a strategy starts absorbing unrelated workflow logic, the
+            boundary is probably too broad.
+          </Callout>
         </CollapsibleSection>
 
         <SectionHeader>Quick Reference</SectionHeader>
