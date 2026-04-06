@@ -99,6 +99,101 @@ const topicLoaders: Record<
   immutability: React.lazy(
     () => import("@/domains/topics/content/frontend/java-script/immutability"),
   ),
+  "typescript-type-system-fundamentals": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/type-system-fundamentals"
+      ),
+  ),
+  "typescript-type-narrowing": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/type-script/type-narrowing"),
+  ),
+  "typescript-interfaces-vs-types": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/interfaces-vs-types"
+      ),
+  ),
+  "typescript-generics": React.lazy(
+    () => import("@/domains/topics/content/frontend/type-script/generics"),
+  ),
+  "typescript-utility-types": React.lazy(
+    () => import("@/domains/topics/content/frontend/type-script/utility-types"),
+  ),
+  "typescript-advanced-types": React.lazy(
+    () => import("@/domains/topics/content/frontend/type-script/advanced-types"),
+  ),
+  "typescript-functions": React.lazy(
+    () => import("@/domains/topics/content/frontend/type-script/functions"),
+  ),
+  "typescript-classes-and-oop": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/type-script/classes-and-oop"),
+  ),
+  "typescript-modules-and-namespaces": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/modules-and-namespaces"
+      ),
+  ),
+  "typescript-type-assertions": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/type-script/type-assertions"),
+  ),
+  "typescript-async-typing": React.lazy(
+    () => import("@/domains/topics/content/frontend/type-script/async-typing"),
+  ),
+  "typescript-strict-mode-and-tsconfig": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/strict-mode-and-tsconfig"
+      ),
+  ),
+  "typescript-structural-typing": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/type-script/structural-typing"),
+  ),
+  "typescript-immutability-and-readonly": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/immutability-and-readonly"
+      ),
+  ),
+  "typescript-runtime-vs-compile-time": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/runtime-vs-compile-time"
+      ),
+  ),
+  "typescript-api-type-design": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/type-script/api-type-design"),
+  ),
+  "typescript-working-with-external-libraries": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/working-with-external-libraries"
+      ),
+  ),
+  "typescript-type-safe-patterns-in-real-code": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/type-safe-patterns-in-real-code"
+      ),
+  ),
+  "typescript-performance-and-maintainability": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/performance-and-maintainability"
+      ),
+  ),
+  "typescript-senior-level-judgment": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/type-script/senior-level-judgment"
+      ),
+  ),
   "angular-architecture": React.lazy(
     () => import("@/domains/topics/content/frontend/angular/angular-architecture"),
   ),
@@ -196,6 +291,75 @@ const topicLoaders: Record<
   ),
   "react-error-handling": React.lazy(
     () => import("@/domains/topics/content/frontend/react/error-handling"),
+  ),
+  "nextjs-rendering-model": React.lazy(
+    () => import("@/domains/topics/content/frontend/next-js/rendering-model"),
+  ),
+  "nextjs-app-router-architecture": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/next-js/app-router-architecture"
+      ),
+  ),
+  "nextjs-server-vs-client-components": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/next-js/server-vs-client-components"
+      ),
+  ),
+  "nextjs-data-fetching": React.lazy(
+    () => import("@/domains/topics/content/frontend/next-js/data-fetching"),
+  ),
+  "nextjs-caching-and-revalidation": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/next-js/caching-and-revalidation"
+      ),
+  ),
+  "nextjs-server-actions-mutations": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/next-js/server-actions-mutations"
+      ),
+  ),
+  "nextjs-routing": React.lazy(
+    () => import("@/domains/topics/content/frontend/next-js/routing"),
+  ),
+  "nextjs-api-route-handlers": React.lazy(
+    () => import("@/domains/topics/content/frontend/next-js/api-route-handlers"),
+  ),
+  "nextjs-middleware-edge-runtime": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/next-js/middleware-edge-runtime"
+      ),
+  ),
+  "nextjs-performance": React.lazy(
+    () => import("@/domains/topics/content/frontend/next-js/performance"),
+  ),
+  "nextjs-seo-metadata": React.lazy(
+    () => import("@/domains/topics/content/frontend/next-js/seo-metadata"),
+  ),
+  "nextjs-authentication-authorization": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/next-js/authentication-authorization"
+      ),
+  ),
+  "nextjs-error-handling-observability": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/next-js/error-handling-observability"
+      ),
+  ),
+  "nextjs-deployment-runtime-tradeoffs": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/next-js/deployment-runtime-tradeoffs"
+      ),
+  ),
+  "nextjs-pages-router-legacy": React.lazy(
+    () => import("@/domains/topics/content/frontend/next-js/pages-router-legacy"),
   ),
   dns: React.lazy(() => import("@/domains/topics/content/network/dns")),
   "http-1-2-3": React.lazy(
@@ -346,6 +510,17 @@ const frontendJavaScriptMenuPath: TopicMenuPathItem[] = [
   },
 ];
 
+const frontendTypeScriptMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "type-script",
+    label: "TypeScript",
+  },
+];
+
 const frontendAngularMenuPath: TopicMenuPathItem[] = [
   {
     id: "frontend",
@@ -365,6 +540,17 @@ const frontendReactMenuPath: TopicMenuPathItem[] = [
   {
     id: "react",
     label: "React",
+  },
+];
+
+const frontendNextJsMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "next-js",
+    label: "Next.js",
   },
 ];
 
@@ -636,6 +822,186 @@ const topicDefinitions: TopicDefinition[] = [
     loader: topicLoaders.immutability,
   },
   {
+    id: "typescript-type-system-fundamentals",
+    title: "Type System Fundamentals",
+    menuLabel: "Type system fundamentals",
+    path: "/topic/typescript-type-system-fundamentals",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-type-system-fundamentals"],
+  },
+  {
+    id: "typescript-type-narrowing",
+    title: "Type Narrowing",
+    menuLabel: "Type narrowing",
+    path: "/topic/typescript-type-narrowing",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-type-narrowing"],
+  },
+  {
+    id: "typescript-interfaces-vs-types",
+    title: "Interfaces vs Types",
+    menuLabel: "Interfaces vs types",
+    path: "/topic/typescript-interfaces-vs-types",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-interfaces-vs-types"],
+  },
+  {
+    id: "typescript-generics",
+    title: "Generics",
+    menuLabel: "Generics",
+    path: "/topic/typescript-generics",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-generics"],
+  },
+  {
+    id: "typescript-utility-types",
+    title: "Utility Types",
+    menuLabel: "Utility types",
+    path: "/topic/typescript-utility-types",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-utility-types"],
+  },
+  {
+    id: "typescript-advanced-types",
+    title: "Advanced Types",
+    menuLabel: "Advanced types",
+    path: "/topic/typescript-advanced-types",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-advanced-types"],
+  },
+  {
+    id: "typescript-functions",
+    title: "Functions in TypeScript",
+    menuLabel: "Functions in TypeScript",
+    path: "/topic/typescript-functions",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-functions"],
+  },
+  {
+    id: "typescript-classes-and-oop",
+    title: "Classes and OOP Typing",
+    menuLabel: "Classes and OOP typing",
+    path: "/topic/typescript-classes-and-oop",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-classes-and-oop"],
+  },
+  {
+    id: "typescript-modules-and-namespaces",
+    title: "Modules and Namespaces",
+    menuLabel: "Modules and namespaces",
+    path: "/topic/typescript-modules-and-namespaces",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-modules-and-namespaces"],
+  },
+  {
+    id: "typescript-type-assertions",
+    title: "Type Assertions and Casting",
+    menuLabel: "Type assertions and casting",
+    path: "/topic/typescript-type-assertions",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-type-assertions"],
+  },
+  {
+    id: "typescript-async-typing",
+    title: "Async Typing",
+    menuLabel: "Async typing",
+    path: "/topic/typescript-async-typing",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-async-typing"],
+  },
+  {
+    id: "typescript-strict-mode-and-tsconfig",
+    title: "Strict Mode and tsconfig",
+    menuLabel: "Strict mode and tsconfig",
+    path: "/topic/typescript-strict-mode-and-tsconfig",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-strict-mode-and-tsconfig"],
+  },
+  {
+    id: "typescript-structural-typing",
+    title: "Structural Typing",
+    menuLabel: "Structural typing",
+    path: "/topic/typescript-structural-typing",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-structural-typing"],
+  },
+  {
+    id: "typescript-immutability-and-readonly",
+    title: "Immutability and Readonly",
+    menuLabel: "Immutability and readonly",
+    path: "/topic/typescript-immutability-and-readonly",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-immutability-and-readonly"],
+  },
+  {
+    id: "typescript-runtime-vs-compile-time",
+    title: "Runtime vs Compile Time",
+    menuLabel: "Runtime vs compile time",
+    path: "/topic/typescript-runtime-vs-compile-time",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-runtime-vs-compile-time"],
+  },
+  {
+    id: "typescript-api-type-design",
+    title: "API Type Design",
+    menuLabel: "API type design",
+    path: "/topic/typescript-api-type-design",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-api-type-design"],
+  },
+  {
+    id: "typescript-working-with-external-libraries",
+    title: "Working with External Libraries",
+    menuLabel: "Working with external libraries",
+    path: "/topic/typescript-working-with-external-libraries",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-working-with-external-libraries"],
+  },
+  {
+    id: "typescript-type-safe-patterns-in-real-code",
+    title: "Type-Safe Patterns in Real Code",
+    menuLabel: "Type-safe patterns in real code",
+    path: "/topic/typescript-type-safe-patterns-in-real-code",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-type-safe-patterns-in-real-code"],
+  },
+  {
+    id: "typescript-performance-and-maintainability",
+    title: "Performance and Maintainability",
+    menuLabel: "Performance and maintainability",
+    path: "/topic/typescript-performance-and-maintainability",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-performance-and-maintainability"],
+  },
+  {
+    id: "typescript-senior-level-judgment",
+    title: "Senior-Level Judgment",
+    menuLabel: "Senior-level judgment",
+    path: "/topic/typescript-senior-level-judgment",
+    status: "ready",
+    menuPath: frontendTypeScriptMenuPath,
+    loader: topicLoaders["typescript-senior-level-judgment"],
+  },
+  {
     id: "angular-architecture",
     title: "Angular Architecture",
     menuLabel: "Angular architecture",
@@ -877,6 +1243,141 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: frontendReactMenuPath,
     loader: topicLoaders["react-error-handling"],
+  },
+  {
+    id: "nextjs-rendering-model",
+    title: "Rendering Model",
+    menuLabel: "Rendering model",
+    path: "/topic/nextjs-rendering-model",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-rendering-model"],
+  },
+  {
+    id: "nextjs-app-router-architecture",
+    title: "App Router Architecture",
+    menuLabel: "App Router architecture",
+    path: "/topic/nextjs-app-router-architecture",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-app-router-architecture"],
+  },
+  {
+    id: "nextjs-server-vs-client-components",
+    title: "Server Components vs Client Components",
+    menuLabel: "Server vs client components",
+    path: "/topic/nextjs-server-vs-client-components",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-server-vs-client-components"],
+  },
+  {
+    id: "nextjs-data-fetching",
+    title: "Data Fetching",
+    menuLabel: "Data fetching",
+    path: "/topic/nextjs-data-fetching",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-data-fetching"],
+  },
+  {
+    id: "nextjs-caching-and-revalidation",
+    title: "Caching and Revalidation",
+    menuLabel: "Caching and revalidation",
+    path: "/topic/nextjs-caching-and-revalidation",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-caching-and-revalidation"],
+  },
+  {
+    id: "nextjs-server-actions-mutations",
+    title: "Server Actions and Mutations",
+    menuLabel: "Server actions and mutations",
+    path: "/topic/nextjs-server-actions-mutations",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-server-actions-mutations"],
+  },
+  {
+    id: "nextjs-routing",
+    title: "Routing",
+    menuLabel: "Routing",
+    path: "/topic/nextjs-routing",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-routing"],
+  },
+  {
+    id: "nextjs-api-route-handlers",
+    title: "API Layer and Route Handlers",
+    menuLabel: "API layer and route handlers",
+    path: "/topic/nextjs-api-route-handlers",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-api-route-handlers"],
+  },
+  {
+    id: "nextjs-middleware-edge-runtime",
+    title: "Middleware and Edge Runtime",
+    menuLabel: "Middleware and Edge runtime",
+    path: "/topic/nextjs-middleware-edge-runtime",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-middleware-edge-runtime"],
+  },
+  {
+    id: "nextjs-performance",
+    title: "Performance",
+    menuLabel: "Performance",
+    path: "/topic/nextjs-performance",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-performance"],
+  },
+  {
+    id: "nextjs-seo-metadata",
+    title: "SEO and Metadata",
+    menuLabel: "SEO and metadata",
+    path: "/topic/nextjs-seo-metadata",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-seo-metadata"],
+  },
+  {
+    id: "nextjs-authentication-authorization",
+    title: "Authentication and Authorization",
+    menuLabel: "Authentication and authorization",
+    path: "/topic/nextjs-authentication-authorization",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-authentication-authorization"],
+  },
+  {
+    id: "nextjs-error-handling-observability",
+    title: "Error Handling and Observability",
+    menuLabel: "Error handling and observability",
+    path: "/topic/nextjs-error-handling-observability",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-error-handling-observability"],
+  },
+  {
+    id: "nextjs-deployment-runtime-tradeoffs",
+    title: "Deployment and Runtime Tradeoffs",
+    menuLabel: "Deployment and runtime tradeoffs",
+    path: "/topic/nextjs-deployment-runtime-tradeoffs",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-deployment-runtime-tradeoffs"],
+  },
+  {
+    id: "nextjs-pages-router-legacy",
+    title: "Pages Router Legacy Knowledge",
+    menuLabel: "Pages Router legacy knowledge",
+    path: "/topic/nextjs-pages-router-legacy",
+    status: "ready",
+    menuPath: frontendNextJsMenuPath,
+    loader: topicLoaders["nextjs-pages-router-legacy"],
   },
   {
     id: "dns",

@@ -18,11 +18,21 @@ describe("buildNavigationTree", () => {
       throw new Error("Expected the root node to be a group node");
     }
 
-    expect(tree[0].children).toHaveLength(1);
+    expect(tree[0].children).toHaveLength(6);
     expect(tree[0].children[0]).toMatchObject({
       kind: "group",
       id: "fundamentals",
       label: "Fundamentals",
+    });
+    expect(tree[0].children[1]).toMatchObject({
+      kind: "group",
+      id: "java-script",
+      label: "JavaScript",
+    });
+    expect(tree[0].children[2]).toMatchObject({
+      kind: "group",
+      id: "type-script",
+      label: "TypeScript",
     });
 
     if (tree[0].children[0].kind !== "group") {
@@ -30,7 +40,8 @@ describe("buildNavigationTree", () => {
     }
 
     const leafKinds = tree[0].children[0].children.map((node) => node.kind);
-    expect(leafKinds).toEqual(["topic", "topic", "topic", "topic"]);
+    expect(leafKinds.every((kind) => kind === "topic")).toBe(true);
+    expect(tree[0].children[2].kind).toBe("group");
     expect(tree[4]).toMatchObject({
       kind: "group",
       id: "low-level-design",

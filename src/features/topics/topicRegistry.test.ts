@@ -42,7 +42,7 @@ describe("topic registry", () => {
       label: "Frontend",
     });
     const firstGroup = MENU_ITEMS[0].kind === "group" ? MENU_ITEMS[0] : null;
-    expect(firstGroup?.children).toHaveLength(4);
+    expect(firstGroup?.children).toHaveLength(6);
     expect(firstGroup?.children?.[0]).toMatchObject({
       kind: "group",
       id: "fundamentals",
@@ -55,13 +55,23 @@ describe("topic registry", () => {
     });
     expect(firstGroup?.children?.[2]).toMatchObject({
       kind: "group",
-      id: "angular",
-      label: "Angular",
+      id: "type-script",
+      label: "TypeScript",
     });
     expect(firstGroup?.children?.[3]).toMatchObject({
       kind: "group",
+      id: "angular",
+      label: "Angular",
+    });
+    expect(firstGroup?.children?.[4]).toMatchObject({
+      kind: "group",
       id: "react",
       label: "React",
+    });
+    expect(firstGroup?.children?.[5]).toMatchObject({
+      kind: "group",
+      id: "next-js",
+      label: "Next.js",
     });
     expect(MENU_ITEMS[1]).toMatchObject({
       kind: "group",
@@ -169,6 +179,66 @@ describe("topic registry", () => {
       TOPIC_DEFINITIONS.find((topic) => topic.id === "immutability")?.status,
     ).toBe("ready");
     expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-type-system-fundamentals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-type-narrowing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-interfaces-vs-types")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-generics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-utility-types")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-advanced-types")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-functions")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-classes-and-oop")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-modules-and-namespaces")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-type-assertions")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-async-typing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-strict-mode-and-tsconfig")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-structural-typing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-immutability-and-readonly")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-runtime-vs-compile-time")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-api-type-design")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-working-with-external-libraries")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-type-safe-patterns-in-real-code")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-performance-and-maintainability")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-senior-level-judgment")?.status,
+    ).toBe("ready");
+    expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-architecture")?.status,
     ).toBe("ready");
     expect(
@@ -248,6 +318,51 @@ describe("topic registry", () => {
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "react-error-handling")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-rendering-model")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-app-router-architecture")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-server-vs-client-components")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-data-fetching")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-caching-and-revalidation")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-server-actions-mutations")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-routing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-api-route-handlers")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-middleware-edge-runtime")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-performance")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-seo-metadata")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-authentication-authorization")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-error-handling-observability")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-deployment-runtime-tradeoffs")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-pages-router-legacy")?.status,
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "dns")?.status,

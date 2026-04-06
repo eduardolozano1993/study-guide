@@ -19,6 +19,7 @@ import { errorHandlingJavaScriptLesson } from "@/domains/topics/content/frontend
 import { domManipulationBasicsLesson } from "@/domains/topics/content/frontend/java-script/dom-manipulation-basics/meta";
 import { esmVsCommonjsLesson } from "@/domains/topics/content/frontend/java-script/esm-vs-commonjs/meta";
 import { immutabilityLesson } from "@/domains/topics/content/frontend/java-script/immutability/meta";
+import { typeScriptTopicLessons } from "@/domains/topics/content/frontend/type-script/topicLessons";
 import { angularArchitectureLesson } from "@/domains/topics/content/frontend/angular/angular-architecture/meta";
 import { angularComponentsTemplatesDataBindingLesson } from "@/domains/topics/content/frontend/angular/angular-components-templates-data-binding/meta";
 import { angularDirectivesLesson } from "@/domains/topics/content/frontend/angular/angular-directives/meta";
@@ -46,6 +47,21 @@ import { reactRoutingLesson } from "@/domains/topics/content/frontend/react/rout
 import { reactServerRenderingLesson } from "@/domains/topics/content/frontend/react/server-rendering/meta";
 import { reactArchitectureLesson } from "@/domains/topics/content/frontend/react/architecture/meta";
 import { reactErrorHandlingLesson } from "@/domains/topics/content/frontend/react/error-handling/meta";
+import { nextJsRenderingModelLesson } from "@/domains/topics/content/frontend/next-js/rendering-model/meta";
+import { nextJsAppRouterArchitectureLesson } from "@/domains/topics/content/frontend/next-js/app-router-architecture/meta";
+import { nextJsServerVsClientComponentsLesson } from "@/domains/topics/content/frontend/next-js/server-vs-client-components/meta";
+import { nextJsDataFetchingLesson } from "@/domains/topics/content/frontend/next-js/data-fetching/meta";
+import { nextJsCachingAndRevalidationLesson } from "@/domains/topics/content/frontend/next-js/caching-and-revalidation/meta";
+import { nextJsServerActionsMutationsLesson } from "@/domains/topics/content/frontend/next-js/server-actions-mutations/meta";
+import { nextJsRoutingLesson } from "@/domains/topics/content/frontend/next-js/routing/meta";
+import { nextJsApiRouteHandlersLesson } from "@/domains/topics/content/frontend/next-js/api-route-handlers/meta";
+import { nextJsMiddlewareEdgeRuntimeLesson } from "@/domains/topics/content/frontend/next-js/middleware-edge-runtime/meta";
+import { nextJsPerformanceLesson } from "@/domains/topics/content/frontend/next-js/performance/meta";
+import { nextJsSeoMetadataLesson } from "@/domains/topics/content/frontend/next-js/seo-metadata/meta";
+import { nextJsAuthenticationAuthorizationLesson } from "@/domains/topics/content/frontend/next-js/authentication-authorization/meta";
+import { nextJsErrorHandlingObservabilityLesson } from "@/domains/topics/content/frontend/next-js/error-handling-observability/meta";
+import { nextJsDeploymentRuntimeTradeoffsLesson } from "@/domains/topics/content/frontend/next-js/deployment-runtime-tradeoffs/meta";
+import { nextJsPagesRouterLegacyLesson } from "@/domains/topics/content/frontend/next-js/pages-router-legacy/meta";
 import { dnsLesson } from "@/domains/topics/content/network/dns/meta";
 import { http123Lesson } from "@/domains/topics/content/network/http-1-2-3/meta";
 import { tlsLesson } from "@/domains/topics/content/network/tls/meta";
@@ -189,6 +205,13 @@ describe("topic integrity", () => {
     expect(immutabilityLesson.summary.length).toBeGreaterThan(0);
     expect(immutabilityLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
+    for (const lesson of typeScriptTopicLessons) {
+      expect(lesson.id.startsWith("typescript-")).toBe(true);
+      expect(lesson.title.length).toBeGreaterThan(0);
+      expect(lesson.summary.length).toBeGreaterThan(0);
+      expect(lesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+    }
+
     expect(angularArchitectureLesson.id).toBe("angular-architecture");
     expect(angularArchitectureLesson.title.length).toBeGreaterThan(0);
     expect(angularArchitectureLesson.summary.length).toBeGreaterThan(0);
@@ -323,6 +346,81 @@ describe("topic integrity", () => {
     expect(reactErrorHandlingLesson.title.length).toBeGreaterThan(0);
     expect(reactErrorHandlingLesson.summary.length).toBeGreaterThan(0);
     expect(reactErrorHandlingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsRenderingModelLesson.id).toBe("nextjs-rendering-model");
+    expect(nextJsRenderingModelLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsRenderingModelLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsRenderingModelLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsAppRouterArchitectureLesson.id).toBe("nextjs-app-router-architecture");
+    expect(nextJsAppRouterArchitectureLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsAppRouterArchitectureLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsAppRouterArchitectureLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsServerVsClientComponentsLesson.id).toBe("nextjs-server-vs-client-components");
+    expect(nextJsServerVsClientComponentsLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsServerVsClientComponentsLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsServerVsClientComponentsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsDataFetchingLesson.id).toBe("nextjs-data-fetching");
+    expect(nextJsDataFetchingLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsDataFetchingLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsDataFetchingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsCachingAndRevalidationLesson.id).toBe("nextjs-caching-and-revalidation");
+    expect(nextJsCachingAndRevalidationLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsCachingAndRevalidationLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsCachingAndRevalidationLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsServerActionsMutationsLesson.id).toBe("nextjs-server-actions-mutations");
+    expect(nextJsServerActionsMutationsLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsServerActionsMutationsLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsServerActionsMutationsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsRoutingLesson.id).toBe("nextjs-routing");
+    expect(nextJsRoutingLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsRoutingLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsRoutingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsApiRouteHandlersLesson.id).toBe("nextjs-api-route-handlers");
+    expect(nextJsApiRouteHandlersLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsApiRouteHandlersLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsApiRouteHandlersLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsMiddlewareEdgeRuntimeLesson.id).toBe("nextjs-middleware-edge-runtime");
+    expect(nextJsMiddlewareEdgeRuntimeLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsMiddlewareEdgeRuntimeLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsMiddlewareEdgeRuntimeLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsPerformanceLesson.id).toBe("nextjs-performance");
+    expect(nextJsPerformanceLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsPerformanceLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsPerformanceLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsSeoMetadataLesson.id).toBe("nextjs-seo-metadata");
+    expect(nextJsSeoMetadataLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsSeoMetadataLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsSeoMetadataLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsAuthenticationAuthorizationLesson.id).toBe("nextjs-authentication-authorization");
+    expect(nextJsAuthenticationAuthorizationLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsAuthenticationAuthorizationLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsAuthenticationAuthorizationLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsErrorHandlingObservabilityLesson.id).toBe("nextjs-error-handling-observability");
+    expect(nextJsErrorHandlingObservabilityLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsErrorHandlingObservabilityLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsErrorHandlingObservabilityLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsDeploymentRuntimeTradeoffsLesson.id).toBe("nextjs-deployment-runtime-tradeoffs");
+    expect(nextJsDeploymentRuntimeTradeoffsLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsDeploymentRuntimeTradeoffsLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsDeploymentRuntimeTradeoffsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(nextJsPagesRouterLegacyLesson.id).toBe("nextjs-pages-router-legacy");
+    expect(nextJsPagesRouterLegacyLesson.title.length).toBeGreaterThan(0);
+    expect(nextJsPagesRouterLegacyLesson.summary.length).toBeGreaterThan(0);
+    expect(nextJsPagesRouterLegacyLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
     expect(dnsLesson.id).toBe("dns");
     expect(dnsLesson.title.length).toBeGreaterThan(0);
