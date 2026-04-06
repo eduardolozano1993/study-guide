@@ -42,7 +42,7 @@ describe("topic registry", () => {
       label: "Frontend",
     });
     const firstGroup = MENU_ITEMS[0].kind === "group" ? MENU_ITEMS[0] : null;
-    expect(firstGroup?.children).toHaveLength(6);
+    expect(firstGroup?.children).toHaveLength(9);
     expect(firstGroup?.children?.[0]).toMatchObject({
       kind: "group",
       id: "fundamentals",
@@ -60,15 +60,30 @@ describe("topic registry", () => {
     });
     expect(firstGroup?.children?.[3]).toMatchObject({
       kind: "group",
+      id: "testing",
+      label: "Testing",
+    });
+    expect(firstGroup?.children?.[4]).toMatchObject({
+      kind: "group",
+      id: "performance",
+      label: "Performance",
+    });
+    expect(firstGroup?.children?.[5]).toMatchObject({
+      kind: "group",
+      id: "tooling",
+      label: "Tooling",
+    });
+    expect(firstGroup?.children?.[6]).toMatchObject({
+      kind: "group",
       id: "angular",
       label: "Angular",
     });
-    expect(firstGroup?.children?.[4]).toMatchObject({
+    expect(firstGroup?.children?.[7]).toMatchObject({
       kind: "group",
       id: "react",
       label: "React",
     });
-    expect(firstGroup?.children?.[5]).toMatchObject({
+    expect(firstGroup?.children?.[8]).toMatchObject({
       kind: "group",
       id: "next-js",
       label: "Next.js",
@@ -150,6 +165,9 @@ describe("topic registry", () => {
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "performance-fundamentals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "reflow-repaint")?.status,
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "frontend-security")?.status,
@@ -237,6 +255,36 @@ describe("topic registry", () => {
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-senior-level-judgment")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "unit-testing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "integration-testing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "e2e-testing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "code-splitting")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "tree-shaking")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "caching-strategies")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "core-web-vitals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "webpack-vite")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "babel-typescript")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "cicd-basics")?.status,
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-architecture")?.status,

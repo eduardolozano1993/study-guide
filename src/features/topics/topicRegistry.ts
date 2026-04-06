@@ -58,6 +58,10 @@ const topicLoaders: Record<
         "@/domains/topics/content/frontend/fundamentals/performance-fundamentals"
       ),
   ),
+  "reflow-repaint": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/fundamentals/reflow-repaint"),
+  ),
   "frontend-security": React.lazy(
     () =>
       import("@/domains/topics/content/frontend/fundamentals/frontend-security"),
@@ -193,6 +197,38 @@ const topicLoaders: Record<
       import(
         "@/domains/topics/content/frontend/type-script/senior-level-judgment"
       ),
+  ),
+  "unit-testing": React.lazy(
+    () => import("@/domains/topics/content/frontend/testing/unit-testing"),
+  ),
+  "integration-testing": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/testing/integration-testing"),
+  ),
+  "e2e-testing": React.lazy(
+    () => import("@/domains/topics/content/frontend/testing/e2e-testing"),
+  ),
+  "code-splitting": React.lazy(
+    () => import("@/domains/topics/content/frontend/performance/code-splitting"),
+  ),
+  "tree-shaking": React.lazy(
+    () => import("@/domains/topics/content/frontend/performance/tree-shaking"),
+  ),
+  "caching-strategies": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/performance/caching-strategies"),
+  ),
+  "core-web-vitals": React.lazy(
+    () => import("@/domains/topics/content/frontend/performance/core-web-vitals"),
+  ),
+  "webpack-vite": React.lazy(
+    () => import("@/domains/topics/content/frontend/tooling/webpack-vite"),
+  ),
+  "babel-typescript": React.lazy(
+    () => import("@/domains/topics/content/frontend/tooling/babel-typescript"),
+  ),
+  "cicd-basics": React.lazy(
+    () => import("@/domains/topics/content/frontend/tooling/cicd-basics"),
   ),
   "angular-architecture": React.lazy(
     () => import("@/domains/topics/content/frontend/angular/angular-architecture"),
@@ -521,6 +557,39 @@ const frontendTypeScriptMenuPath: TopicMenuPathItem[] = [
   },
 ];
 
+const frontendTestingMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "testing",
+    label: "Testing",
+  },
+];
+
+const frontendPerformanceMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "performance",
+    label: "Performance",
+  },
+];
+
+const frontendToolingMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "tooling",
+    label: "Tooling",
+  },
+];
+
 const frontendAngularMenuPath: TopicMenuPathItem[] = [
   {
     id: "frontend",
@@ -739,6 +808,15 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: frontendMenuPath,
     loader: topicLoaders["performance-fundamentals"],
+  },
+  {
+    id: "reflow-repaint",
+    title: "Reflow and Repaint",
+    menuLabel: "Reflow and repaint",
+    path: "/topic/reflow-repaint",
+    status: "ready",
+    menuPath: frontendMenuPath,
+    loader: topicLoaders["reflow-repaint"],
   },
   {
     id: "frontend-security",
@@ -1000,6 +1078,96 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: frontendTypeScriptMenuPath,
     loader: topicLoaders["typescript-senior-level-judgment"],
+  },
+  {
+    id: "unit-testing",
+    title: "Unit Testing",
+    menuLabel: "Unit testing",
+    path: "/topic/unit-testing",
+    status: "ready",
+    menuPath: frontendTestingMenuPath,
+    loader: topicLoaders["unit-testing"],
+  },
+  {
+    id: "integration-testing",
+    title: "Integration Testing",
+    menuLabel: "Integration testing",
+    path: "/topic/integration-testing",
+    status: "ready",
+    menuPath: frontendTestingMenuPath,
+    loader: topicLoaders["integration-testing"],
+  },
+  {
+    id: "e2e-testing",
+    title: "End-to-End Testing",
+    menuLabel: "E2E testing",
+    path: "/topic/e2e-testing",
+    status: "ready",
+    menuPath: frontendTestingMenuPath,
+    loader: topicLoaders["e2e-testing"],
+  },
+  {
+    id: "code-splitting",
+    title: "Code Splitting",
+    menuLabel: "Code splitting",
+    path: "/topic/code-splitting",
+    status: "ready",
+    menuPath: frontendPerformanceMenuPath,
+    loader: topicLoaders["code-splitting"],
+  },
+  {
+    id: "tree-shaking",
+    title: "Tree Shaking",
+    menuLabel: "Tree shaking",
+    path: "/topic/tree-shaking",
+    status: "ready",
+    menuPath: frontendPerformanceMenuPath,
+    loader: topicLoaders["tree-shaking"],
+  },
+  {
+    id: "caching-strategies",
+    title: "Caching Strategies",
+    menuLabel: "Caching strategies",
+    path: "/topic/caching-strategies",
+    status: "ready",
+    menuPath: frontendPerformanceMenuPath,
+    loader: topicLoaders["caching-strategies"],
+  },
+  {
+    id: "core-web-vitals",
+    title: "Core Web Vitals",
+    menuLabel: "Core Web Vitals",
+    path: "/topic/core-web-vitals",
+    status: "ready",
+    menuPath: frontendPerformanceMenuPath,
+    loader: topicLoaders["core-web-vitals"],
+  },
+  {
+    id: "webpack-vite",
+    title: "Webpack vs Vite",
+    menuLabel: "Webpack vs Vite",
+    path: "/topic/webpack-vite",
+    status: "ready",
+    menuPath: frontendToolingMenuPath,
+    loader: topicLoaders["webpack-vite"],
+  },
+  {
+    id: "babel-typescript",
+    title: "Babel and TypeScript",
+    menuLabel: "Babel and TypeScript",
+    path: "/topic/babel-typescript",
+    status: "ready",
+    menuPath: frontendToolingMenuPath,
+    loader: topicLoaders["babel-typescript"],
+  },
+  {
+    id: "cicd-basics",
+    title: "CI/CD Basics",
+    menuLabel: "CI/CD basics",
+    path: "/topic/cicd-basics",
+    status: "ready",
+    menuPath: frontendToolingMenuPath,
+    loader: topicLoaders["cicd-basics"],
   },
   {
     id: "angular-architecture",

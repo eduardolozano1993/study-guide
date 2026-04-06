@@ -10,6 +10,7 @@ import { domEventsLesson } from "@/domains/topics/content/frontend/fundamentals/
 import { browserRenderingLesson } from "@/domains/topics/content/frontend/fundamentals/browser-rendering/meta";
 import { networkBrowserApisLesson } from "@/domains/topics/content/frontend/fundamentals/network-browser-apis/meta";
 import { performanceFundamentalsLesson } from "@/domains/topics/content/frontend/fundamentals/performance-fundamentals/meta";
+import { reflowRepaintLesson } from "@/domains/topics/content/frontend/fundamentals/reflow-repaint/meta";
 import { frontendSecurityLesson } from "@/domains/topics/content/frontend/fundamentals/frontend-security/meta";
 import { primitiveVsReferenceTypesLesson } from "@/domains/topics/content/frontend/java-script/primitive-vs-reference-types/meta";
 import { closuresLesson } from "@/domains/topics/content/frontend/java-script/closures/meta";
@@ -20,6 +21,16 @@ import { domManipulationBasicsLesson } from "@/domains/topics/content/frontend/j
 import { esmVsCommonjsLesson } from "@/domains/topics/content/frontend/java-script/esm-vs-commonjs/meta";
 import { immutabilityLesson } from "@/domains/topics/content/frontend/java-script/immutability/meta";
 import { typeScriptTopicLessons } from "@/domains/topics/content/frontend/type-script/topicLessons";
+import { unitTestingLesson } from "@/domains/topics/content/frontend/testing/unit-testing/meta";
+import { integrationTestingLesson } from "@/domains/topics/content/frontend/testing/integration-testing/meta";
+import { e2eTestingLesson } from "@/domains/topics/content/frontend/testing/e2e-testing/meta";
+import { codeSplittingLesson } from "@/domains/topics/content/frontend/performance/code-splitting/meta";
+import { treeShakingLesson } from "@/domains/topics/content/frontend/performance/tree-shaking/meta";
+import { cachingStrategiesLesson } from "@/domains/topics/content/frontend/performance/caching-strategies/meta";
+import { coreWebVitalsLesson } from "@/domains/topics/content/frontend/performance/core-web-vitals/meta";
+import { webpackViteLesson } from "@/domains/topics/content/frontend/tooling/webpack-vite/meta";
+import { babelTypeScriptLesson } from "@/domains/topics/content/frontend/tooling/babel-typescript/meta";
+import { cicdBasicsLesson } from "@/domains/topics/content/frontend/tooling/cicd-basics/meta";
 import { angularArchitectureLesson } from "@/domains/topics/content/frontend/angular/angular-architecture/meta";
 import { angularComponentsTemplatesDataBindingLesson } from "@/domains/topics/content/frontend/angular/angular-components-templates-data-binding/meta";
 import { angularDirectivesLesson } from "@/domains/topics/content/frontend/angular/angular-directives/meta";
@@ -160,6 +171,11 @@ describe("topic integrity", () => {
     expect(performanceFundamentalsLesson.summary.length).toBeGreaterThan(0);
     expect(performanceFundamentalsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
+    expect(reflowRepaintLesson.id).toBe("reflow-repaint");
+    expect(reflowRepaintLesson.title.length).toBeGreaterThan(0);
+    expect(reflowRepaintLesson.summary.length).toBeGreaterThan(0);
+    expect(reflowRepaintLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
     expect(frontendSecurityLesson.id).toBe("frontend-security");
     expect(frontendSecurityLesson.title.length).toBeGreaterThan(0);
     expect(frontendSecurityLesson.summary.length).toBeGreaterThan(0);
@@ -211,6 +227,56 @@ describe("topic integrity", () => {
       expect(lesson.summary.length).toBeGreaterThan(0);
       expect(lesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
     }
+
+    expect(unitTestingLesson.id).toBe("unit-testing");
+    expect(unitTestingLesson.title.length).toBeGreaterThan(0);
+    expect(unitTestingLesson.summary.length).toBeGreaterThan(0);
+    expect(unitTestingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(integrationTestingLesson.id).toBe("integration-testing");
+    expect(integrationTestingLesson.title.length).toBeGreaterThan(0);
+    expect(integrationTestingLesson.summary.length).toBeGreaterThan(0);
+    expect(integrationTestingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(e2eTestingLesson.id).toBe("e2e-testing");
+    expect(e2eTestingLesson.title.length).toBeGreaterThan(0);
+    expect(e2eTestingLesson.summary.length).toBeGreaterThan(0);
+    expect(e2eTestingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(codeSplittingLesson.id).toBe("code-splitting");
+    expect(codeSplittingLesson.title.length).toBeGreaterThan(0);
+    expect(codeSplittingLesson.summary.length).toBeGreaterThan(0);
+    expect(codeSplittingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(treeShakingLesson.id).toBe("tree-shaking");
+    expect(treeShakingLesson.title.length).toBeGreaterThan(0);
+    expect(treeShakingLesson.summary.length).toBeGreaterThan(0);
+    expect(treeShakingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(cachingStrategiesLesson.id).toBe("caching-strategies");
+    expect(cachingStrategiesLesson.title.length).toBeGreaterThan(0);
+    expect(cachingStrategiesLesson.summary.length).toBeGreaterThan(0);
+    expect(cachingStrategiesLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(coreWebVitalsLesson.id).toBe("core-web-vitals");
+    expect(coreWebVitalsLesson.title.length).toBeGreaterThan(0);
+    expect(coreWebVitalsLesson.summary.length).toBeGreaterThan(0);
+    expect(coreWebVitalsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(webpackViteLesson.id).toBe("webpack-vite");
+    expect(webpackViteLesson.title.length).toBeGreaterThan(0);
+    expect(webpackViteLesson.summary.length).toBeGreaterThan(0);
+    expect(webpackViteLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(babelTypeScriptLesson.id).toBe("babel-typescript");
+    expect(babelTypeScriptLesson.title.length).toBeGreaterThan(0);
+    expect(babelTypeScriptLesson.summary.length).toBeGreaterThan(0);
+    expect(babelTypeScriptLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(cicdBasicsLesson.id).toBe("cicd-basics");
+    expect(cicdBasicsLesson.title.length).toBeGreaterThan(0);
+    expect(cicdBasicsLesson.summary.length).toBeGreaterThan(0);
+    expect(cicdBasicsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
     expect(angularArchitectureLesson.id).toBe("angular-architecture");
     expect(angularArchitectureLesson.title.length).toBeGreaterThan(0);
