@@ -42,7 +42,7 @@ describe("topic registry", () => {
       label: "Frontend",
     });
     const firstGroup = MENU_ITEMS[0].kind === "group" ? MENU_ITEMS[0] : null;
-    expect(firstGroup?.children).toHaveLength(3);
+    expect(firstGroup?.children).toHaveLength(4);
     expect(firstGroup?.children?.[0]).toMatchObject({
       kind: "group",
       id: "fundamentals",
@@ -57,6 +57,11 @@ describe("topic registry", () => {
       kind: "group",
       id: "angular",
       label: "Angular",
+    });
+    expect(firstGroup?.children?.[3]).toMatchObject({
+      kind: "group",
+      id: "react",
+      label: "React",
     });
     expect(MENU_ITEMS[1]).toMatchObject({
       kind: "group",
@@ -204,6 +209,45 @@ describe("topic registry", () => {
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-signals-standalone-components")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-fundamentals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-hooks-in-depth")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-rendering-behavior")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-state-management")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-component-design")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-performance")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-effects-and-side-effects")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-forms")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-data-fetching")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-routing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-server-rendering")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-architecture")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-error-handling")?.status,
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "dns")?.status,

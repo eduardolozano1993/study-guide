@@ -158,6 +158,45 @@ const topicLoaders: Record<
         "@/domains/topics/content/frontend/angular/angular-signals-standalone-components"
       ),
   ),
+  "react-fundamentals": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/fundamentals"),
+  ),
+  "react-hooks-in-depth": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/hooks-in-depth"),
+  ),
+  "react-rendering-behavior": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/rendering-behavior"),
+  ),
+  "react-state-management": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/state-management"),
+  ),
+  "react-component-design": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/component-design"),
+  ),
+  "react-performance": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/performance"),
+  ),
+  "react-effects-and-side-effects": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/effects-and-side-effects"),
+  ),
+  "react-forms": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/forms"),
+  ),
+  "react-data-fetching": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/data-fetching"),
+  ),
+  "react-routing": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/routing"),
+  ),
+  "react-server-rendering": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/server-rendering"),
+  ),
+  "react-architecture": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/architecture"),
+  ),
+  "react-error-handling": React.lazy(
+    () => import("@/domains/topics/content/frontend/react/error-handling"),
+  ),
   dns: React.lazy(() => import("@/domains/topics/content/network/dns")),
   "http-1-2-3": React.lazy(
     () => import("@/domains/topics/content/network/http-1-2-3"),
@@ -315,6 +354,17 @@ const frontendAngularMenuPath: TopicMenuPathItem[] = [
   {
     id: "angular",
     label: "Angular",
+  },
+];
+
+const frontendReactMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "react",
+    label: "React",
   },
 ];
 
@@ -710,6 +760,123 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: frontendAngularMenuPath,
     loader: topicLoaders["angular-signals-standalone-components"],
+  },
+  {
+    id: "react-fundamentals",
+    title: "React Fundamentals",
+    menuLabel: "React fundamentals",
+    path: "/topic/react-fundamentals",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-fundamentals"],
+  },
+  {
+    id: "react-hooks-in-depth",
+    title: "Hooks in Depth",
+    menuLabel: "Hooks in depth",
+    path: "/topic/react-hooks-in-depth",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-hooks-in-depth"],
+  },
+  {
+    id: "react-rendering-behavior",
+    title: "Rendering Behavior",
+    menuLabel: "Rendering behavior",
+    path: "/topic/react-rendering-behavior",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-rendering-behavior"],
+  },
+  {
+    id: "react-state-management",
+    title: "State Management",
+    menuLabel: "State management",
+    path: "/topic/react-state-management",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-state-management"],
+  },
+  {
+    id: "react-component-design",
+    title: "Component Design",
+    menuLabel: "Component design",
+    path: "/topic/react-component-design",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-component-design"],
+  },
+  {
+    id: "react-performance",
+    title: "Performance",
+    menuLabel: "Performance",
+    path: "/topic/react-performance",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-performance"],
+  },
+  {
+    id: "react-effects-and-side-effects",
+    title: "Effects and Side Effects",
+    menuLabel: "Effects and side effects",
+    path: "/topic/react-effects-and-side-effects",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-effects-and-side-effects"],
+  },
+  {
+    id: "react-forms",
+    title: "Forms",
+    menuLabel: "Forms",
+    path: "/topic/react-forms",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-forms"],
+  },
+  {
+    id: "react-data-fetching",
+    title: "Data Fetching",
+    menuLabel: "Data fetching",
+    path: "/topic/react-data-fetching",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-data-fetching"],
+  },
+  {
+    id: "react-routing",
+    title: "Routing",
+    menuLabel: "Routing",
+    path: "/topic/react-routing",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-routing"],
+  },
+  {
+    id: "react-server-rendering",
+    title: "Server Rendering",
+    menuLabel: "Server rendering",
+    path: "/topic/react-server-rendering",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-server-rendering"],
+  },
+  {
+    id: "react-architecture",
+    title: "Architecture",
+    menuLabel: "Architecture",
+    path: "/topic/react-architecture",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-architecture"],
+  },
+  {
+    id: "react-error-handling",
+    title: "Error Handling",
+    menuLabel: "Error handling",
+    path: "/topic/react-error-handling",
+    status: "ready",
+    menuPath: frontendReactMenuPath,
+    loader: topicLoaders["react-error-handling"],
   },
   {
     id: "dns",

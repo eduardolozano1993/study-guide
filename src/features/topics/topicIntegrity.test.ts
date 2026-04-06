@@ -33,6 +33,19 @@ import { angularReactiveFormsValidationLesson } from "@/domains/topics/content/f
 import { angularChangeDetectionLesson } from "@/domains/topics/content/frontend/angular/angular-change-detection/meta";
 import { angularInterceptorsLesson } from "@/domains/topics/content/frontend/angular/angular-interceptors/meta";
 import { angularSignalsStandaloneComponentsLesson } from "@/domains/topics/content/frontend/angular/angular-signals-standalone-components/meta";
+import { reactFundamentalsLesson } from "@/domains/topics/content/frontend/react/fundamentals/meta";
+import { reactHooksInDepthLesson } from "@/domains/topics/content/frontend/react/hooks-in-depth/meta";
+import { reactRenderingBehaviorLesson } from "@/domains/topics/content/frontend/react/rendering-behavior/meta";
+import { reactStateManagementLesson } from "@/domains/topics/content/frontend/react/state-management/meta";
+import { reactComponentDesignLesson } from "@/domains/topics/content/frontend/react/component-design/meta";
+import { reactPerformanceLesson } from "@/domains/topics/content/frontend/react/performance/meta";
+import { reactEffectsLesson } from "@/domains/topics/content/frontend/react/effects-and-side-effects/meta";
+import { reactFormsLesson } from "@/domains/topics/content/frontend/react/forms/meta";
+import { reactDataFetchingLesson } from "@/domains/topics/content/frontend/react/data-fetching/meta";
+import { reactRoutingLesson } from "@/domains/topics/content/frontend/react/routing/meta";
+import { reactServerRenderingLesson } from "@/domains/topics/content/frontend/react/server-rendering/meta";
+import { reactArchitectureLesson } from "@/domains/topics/content/frontend/react/architecture/meta";
+import { reactErrorHandlingLesson } from "@/domains/topics/content/frontend/react/error-handling/meta";
 import { dnsLesson } from "@/domains/topics/content/network/dns/meta";
 import { http123Lesson } from "@/domains/topics/content/network/http-1-2-3/meta";
 import { tlsLesson } from "@/domains/topics/content/network/tls/meta";
@@ -245,6 +258,71 @@ describe("topic integrity", () => {
     expect(angularSignalsStandaloneComponentsLesson.title.length).toBeGreaterThan(0);
     expect(angularSignalsStandaloneComponentsLesson.summary.length).toBeGreaterThan(0);
     expect(angularSignalsStandaloneComponentsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactFundamentalsLesson.id).toBe("react-fundamentals");
+    expect(reactFundamentalsLesson.title.length).toBeGreaterThan(0);
+    expect(reactFundamentalsLesson.summary.length).toBeGreaterThan(0);
+    expect(reactFundamentalsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactHooksInDepthLesson.id).toBe("react-hooks-in-depth");
+    expect(reactHooksInDepthLesson.title.length).toBeGreaterThan(0);
+    expect(reactHooksInDepthLesson.summary.length).toBeGreaterThan(0);
+    expect(reactHooksInDepthLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactRenderingBehaviorLesson.id).toBe("react-rendering-behavior");
+    expect(reactRenderingBehaviorLesson.title.length).toBeGreaterThan(0);
+    expect(reactRenderingBehaviorLesson.summary.length).toBeGreaterThan(0);
+    expect(reactRenderingBehaviorLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactStateManagementLesson.id).toBe("react-state-management");
+    expect(reactStateManagementLesson.title.length).toBeGreaterThan(0);
+    expect(reactStateManagementLesson.summary.length).toBeGreaterThan(0);
+    expect(reactStateManagementLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactComponentDesignLesson.id).toBe("react-component-design");
+    expect(reactComponentDesignLesson.title.length).toBeGreaterThan(0);
+    expect(reactComponentDesignLesson.summary.length).toBeGreaterThan(0);
+    expect(reactComponentDesignLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactPerformanceLesson.id).toBe("react-performance");
+    expect(reactPerformanceLesson.title.length).toBeGreaterThan(0);
+    expect(reactPerformanceLesson.summary.length).toBeGreaterThan(0);
+    expect(reactPerformanceLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactEffectsLesson.id).toBe("react-effects-and-side-effects");
+    expect(reactEffectsLesson.title.length).toBeGreaterThan(0);
+    expect(reactEffectsLesson.summary.length).toBeGreaterThan(0);
+    expect(reactEffectsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactFormsLesson.id).toBe("react-forms");
+    expect(reactFormsLesson.title.length).toBeGreaterThan(0);
+    expect(reactFormsLesson.summary.length).toBeGreaterThan(0);
+    expect(reactFormsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactDataFetchingLesson.id).toBe("react-data-fetching");
+    expect(reactDataFetchingLesson.title.length).toBeGreaterThan(0);
+    expect(reactDataFetchingLesson.summary.length).toBeGreaterThan(0);
+    expect(reactDataFetchingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactRoutingLesson.id).toBe("react-routing");
+    expect(reactRoutingLesson.title.length).toBeGreaterThan(0);
+    expect(reactRoutingLesson.summary.length).toBeGreaterThan(0);
+    expect(reactRoutingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactServerRenderingLesson.id).toBe("react-server-rendering");
+    expect(reactServerRenderingLesson.title.length).toBeGreaterThan(0);
+    expect(reactServerRenderingLesson.summary.length).toBeGreaterThan(0);
+    expect(reactServerRenderingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactArchitectureLesson.id).toBe("react-architecture");
+    expect(reactArchitectureLesson.title.length).toBeGreaterThan(0);
+    expect(reactArchitectureLesson.summary.length).toBeGreaterThan(0);
+    expect(reactArchitectureLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(reactErrorHandlingLesson.id).toBe("react-error-handling");
+    expect(reactErrorHandlingLesson.title.length).toBeGreaterThan(0);
+    expect(reactErrorHandlingLesson.summary.length).toBeGreaterThan(0);
+    expect(reactErrorHandlingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
     expect(dnsLesson.id).toBe("dns");
     expect(dnsLesson.title.length).toBeGreaterThan(0);
