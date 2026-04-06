@@ -42,7 +42,7 @@ describe("topic registry", () => {
       label: "Frontend",
     });
     const firstGroup = MENU_ITEMS[0].kind === "group" ? MENU_ITEMS[0] : null;
-    expect(firstGroup?.children).toHaveLength(2);
+    expect(firstGroup?.children).toHaveLength(3);
     expect(firstGroup?.children?.[0]).toMatchObject({
       kind: "group",
       id: "fundamentals",
@@ -52,6 +52,11 @@ describe("topic registry", () => {
       kind: "group",
       id: "java-script",
       label: "JavaScript",
+    });
+    expect(firstGroup?.children?.[2]).toMatchObject({
+      kind: "group",
+      id: "angular",
+      label: "Angular",
     });
     expect(MENU_ITEMS[1]).toMatchObject({
       kind: "group",
@@ -157,6 +162,48 @@ describe("topic registry", () => {
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "immutability")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-architecture")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-components-templates-data-binding")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-directives")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-inputs-outputs-component-communication")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-lifecycle-hooks")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-dependency-injection")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-services")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-rxjs-basics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-http-client")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-routing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-reactive-forms-validation")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-change-detection")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-interceptors")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-signals-standalone-components")?.status,
     ).toBe("ready");
     expect(
       TOPIC_DEFINITIONS.find((topic) => topic.id === "dns")?.status,

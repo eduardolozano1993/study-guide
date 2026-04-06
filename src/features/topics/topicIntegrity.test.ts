@@ -19,6 +19,20 @@ import { errorHandlingJavaScriptLesson } from "@/domains/topics/content/frontend
 import { domManipulationBasicsLesson } from "@/domains/topics/content/frontend/java-script/dom-manipulation-basics/meta";
 import { esmVsCommonjsLesson } from "@/domains/topics/content/frontend/java-script/esm-vs-commonjs/meta";
 import { immutabilityLesson } from "@/domains/topics/content/frontend/java-script/immutability/meta";
+import { angularArchitectureLesson } from "@/domains/topics/content/frontend/angular/angular-architecture/meta";
+import { angularComponentsTemplatesDataBindingLesson } from "@/domains/topics/content/frontend/angular/angular-components-templates-data-binding/meta";
+import { angularDirectivesLesson } from "@/domains/topics/content/frontend/angular/angular-directives/meta";
+import { angularInputsOutputsComponentCommunicationLesson } from "@/domains/topics/content/frontend/angular/angular-inputs-outputs-component-communication/meta";
+import { angularLifecycleHooksLesson } from "@/domains/topics/content/frontend/angular/angular-lifecycle-hooks/meta";
+import { angularDependencyInjectionLesson } from "@/domains/topics/content/frontend/angular/angular-dependency-injection/meta";
+import { angularServicesLesson } from "@/domains/topics/content/frontend/angular/angular-services/meta";
+import { angularRxjsBasicsLesson } from "@/domains/topics/content/frontend/angular/angular-rxjs-basics/meta";
+import { angularHttpClientLesson } from "@/domains/topics/content/frontend/angular/angular-http-client/meta";
+import { angularRoutingLesson } from "@/domains/topics/content/frontend/angular/angular-routing/meta";
+import { angularReactiveFormsValidationLesson } from "@/domains/topics/content/frontend/angular/angular-reactive-forms-validation/meta";
+import { angularChangeDetectionLesson } from "@/domains/topics/content/frontend/angular/angular-change-detection/meta";
+import { angularInterceptorsLesson } from "@/domains/topics/content/frontend/angular/angular-interceptors/meta";
+import { angularSignalsStandaloneComponentsLesson } from "@/domains/topics/content/frontend/angular/angular-signals-standalone-components/meta";
 import { dnsLesson } from "@/domains/topics/content/network/dns/meta";
 import { http123Lesson } from "@/domains/topics/content/network/http-1-2-3/meta";
 import { tlsLesson } from "@/domains/topics/content/network/tls/meta";
@@ -161,6 +175,76 @@ describe("topic integrity", () => {
     expect(immutabilityLesson.title.length).toBeGreaterThan(0);
     expect(immutabilityLesson.summary.length).toBeGreaterThan(0);
     expect(immutabilityLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularArchitectureLesson.id).toBe("angular-architecture");
+    expect(angularArchitectureLesson.title.length).toBeGreaterThan(0);
+    expect(angularArchitectureLesson.summary.length).toBeGreaterThan(0);
+    expect(angularArchitectureLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularComponentsTemplatesDataBindingLesson.id).toBe("angular-components-templates-data-binding");
+    expect(angularComponentsTemplatesDataBindingLesson.title.length).toBeGreaterThan(0);
+    expect(angularComponentsTemplatesDataBindingLesson.summary.length).toBeGreaterThan(0);
+    expect(angularComponentsTemplatesDataBindingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularDirectivesLesson.id).toBe("angular-directives");
+    expect(angularDirectivesLesson.title.length).toBeGreaterThan(0);
+    expect(angularDirectivesLesson.summary.length).toBeGreaterThan(0);
+    expect(angularDirectivesLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularInputsOutputsComponentCommunicationLesson.id).toBe("angular-inputs-outputs-component-communication");
+    expect(angularInputsOutputsComponentCommunicationLesson.title.length).toBeGreaterThan(0);
+    expect(angularInputsOutputsComponentCommunicationLesson.summary.length).toBeGreaterThan(0);
+    expect(angularInputsOutputsComponentCommunicationLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularLifecycleHooksLesson.id).toBe("angular-lifecycle-hooks");
+    expect(angularLifecycleHooksLesson.title.length).toBeGreaterThan(0);
+    expect(angularLifecycleHooksLesson.summary.length).toBeGreaterThan(0);
+    expect(angularLifecycleHooksLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularDependencyInjectionLesson.id).toBe("angular-dependency-injection");
+    expect(angularDependencyInjectionLesson.title.length).toBeGreaterThan(0);
+    expect(angularDependencyInjectionLesson.summary.length).toBeGreaterThan(0);
+    expect(angularDependencyInjectionLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularServicesLesson.id).toBe("angular-services");
+    expect(angularServicesLesson.title.length).toBeGreaterThan(0);
+    expect(angularServicesLesson.summary.length).toBeGreaterThan(0);
+    expect(angularServicesLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularRxjsBasicsLesson.id).toBe("angular-rxjs-basics");
+    expect(angularRxjsBasicsLesson.title.length).toBeGreaterThan(0);
+    expect(angularRxjsBasicsLesson.summary.length).toBeGreaterThan(0);
+    expect(angularRxjsBasicsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularHttpClientLesson.id).toBe("angular-http-client");
+    expect(angularHttpClientLesson.title.length).toBeGreaterThan(0);
+    expect(angularHttpClientLesson.summary.length).toBeGreaterThan(0);
+    expect(angularHttpClientLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularRoutingLesson.id).toBe("angular-routing");
+    expect(angularRoutingLesson.title.length).toBeGreaterThan(0);
+    expect(angularRoutingLesson.summary.length).toBeGreaterThan(0);
+    expect(angularRoutingLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularReactiveFormsValidationLesson.id).toBe("angular-reactive-forms-validation");
+    expect(angularReactiveFormsValidationLesson.title.length).toBeGreaterThan(0);
+    expect(angularReactiveFormsValidationLesson.summary.length).toBeGreaterThan(0);
+    expect(angularReactiveFormsValidationLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularChangeDetectionLesson.id).toBe("angular-change-detection");
+    expect(angularChangeDetectionLesson.title.length).toBeGreaterThan(0);
+    expect(angularChangeDetectionLesson.summary.length).toBeGreaterThan(0);
+    expect(angularChangeDetectionLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularInterceptorsLesson.id).toBe("angular-interceptors");
+    expect(angularInterceptorsLesson.title.length).toBeGreaterThan(0);
+    expect(angularInterceptorsLesson.summary.length).toBeGreaterThan(0);
+    expect(angularInterceptorsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(angularSignalsStandaloneComponentsLesson.id).toBe("angular-signals-standalone-components");
+    expect(angularSignalsStandaloneComponentsLesson.title.length).toBeGreaterThan(0);
+    expect(angularSignalsStandaloneComponentsLesson.summary.length).toBeGreaterThan(0);
+    expect(angularSignalsStandaloneComponentsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
     expect(dnsLesson.id).toBe("dns");
     expect(dnsLesson.title.length).toBeGreaterThan(0);

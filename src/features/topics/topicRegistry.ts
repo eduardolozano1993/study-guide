@@ -99,6 +99,65 @@ const topicLoaders: Record<
   immutability: React.lazy(
     () => import("@/domains/topics/content/frontend/java-script/immutability"),
   ),
+  "angular-architecture": React.lazy(
+    () => import("@/domains/topics/content/frontend/angular/angular-architecture"),
+  ),
+  "angular-components-templates-data-binding": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/angular/angular-components-templates-data-binding"
+      ),
+  ),
+  "angular-directives": React.lazy(
+    () => import("@/domains/topics/content/frontend/angular/angular-directives"),
+  ),
+  "angular-inputs-outputs-component-communication": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/angular/angular-inputs-outputs-component-communication"
+      ),
+  ),
+  "angular-lifecycle-hooks": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/angular/angular-lifecycle-hooks"),
+  ),
+  "angular-dependency-injection": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/angular/angular-dependency-injection"
+      ),
+  ),
+  "angular-services": React.lazy(
+    () => import("@/domains/topics/content/frontend/angular/angular-services"),
+  ),
+  "angular-rxjs-basics": React.lazy(
+    () => import("@/domains/topics/content/frontend/angular/angular-rxjs-basics"),
+  ),
+  "angular-http-client": React.lazy(
+    () => import("@/domains/topics/content/frontend/angular/angular-http-client"),
+  ),
+  "angular-routing": React.lazy(
+    () => import("@/domains/topics/content/frontend/angular/angular-routing"),
+  ),
+  "angular-reactive-forms-validation": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/angular/angular-reactive-forms-validation"
+      ),
+  ),
+  "angular-change-detection": React.lazy(
+    () =>
+      import("@/domains/topics/content/frontend/angular/angular-change-detection"),
+  ),
+  "angular-interceptors": React.lazy(
+    () => import("@/domains/topics/content/frontend/angular/angular-interceptors"),
+  ),
+  "angular-signals-standalone-components": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/angular/angular-signals-standalone-components"
+      ),
+  ),
   dns: React.lazy(() => import("@/domains/topics/content/network/dns")),
   "http-1-2-3": React.lazy(
     () => import("@/domains/topics/content/network/http-1-2-3"),
@@ -245,6 +304,17 @@ const frontendJavaScriptMenuPath: TopicMenuPathItem[] = [
   {
     id: "java-script",
     label: "JavaScript",
+  },
+];
+
+const frontendAngularMenuPath: TopicMenuPathItem[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+  },
+  {
+    id: "angular",
+    label: "Angular",
   },
 ];
 
@@ -514,6 +584,132 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: frontendJavaScriptMenuPath,
     loader: topicLoaders.immutability,
+  },
+  {
+    id: "angular-architecture",
+    title: "Angular Architecture",
+    menuLabel: "Angular architecture",
+    path: "/topic/angular-architecture",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-architecture"],
+  },
+  {
+    id: "angular-components-templates-data-binding",
+    title: "Components, Templates, and Data Binding",
+    menuLabel: "Components, templates, data binding",
+    path: "/topic/angular-components-templates-data-binding",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-components-templates-data-binding"],
+  },
+  {
+    id: "angular-directives",
+    title: "Directives",
+    menuLabel: "Directives",
+    path: "/topic/angular-directives",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-directives"],
+  },
+  {
+    id: "angular-inputs-outputs-component-communication",
+    title: "Inputs, Outputs, and Component Communication",
+    menuLabel: "Inputs, outputs, communication",
+    path: "/topic/angular-inputs-outputs-component-communication",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-inputs-outputs-component-communication"],
+  },
+  {
+    id: "angular-lifecycle-hooks",
+    title: "Lifecycle Hooks",
+    menuLabel: "Lifecycle hooks",
+    path: "/topic/angular-lifecycle-hooks",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-lifecycle-hooks"],
+  },
+  {
+    id: "angular-dependency-injection",
+    title: "Dependency Injection",
+    menuLabel: "Dependency injection",
+    path: "/topic/angular-dependency-injection",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-dependency-injection"],
+  },
+  {
+    id: "angular-services",
+    title: "Services",
+    menuLabel: "Services",
+    path: "/topic/angular-services",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-services"],
+  },
+  {
+    id: "angular-rxjs-basics",
+    title: "RxJS Basics",
+    menuLabel: "RxJS basics",
+    path: "/topic/angular-rxjs-basics",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-rxjs-basics"],
+  },
+  {
+    id: "angular-http-client",
+    title: "HTTP Client",
+    menuLabel: "HTTP client",
+    path: "/topic/angular-http-client",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-http-client"],
+  },
+  {
+    id: "angular-routing",
+    title: "Routing",
+    menuLabel: "Routing",
+    path: "/topic/angular-routing",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-routing"],
+  },
+  {
+    id: "angular-reactive-forms-validation",
+    title: "Reactive Forms and Validations",
+    menuLabel: "Reactive forms and validations",
+    path: "/topic/angular-reactive-forms-validation",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-reactive-forms-validation"],
+  },
+  {
+    id: "angular-change-detection",
+    title: "Change Detection",
+    menuLabel: "Change detection",
+    path: "/topic/angular-change-detection",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-change-detection"],
+  },
+  {
+    id: "angular-interceptors",
+    title: "Interceptors",
+    menuLabel: "Interceptors",
+    path: "/topic/angular-interceptors",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-interceptors"],
+  },
+  {
+    id: "angular-signals-standalone-components",
+    title: "Signals and Standalone Components",
+    menuLabel: "Signals and standalone components",
+    path: "/topic/angular-signals-standalone-components",
+    status: "ready",
+    menuPath: frontendAngularMenuPath,
+    loader: topicLoaders["angular-signals-standalone-components"],
   },
   {
     id: "dns",
