@@ -27,13 +27,13 @@ export function TypeNarrowing() {
         <TopicCard
           icon="T"
           title="Type Narrowing"
-          description="Narrowing is where TypeScript stops being annotations and starts behaving like a reasoning tool."
+          description="Narrowing is where TypeScript stops being annotations and starts behaving like a reasoning tool. Senior answers explain how runtime evidence and control-flow analysis work together."
         />
 
         <Paragraph>
           A broad type only becomes useful when the program can safely refine it
-          as it learns more. TypeScript uses control-flow analysis across
-          branches, checks, and guards to narrow values.
+          as it learns more. TypeScript narrows values through control-flow
+          analysis across branches, guards, and impossible paths.
         </Paragraph>
 
         <CollapsibleSection title="Built-in narrowing" collapsible={false}>
@@ -54,12 +54,7 @@ export function TypeNarrowing() {
           </Paragraph>
         </CollapsibleSection>
 
-        <SectionHeader>Discriminated Unions</SectionHeader>
-        <Paragraph>
-          Senior interviews often expect you to move beyond simple{" "}
-          <code>typeof</code> checks and explain discriminated unions with
-          exhaustive handling.
-        </Paragraph>
+        <SectionHeader>Discriminated Unions and Exhaustiveness</SectionHeader>
         <CodeBlock
           language="typescript"
           code={`type ApiResult =
@@ -83,10 +78,12 @@ function renderResult(result: ApiResult) {
 }`}
         />
         <Callout variant="tip">
-          The <code>never</code> assignment proves the switch is exhaustive.
+          The <code>never</code> assignment proves the switch is exhaustive and
+          turns missing cases into compile-time signals.
         </Callout>
 
-        <CollapsibleSection title="User-defined guards">
+        <SectionHeader>User-Defined Guards Need Real Evidence</SectionHeader>
+        <CollapsibleSection title="Custom guard example">
           <CodeBlock
             language="typescript"
             code={`type User = { id: string; email: string };
@@ -100,19 +97,22 @@ function isUser(value: unknown): value is User {
   );
 }`}
           />
-          <Paragraph>
-            A custom guard is only as trustworthy as the runtime evidence it
-            checks. Weak guards create false confidence.
-          </Paragraph>
         </CollapsibleSection>
+        <BulletList
+          items={[
+            "A user-defined guard is only as trustworthy as the runtime evidence it checks.",
+            "Weak guards create false confidence and are often worse than leaving the value as `unknown`.",
+            "Narrowing is especially valuable in API parsing, event handling, and UI state machines where several states share a surface shape.",
+          ]}
+        />
 
-        <CollapsibleSection title="Interview pitfalls">
+        <CollapsibleSection title="Interviewer questions">
           <BulletList
             items={[
-              "Using as instead of writing a real runtime check.",
-              "Forgetting null when narrowing objects.",
-              "Skipping exhaustiveness for discriminated unions.",
-              "Writing custom guards that barely validate anything.",
+              "How does control-flow analysis combine several guards across a function?",
+              "Why is `never` useful in exhaustive switches?",
+              "What makes a custom type guard weak or unsafe?",
+              "When is narrowing better than using `as`?",
             ]}
           />
         </CollapsibleSection>

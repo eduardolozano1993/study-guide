@@ -1,4 +1,6 @@
 import {
+  BulletList,
+  Callout,
   CodeBlock,
   CollapsibleSection,
   ComparisonTable,
@@ -26,37 +28,62 @@ export function ReactStateManagement() {
         <TopicCard
           icon="S"
           title="State Management"
-          description="Senior React interviews usually test state placement and boundaries more than library trivia. The hard part is choosing where state lives and how updates propagate."
+          description="Senior React interviews test state placement and boundaries more than library trivia. The hard part is deciding what kind of state you have, who owns it, and how updates propagate without turning the whole tree into shared mutable chaos."
         />
 
-        <SectionHeader>Local vs Global State</SectionHeader>
+        <SectionHeader>Classify State Before Choosing a Tool</SectionHeader>
         <Paragraph>
-          The default should be local state, placed as low as possible while
-          still serving all consumers that need it. Global state is justified
-          when distant parts of the app need coordinated access or the concern
-          truly crosses feature boundaries.
+          The first senior move is not naming Redux, Zustand, or Context. It is
+          classifying the state: local UI state, URL state, shared client state,
+          or server state. Different categories need different ownership and
+          invalidation rules.
         </Paragraph>
-        <Paragraph>
-          Strong candidates also separate client state from server state. Fetched
-          data often has a different lifecycle from UI state and should not
-          automatically be pushed into the same store.
-        </Paragraph>
-        <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-          <li>Local UI state: modal visibility, active tab, expanded accordion.</li>
-          <li>Shared client state: session, theme, coordinated drafts.</li>
-          <li>Server state: fetched resources that need caching and invalidation.</li>
-        </ul>
+        <ComparisonTable
+          columns={[
+            { key: "owner", label: "Best owner" },
+            { key: "notes", label: "What to watch for" },
+          ]}
+          rows={[
+            {
+              label: "Local UI state",
+              values: {
+                owner: "Nearest component or route boundary that coordinates the interaction.",
+                notes: "Do not globalize modal, tab, or form-step state by habit.",
+              },
+            },
+            {
+              label: "URL state",
+              values: {
+                owner: "Router or search params.",
+                notes: "If it should survive refresh or be shareable, the URL may be the right source of truth.",
+              },
+            },
+            {
+              label: "Shared client state",
+              values: {
+                owner: "Context or store with selectors and clear feature ownership.",
+                notes: "Watch for provider churn, hidden coupling, and cross-feature sprawl.",
+              },
+            },
+            {
+              label: "Server state",
+              values: {
+                owner: "Query/cache layer or framework data APIs.",
+                notes: "Caching, retries, and invalidation make this different from ordinary client state.",
+              },
+            },
+          ]}
+        />
 
-        <SectionHeader>Lifting State, Reducers, and Context Limits</SectionHeader>
+        <SectionHeader>Context Helps Distribution, Not Granularity</SectionHeader>
         <Paragraph>
-          Lifting state up solves duplicated sources of truth by moving
-          ownership to the nearest common parent. Context can reduce prop
-          drilling, but it does not solve update granularity on its own.
+          Context solves prop drilling for values many descendants need, but it
+          does not automatically solve performance. Every consumer reacts when
+          the provided value identity changes.
         </Paragraph>
         <Paragraph>
-          Every consumer re-renders when the provided context value identity
-          changes. That is acceptable for stable, low-frequency values, but it
-          becomes a poor fit for large fast-changing objects.
+          That is why high-frequency shared state often needs selectors, smaller
+          providers, or a store designed to avoid whole-tree churn.
         </Paragraph>
         <CollapsibleSection title="Lift state only to the boundary that owns coordination" collapsible={false}>
           <CodeBlock
@@ -76,55 +103,73 @@ export function ReactStateManagement() {
 }`}
           />
         </CollapsibleSection>
+        <BulletList
+          items={[
+            "Context is excellent for stable injected dependencies such as theme, session, or service access.",
+            "Large objects passed through one provider can make unrelated consumers re-render together.",
+            "A shared service or store is not automatically better than prop drilling if ownership becomes less clear.",
+          ]}
+        />
 
-        <SectionHeader>Zustand, Redux, and Choosing the Right Tool</SectionHeader>
+        <SectionHeader>When a Store Is Worth It</SectionHeader>
         <Paragraph>
-          Redux is valuable when you need explicit event history, middleware,
-          predictable global updates, and a strict architecture for large teams.
-          Zustand is attractive when you want a lighter store with selectors and
-          less ceremony.
-        </Paragraph>
-        <Paragraph>
-          A senior answer explains tradeoffs in debugging, team size, update
-          frequency, and whether the problem is really client state or server
-          cache management.
+          Stores earn their keep when multiple features need coordinated updates,
+          selectors, undo history, event tracing, optimistic mutations, or
+          predictable governance over cross-page state.
         </Paragraph>
         <ComparisonTable
           columns={[
-            { key: "zustand", label: "Zustand" },
-            { key: "redux", label: "Redux Toolkit" },
+            { key: "fit", label: "Good fit" },
+            { key: "risk", label: "Common failure mode" },
           ]}
           rows={[
             {
-              label: "Ergonomics",
+              label: "Context plus reducers",
               values: {
-                zustand: "Lower ceremony, fast to adopt, good for focused client state.",
-                redux: "More structure, better conventions, clearer patterns in large teams.",
+                fit: "Bounded shared state with moderate update frequency and clear ownership.",
+                risk: "One giant provider turns into an implicit app-wide store.",
               },
             },
             {
-              label: "Debugging",
+              label: "Zustand or similar selector-based store",
               values: {
-                zustand: "Depends more on project discipline and tooling choices.",
-                redux: "Action-driven tracing and debugging are stronger by default.",
+                fit: "Focused shared client state with lightweight ergonomics.",
+                risk: "Ad-hoc patterns and weak conventions make long-term governance harder.",
               },
             },
             {
-              label: "Best use case",
+              label: "Redux Toolkit",
               values: {
-                zustand: "Small to medium apps or bounded cross-page client state.",
-                redux: "Larger applications that benefit from standardized workflows.",
+                fit: "Large teams that benefit from explicit events, middleware, and tracing.",
+                risk: "Using it for data that should really stay in a server cache.",
               },
             },
           ]}
         />
-        <CollapsibleSection title="State management interview heuristic">
-          <Paragraph>
-            Before naming a library, classify the state. If the data comes from
-            the server and needs invalidation, background refetching, and
-            optimistic updates, TanStack Query is often a better first answer
-            than Redux or Zustand.
-          </Paragraph>
+        <Callout variant="tip">
+          Before naming a store, ask whether the problem is really server cache,
+          URL state, or a feature boundary that was modeled too broadly.
+        </Callout>
+
+        <SectionHeader>Growth, Migration, and Governance</SectionHeader>
+        <BulletList
+          items={[
+            "Local state stops scaling when distant features must coordinate, derived selectors repeat everywhere, or updates need consistent orchestration.",
+            "Introduce shared state at feature boundaries first instead of centralizing the entire app at once.",
+            "Normalization matters when collections are edited from multiple places and identity consistency becomes painful.",
+            "A senior design keeps server cache separate from client workflow state so invalidation does not infect everything.",
+          ]}
+        />
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "How do you decide whether state belongs in the component, the URL, a shared store, or a server cache?",
+              "Why can Context become a performance problem even though it reduces prop drilling?",
+              "When does a team truly outgrow local state?",
+              "Why is putting fetched data into a global client store often the wrong first move?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

@@ -1,7 +1,9 @@
 import {
   BulletList,
+  Callout,
   CodeBlock,
   CollapsibleSection,
+  ComparisonTable,
   Paragraph,
   SectionHeader,
   TopicCard,
@@ -26,14 +28,15 @@ export function TypeScriptFunctions() {
         <TopicCard
           icon="T"
           title="Functions in TypeScript"
-          description="Function types are where API design and type safety usually meet. Good signatures make misuse hard."
+          description="Function types are where API design and type safety meet. Good signatures guide callers toward valid usage instead of forcing them to guess and cast."
         />
 
-        <SectionHeader>Function Signatures</SectionHeader>
+        <SectionHeader>Design Signatures, Not Just Implementations</SectionHeader>
         <Paragraph>
-          Interviewers usually care less about syntax memorization and more
-          about whether your function signature communicates the contract
-          clearly.
+          Interviewers care less about syntax memorization and more about
+          whether the function signature communicates the contract clearly:
+          inputs, output, callback expectations, and how invalid usage is
+          prevented.
         </Paragraph>
         <CodeBlock
           language="typescript"
@@ -44,7 +47,8 @@ function formatPrices(values: number[], formatter: Formatter) {
 }`}
         />
 
-        <CollapsibleSection title="Overloads vs union parameters">
+        <SectionHeader>Overloads vs Unions</SectionHeader>
+        <CollapsibleSection title="Overload example" collapsible={false}>
           <CodeBlock
             language="typescript"
             code={`function getLabel(value: number): string;
@@ -53,33 +57,61 @@ function getLabel(value: number | string) {
   return typeof value === "number" ? \`#\${value}\` : value.trim();
 }`}
           />
-          <Paragraph>
-            Use overloads when different inputs justify different call
-            signatures or return types. Otherwise, unions plus narrowing are
-            often simpler.
-          </Paragraph>
         </CollapsibleSection>
+        <ComparisonTable
+          columns={[
+            { key: "good", label: "Good fit" },
+            { key: "bad", label: "Poor fit" },
+          ]}
+          rows={[
+            {
+              label: "Overloads",
+              values: {
+                good: "Different call signatures or return relationships really matter to callers.",
+                bad: "A simple union plus narrowing already expresses the contract clearly.",
+              },
+            },
+            {
+              label: "Union parameters",
+              values: {
+                good: "One implementation and one return shape cover the cases naturally.",
+                bad: "Distinct caller experiences become hidden behind one vague signature.",
+              },
+            },
+          ]}
+        />
 
-        <CollapsibleSection title="Typing this">
-          <CodeBlock
-            language="typescript"
-            code={`type Button = { disabled: boolean };
+        <SectionHeader>Callbacks, this, and Widening Risks</SectionHeader>
+        <CodeBlock
+          language="typescript"
+          code={`type Button = { disabled: boolean };
 
 function handleClick(this: Button, event: MouseEvent) {
   if (this.disabled) {
     event.preventDefault();
   }
 }`}
-          />
-        </CollapsibleSection>
+        />
+        <BulletList
+          items={[
+            "Callback types should be specific enough that callers know what they receive and what they may return.",
+            "Arrow functions and regular functions treat `this` differently, which matters in framework callbacks and library APIs.",
+            "One helper that silently returns `any` or broadly typed `unknown` can poison the rest of the call chain.",
+            "Generic inference should usually make the common path obvious. If callers constantly annotate type parameters, the API may be poorly designed.",
+          ]}
+        />
+        <Callout variant="warning">
+          The senior question is not `can you type a function`. It is `can you
+          make the signature itself prevent mistakes and teach correct usage`.
+        </Callout>
 
-        <CollapsibleSection title="Interview pitfalls">
+        <CollapsibleSection title="Interviewer questions">
           <BulletList
             items={[
-              "Using overloads where a union parameter would be clearer.",
-              "Letting helper functions return any and losing all downstream safety.",
-              "Leaving callback contracts too vague to guide callers.",
-              "Forgetting that arrow functions and normal functions handle this differently.",
+              "When are overloads better than a union parameter?",
+              "How do you type callbacks so callers are guided toward valid usage?",
+              "Where does `this` typing still matter in modern TypeScript?",
+              "How can one poorly typed helper function weaken an entire module?",
             ]}
           />
         </CollapsibleSection>

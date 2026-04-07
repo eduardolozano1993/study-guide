@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -61,13 +62,48 @@ export function AngularRxjsBasics() {
           </Callout>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Operator Tradeoffs and Stream Types" collapsible={false}>
+          <BulletList
+            items={[
+              "`switchMap` is often best for replacing stale requests, such as typeahead or route-driven loading.",
+              "`mergeMap` allows concurrency, `concatMap` preserves order, and `exhaustMap` ignores overlapping triggers until the current one completes.",
+              "Hot versus cold streams matter because not every subscription starts the same work or shares the same source.",
+              "Subjects are useful, but they are not the default answer for every communication problem.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Cancellation and Cleanup" collapsible={false}>
+          <BulletList
+            items={[
+              "`async` pipe manages subscription lifecycle for template consumption.",
+              "`takeUntilDestroyed` or similar teardown patterns help when the stream is consumed imperatively.",
+              "Nested subscriptions are usually a sign that composition should happen higher in the stream pipeline.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why is `switchMap` a common choice for request replacement flows?",
+              "When would `mergeMap`, `concatMap`, or `exhaustMap` be the safer operator?",
+              "What is the difference between a hot and cold observable?",
+              "How would you combine route params with remote data without nested subscriptions?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Describing observables as just "promises with extra steps".</li>
-            <li>Using `subscribe` everywhere instead of composing streams first.</li>
-            <li>Ignoring cleanup for long-lived subscriptions.</li>
-            <li>Not knowing why `switchMap` is often preferred for request replacement flows.</li>
-          </ul>
+          <BulletList
+            items={[
+              'Describing observables as just "promises with extra steps".',
+              "Using `subscribe` everywhere instead of composing streams first.",
+              "Ignoring cleanup for long-lived subscriptions.",
+              "Not knowing why `switchMap` is often preferred for request replacement flows.",
+              "Using Subjects as a reflex instead of reasoning about ownership and stream shape.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

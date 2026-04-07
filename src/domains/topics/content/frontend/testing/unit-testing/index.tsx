@@ -27,15 +27,15 @@ export function UnitTesting() {
         <TopicCard
           icon="T"
           title="Unit Testing"
-          description="A good unit test checks a small piece of behavior in isolation, runs quickly, and fails for a specific reason."
+          description="A good unit test checks a small piece of behavior in isolation, runs quickly, and fails for a specific reason. Its real value is determinism and diagnosis, not just test count."
         />
 
         <SectionHeader>Mental Model</SectionHeader>
         <Paragraph>
           Unit tests focus on one small unit of behavior at a time: a pure
-          function, a utility, a formatter, a validator, or a component with
-          tightly controlled dependencies. The goal is fast feedback and precise
-          failures.
+          function, a formatter, a parser, a validator, a reducer, or a very
+          small component with tightly controlled collaborators. The goal is
+          fast feedback and precise failures.
         </Paragraph>
         <Paragraph>
           In frontend work, unit tests are strongest when they target logic that
@@ -58,35 +58,39 @@ describe("formatPrice", () => {
   });
 });`}
           />
-          <Paragraph>
-            This kind of test is valuable because the scope is narrow, the
-            inputs are explicit, and the failure points to one behavior.
-          </Paragraph>
         </CollapsibleSection>
 
-        <CollapsibleSection title="What belongs in unit tests">
-          <BulletList
-            items={[
-              "Data transformation and formatting helpers.",
-              "Validation and parsing logic.",
-              "Reducer-like state transitions.",
-              "Small components with limited surface area and mocked collaborators.",
-            ]}
-          />
-        </CollapsibleSection>
+        <SectionHeader>High-Value Unit-Test Targets</SectionHeader>
+        <BulletList
+          items={[
+            "Reducers and state transition helpers that encode domain rules cleanly.",
+            "Formatters, parsers, validators, and permission helpers where inputs and outputs are explicit.",
+            "Boundary logic that turns messy input into a normalized representation.",
+            "Small components only when their behavior is still meaningful in isolation.",
+          ]}
+        />
 
+        <SectionHeader>What Makes A Unit Test Weak</SectionHeader>
+        <BulletList
+          items={[
+            "Over-mocking can make the test precise but meaningless because the real collaboration points disappear.",
+            "Implementation-detail assertions create brittle tests that fail on harmless refactors instead of real regressions.",
+            "Tiny tests around trivial getters or wrappers can inflate coverage without increasing confidence.",
+            "If the behavior only matters when several modules interact, a unit test may be the wrong level entirely.",
+          ]}
+        />
         <Callout variant="tip">
-          Senior interview answers usually say that unit tests should be cheap,
-          deterministic, and easy to diagnose.
+          Senior interview answers usually emphasize that unit tests should be
+          cheap, deterministic, observable, and easy to diagnose.
         </Callout>
 
-        <CollapsibleSection title="Common interview pitfalls">
+        <CollapsibleSection title="Interviewer questions">
           <BulletList
             items={[
-              "Calling every small test a unit test even when several systems are involved.",
-              "Mocking so aggressively that the test stops representing useful behavior.",
-              "Testing implementation details instead of observable outcomes.",
-              "Using unit tests for flows that only make sense when modules work together.",
+              "What kinds of frontend logic are excellent unit-test targets?",
+              "Why are reducers, parsers, validators, and formatters especially good candidates?",
+              "How can a unit test become too mocked or too implementation-specific to stay useful?",
+              "When should you stop forcing a unit test and move up to integration instead?",
             ]}
           />
         </CollapsibleSection>

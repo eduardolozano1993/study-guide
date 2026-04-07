@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -70,6 +71,17 @@ try {
           </Paragraph>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Streaming, Retry Boundaries, and Timeouts" collapsible={false}>
+          <BulletList
+            items={[
+              "Cancellation matters most when the user navigates away, types quickly, or requests newer data that should replace older results.",
+              "Streaming can improve perceived performance when partial data can be processed incrementally instead of waiting for the full payload.",
+              "Retries should usually be limited to transient failures, not every 4xx or mutation request.",
+              "Timeouts and retry policies belong where request ownership lives, not scattered across random UI components.",
+            ]}
+          />
+        </CollapsibleSection>
+
         <SectionHeader>State in the Browser</SectionHeader>
 
         <CollapsibleSection title="URL State vs Storage vs Memory" collapsible={false}>
@@ -93,14 +105,39 @@ sessionStorage.setItem("draftId", "42");`}
           </Callout>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Storage Tradeoffs Go Beyond Persistence" collapsible={false}>
+          <BulletList
+            items={[
+              "`localStorage` is synchronous, which means large reads or writes can block the main thread.",
+              "Storage has quota limits and can be cleared or partitioned differently across browsers and privacy modes.",
+              "Multi-tab behavior matters: the `storage` event can help synchronize simple state, but it does not replace a real coordination model.",
+              "If state should be shareable, bookmarkable, or reviewable in a URL, browser storage is often the wrong first system of record.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "What should survive refresh, what should live in the URL, and what should reset naturally in memory?",
+              "Why is `localStorage` sometimes a performance problem and not just a convenience API?",
+              "When would you retry a failed request, and where should that retry policy live?",
+              "How would you keep history, URL params, and UI state synchronized without creating confusing back-button behavior?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Assuming `fetch` throws for every 4xx or 5xx response.</li>
-            <li>Ignoring request cancellation when UI state changes quickly.</li>
-            <li>Putting shareable UI state in memory instead of the URL.</li>
-            <li>Storing sensitive tokens in easily reachable browser storage without discussing risks.</li>
-            <li>Confusing browser APIs with framework utilities.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Assuming `fetch` throws for every 4xx or 5xx response.",
+              "Ignoring request cancellation when UI state changes quickly.",
+              "Putting shareable UI state in memory instead of the URL.",
+              "Treating `localStorage` as free without mentioning sync blocking, quota, or privacy constraints.",
+              "Storing sensitive tokens in easily reachable browser storage without discussing risks.",
+              "Confusing browser APIs with framework utilities.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

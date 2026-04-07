@@ -1,4 +1,6 @@
 import {
+  BulletList,
+  Callout,
   CodeBlock,
   ComparisonTable,
   Paragraph,
@@ -25,20 +27,47 @@ export function ReactForms() {
         <TopicCard
           icon="F"
           title="Forms"
-          description="Forms test your understanding of controlled inputs, validation, async workflows, and API design under user interaction pressure."
+          description="Forms test your understanding of controlled inputs, validation, async workflows, accessibility, and state ownership under constant user interaction pressure."
         />
 
-        <SectionHeader>Controlled Inputs and Validation</SectionHeader>
+        <SectionHeader>Controlled, Uncontrolled, and Library Choice</SectionHeader>
         <Paragraph>
           Controlled inputs make React state the source of truth. This is useful
           when validation, formatting, conditional UI, or analytics depends on
-          the current value.
+          the current value. Uncontrolled inputs and form libraries can be
+          better when reducing re-render cost or boilerplate matters more.
         </Paragraph>
-        <Paragraph>
-          Validation can be synchronous, asynchronous, field-level, or
-          form-level. Strong answers explain where validation belongs and how to
-          keep UX stable while requests are in flight.
-        </Paragraph>
+        <ComparisonTable
+          columns={[
+            { key: "fit", label: "Best fit" },
+            { key: "tradeoff", label: "Tradeoff" },
+          ]}
+          rows={[
+            {
+              label: "Controlled inputs",
+              values: {
+                fit: "Explicit validation, cross-field interactions, and synchronized UI.",
+                tradeoff: "More wiring and more opportunities for large-form re-render churn.",
+              },
+            },
+            {
+              label: "Uncontrolled or ref-driven inputs",
+              values: {
+                fit: "Simple forms, file inputs, or APIs that do not need constant React ownership.",
+                tradeoff: "Harder to coordinate when many parts of the UI need current values.",
+              },
+            },
+            {
+              label: "Form libraries",
+              values: {
+                fit: "Large forms, nested fields, schema validation, or performance-sensitive workflows.",
+                tradeoff: "Adds conventions and abstraction that the team must understand well.",
+              },
+            },
+          ]}
+        />
+
+        <SectionHeader>Async Validation and Submission</SectionHeader>
         <CodeBlock
           language="tsx"
           code={`function SignUpForm() {
@@ -65,45 +94,36 @@ export function ReactForms() {
   );
 }`}
         />
-
-        <SectionHeader>Async Submission UX</SectionHeader>
-        <Paragraph>
-          Good form UX requires more than successful submission. You need
-          pending state, duplicate submission prevention, error messaging, and
-          preserved input for recoverable failures.
-        </Paragraph>
-        <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-          <li>Disable or debounce repeated submits when appropriate.</li>
-          <li>Keep field-level and submission-level errors separate.</li>
-          <li>Do not clear recoverable user input before the server confirms success.</li>
-        </ul>
-
-        <SectionHeader>Form Libraries</SectionHeader>
-        <Paragraph>
-          Libraries like React Hook Form reduce boilerplate, minimize re-renders,
-          and improve ergonomics for large forms with nested fields or reusable
-          validation schemas.
-        </Paragraph>
-        <ComparisonTable
-          columns={[
-            { key: "plain", label: "Plain React" },
-            { key: "library", label: "Form library" },
+        <BulletList
+          items={[
+            "Async validation can race when users type quickly, so stale responses should not overwrite newer field state.",
+            "Duplicate-submit prevention matters because users retry and networks wobble.",
+            "Recoverable failures should preserve dirty input and give the user a credible next step.",
+            "Optimistic form submission only makes sense when rollback and server truth are clear.",
           ]}
-          rows={[
-            {
-              label: "Best fit",
-              values: {
-                plain: "Small or moderate forms with straightforward validation.",
-                library: "Large forms, nested fields, reusable schemas, or performance-sensitive workflows.",
-              },
-            },
-            {
-              label: "Tradeoff",
-              values: {
-                plain: "Less abstraction overhead, more manual wiring.",
-                library: "Faster at scale, but adds conventions and dependency surface area.",
-              },
-            },
+        />
+
+        <SectionHeader>Accessibility and UX Responsibilities</SectionHeader>
+        <BulletList
+          items={[
+            "Labels, inline errors, submission-level errors, and focus movement all affect form usability.",
+            "Complex forms need keyboard-safe interactions and clear focus targets after validation failures.",
+            "Field-level and submission-level errors should be separate so the user knows what to fix and what the system is reporting.",
+          ]}
+        />
+        <Callout variant="warning">
+          A form is not done when it submits successfully. Pending state, error
+          recovery, accessibility, and input preservation are part of the real
+          product behavior.
+        </Callout>
+
+        <SectionHeader>Interviewer Questions</SectionHeader>
+        <BulletList
+          items={[
+            "When is a controlled form the right choice, and when is a library or uncontrolled pattern better?",
+            "How do you prevent async validation races in large forms?",
+            "Why should recoverable submission failures preserve user input?",
+            "How do you keep a large form responsive without making validation and accessibility worse?",
           ]}
         />
       </div>

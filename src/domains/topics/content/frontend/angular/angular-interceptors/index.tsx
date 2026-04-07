@@ -1,4 +1,5 @@
 import {
+  BulletList,
   CodeBlock,
   CollapsibleSection,
   Paragraph,
@@ -57,12 +58,47 @@ export function AngularInterceptors() {
           </Paragraph>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Ordering, Retry Safety, and Auth Refresh Races" collapsible={false}>
+          <BulletList
+            items={[
+              "Interceptor order matters because each wrapper changes the request and response pipeline seen by the next one.",
+              "Blind retry is dangerous for non-idempotent mutations because duplicated writes can create real incidents.",
+              "Token refresh flows need coordination so multiple failing requests do not all trigger competing refresh calls.",
+              "Auth interceptors also need bypass rules for endpoints like login, refresh, or public assets.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Boundary Discipline" collapsible={false}>
+          <BulletList
+            items={[
+              "Interceptors are good for cross-cutting transport concerns such as auth headers, tracing, normalization, and safe retry policy.",
+              "Feature-specific business decisions usually belong in services or domain logic instead.",
+              "Route guards handle navigation decisions, not request mutation. Mixing those responsibilities weakens both layers.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why does interceptor ordering matter?",
+              "When is retry safe, and when can it create data integrity problems?",
+              "How would you handle token refresh without infinite loops or refresh races?",
+              "What belongs in an interceptor versus a guard, service, or domain layer?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Using interceptors for feature-specific business logic that belongs in services.</li>
-            <li>Not understanding that requests are immutable and must be cloned.</li>
-            <li>Ignoring the observable pipeline returned by `next`.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Using interceptors for feature-specific business logic that belongs in services.",
+              "Not understanding that requests are immutable and must be cloned.",
+              "Retrying non-idempotent requests without discussing risk.",
+              "Ignoring the observable pipeline returned by `next`.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

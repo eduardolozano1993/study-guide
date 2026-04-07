@@ -1,6 +1,9 @@
 import {
+  BulletList,
+  Callout,
   CodeBlock,
   CollapsibleSection,
+  ComparisonTable,
   Paragraph,
   SectionHeader,
   TopicCard,
@@ -25,35 +28,62 @@ export function ReactDataFetching() {
         <TopicCard
           icon="D"
           title="Data Fetching"
-          description="Senior frontend interviews care less about raw fetch syntax and more about server-state modeling, cache strategy, and how loading and failure states shape the user experience."
+          description="Senior frontend interviews care less about raw fetch syntax and more about server-state modeling, loading UX, mutation boundaries, stale-data risks, and where fetching should live in the architecture."
         />
 
-        <SectionHeader>Client Fetching and Server State</SectionHeader>
+        <SectionHeader>Server State Is Not Just More Component State</SectionHeader>
         <Paragraph>
-          Fetched data is server state, not ordinary client state. You do not
-          fully own it, it can become stale, and it often needs caching,
-          invalidation, retries, and background refresh.
+          Fetched data is server state. You do not fully own it, it can become
+          stale, and reads and writes need caching, invalidation, retries,
+          background refresh, and sometimes optimistic updates.
         </Paragraph>
         <Paragraph>
-          That is why mature React apps often separate server-state tooling from
-          client-state tooling. `useEffect` plus `useState` stops scaling once
-          caching and synchronization get real.
+          That is why `useEffect` plus `useState` stops scaling once multiple
+          components depend on the same resource or mutations must keep views in
+          sync.
         </Paragraph>
 
-        <SectionHeader>Caching, Loading States, and Optimistic Updates</SectionHeader>
+        <SectionHeader>Choose the Right Fetching Boundary</SectionHeader>
+        <ComparisonTable
+          columns={[
+            { key: "best", label: "Best fit" },
+            { key: "tradeoff", label: "Main tradeoff" },
+          ]}
+          rows={[
+            {
+              label: "Server rendering or framework loader",
+              values: {
+                best: "Route-level data needed for first paint, SEO, auth-aware content, or shared shells.",
+                tradeoff: "You must reason about caching, hydration, and server-client boundaries.",
+              },
+            },
+            {
+              label: "Query library in the client",
+              values: {
+                best: "Interactive server state with refetching, cache invalidation, optimistic updates, and background sync.",
+                tradeoff: "Adds another layer to learn, but it pays off once data flows get real.",
+              },
+            },
+            {
+              label: "Plain effect-driven fetch",
+              values: {
+                best: "Small isolated widgets with simple lifetime and no shared cache requirements.",
+                tradeoff: "Manual race handling, cache coordination, and repeated boilerplate arrive quickly.",
+              },
+            },
+          ]}
+        />
+
+        <SectionHeader>Loading, Mutation, and Failure Design</SectionHeader>
         <Paragraph>
-          Good cache strategy balances freshness with bandwidth and consistency
-          needs. Loading, empty, error, success, and refetching states should be
-          treated as first-class UI scenarios.
+          Strong answers name the full UI state machine: pending, empty, error,
+          success, refetching, optimistic pending, rollback, and offline or
+          partial failure when relevant.
         </Paragraph>
-        <Paragraph>
-          Optimistic updates improve responsiveness by updating UI before the
-          server confirms success, but they require rollback logic and careful
-          failure handling.
-        </Paragraph>
-        <CodeBlock
-          language="tsx"
-          code={`function useUser(userId: string) {
+        <CollapsibleSection title="Query-based read flow" collapsible={false}>
+          <CodeBlock
+            language="tsx"
+            code={`function useUser(userId: string) {
   return useQuery({
     queryKey: ["user", userId],
     queryFn: () => api.getUser(userId),
@@ -62,27 +92,47 @@ export function ReactDataFetching() {
 }
 
 function UserProfile({ userId }: { userId: string }) {
-  const { data, isPending, isError } = useUser(userId);
+  const { data, isPending, isError, isFetching } = useUser(userId);
 
   if (isPending) return <Spinner />;
   if (isError) return <ErrorState />;
 
-  return <ProfileCard user={data} />;
+  return <ProfileCard user={data} showRefreshingState={isFetching} />;
 }`}
+          />
+        </CollapsibleSection>
+        <BulletList
+          items={[
+            "Optimistic updates only sound senior if you also explain rollback, deduplication, and what happens when the server rejects the write.",
+            "A mutation should know what cache entries or route data become stale after success.",
+            "If filters or route params change quickly, request cancellation or ownership checks prevent out-of-order results from flashing the wrong UI.",
+          ]}
+        />
+        <Callout variant="warning">
+          A weak answer says `fetch in useEffect`. A stronger answer says where
+          the data belongs, how freshness is controlled, and how writes keep the
+          UI coherent.
+        </Callout>
+
+        <SectionHeader>Debugging Stale and Duplicate Data</SectionHeader>
+        <BulletList
+          items={[
+            "When the UI looks stale, check cache keys and invalidation before blaming React rendering.",
+            "When duplicate requests appear, inspect component remounts, unstable query keys, and Strict Mode development behavior.",
+            "When the wrong data flashes briefly, suspect async race conditions or competing sources of truth between URL, cache, and component state.",
+            "Measure whether the bottleneck is network latency, server latency, serialization cost, or client rendering after the data arrives.",
+          ]}
         />
 
-        <SectionHeader>When TanStack Query Is the Right Answer</SectionHeader>
-        <Paragraph>
-          TanStack Query is a strong default when an app has multiple reads and
-          writes against the same resources, background refetching, optimistic
-          updates, or cache invalidation concerns.
-        </Paragraph>
-        <CollapsibleSection title="Interview framing">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Separate server state from client UI state.</li>
-            <li>Discuss loading, empty, error, success, and refetching states explicitly.</li>
-            <li>Explain how invalidation follows mutations so stale views do not linger.</li>
-          </ul>
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why is fetched data different from ordinary client state?",
+              "When is a query library the right answer, and when is it unnecessary?",
+              "How do you design optimistic UI without hiding consistency problems?",
+              "What causes stale data to persist after a mutation, and how would you diagnose it?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

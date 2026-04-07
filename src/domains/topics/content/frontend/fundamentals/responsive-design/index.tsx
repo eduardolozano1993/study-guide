@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -135,14 +136,62 @@ video {
           </Paragraph>
         </CollapsibleSection>
 
+        <SectionHeader>Modern Responsive Strategy</SectionHeader>
+
+        <CollapsibleSection title="Container Queries and Responsive Media" collapsible={false}>
+          <CodeBlock
+            language="css"
+            code={`.card-grid {
+  container-type: inline-size;
+}
+
+@container (min-width: 36rem) {
+  .card {
+    grid-template-columns: 9rem minmax(0, 1fr);
+  }
+}`}
+          />
+          <Paragraph>
+            Viewport breakpoints are not enough for every component. Container
+            queries let components adapt to the space they actually receive,
+            which is often more reusable inside dashboards, sidebars, and CMS
+            layouts.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Fluid Scaling vs Hard Breakpoints vs System Constraints" collapsible={false}>
+          <BulletList
+            items={[
+              "Fluid sizing with percentages and `clamp()` can reduce the number of hard jumps in the UI.",
+              "Hard breakpoints are still useful when the information architecture truly changes, such as stacked cards becoming a multi-column shell.",
+              "Design-system constraints sometimes deliberately limit fluid behavior so spacing, typography, and component composition stay predictable.",
+              "The strongest answer explains which constraint dominates instead of saying one responsive technique always wins.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why is mobile-first a prioritization strategy and not only a media-query syntax style?",
+              "When are container queries better than viewport breakpoints?",
+              "How do zoom, touch target size, safe areas, and soft keyboards affect responsive decisions?",
+              "When would you choose fluid scaling versus a hard breakpoint in a design system?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Desktop-first CSS with many overrides that become hard to maintain.</li>
-            <li>Fixed widths that cause horizontal scrolling.</li>
-            <li>Ignoring touch target size, spacing, and text readability on small screens.</li>
-            <li>Using too many breakpoints with no content-based reason.</li>
-            <li>Forgetting that images, tables, and code blocks also need responsive behavior.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Desktop-first CSS with many overrides that become hard to maintain.",
+              "Fixed widths that cause horizontal scrolling.",
+              "Ignoring touch target size, spacing, and text readability on small screens.",
+              "Treating viewport breakpoints as the whole responsive story while ignoring container-driven adaptation.",
+              "Using too many breakpoints with no content-based reason.",
+              "Forgetting that images, tables, and code blocks also need responsive behavior.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

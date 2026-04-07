@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   Paragraph,
@@ -6,7 +7,6 @@ import {
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
-import { BulletList } from "@/features/content";
 import { nextJsMiddlewareEdgeRuntimeLesson } from "./meta";
 
 export function NextJsMiddlewareEdgeRuntime() {
@@ -26,7 +26,7 @@ export function NextJsMiddlewareEdgeRuntime() {
         <TopicCard
           icon="N"
           title="Middleware and Edge Runtime"
-          description="Middleware runs early in the request lifecycle and is useful for lightweight request shaping. It is not a replacement for full application logic."
+          description="Middleware runs early in the request lifecycle and is useful for lightweight request shaping. It is not a replacement for full application logic, deep auth, or heavy backend integration."
         />
 
         <SectionHeader>What Middleware Is Good For</SectionHeader>
@@ -49,35 +49,37 @@ export function middleware(request: NextRequest) {
         <BulletList
           items={[
             "Redirect unauthenticated users away from protected route prefixes.",
-            "Rewrite requests for locale, A/B tests, or vanity paths.",
+            "Rewrite requests for locale routing, experiments, or vanity paths.",
             "Attach lightweight request metadata before the route runs.",
+            "Handle latency-sensitive coarse request shaping close to the user.",
           ]}
         />
 
-        <SectionHeader>What Middleware Is Not Good For</SectionHeader>
+        <SectionHeader>Boundaries And Limits</SectionHeader>
         <BulletList
           items={[
-            "Heavy database queries on every request.",
-            "Complex business logic that belongs near the route or action doing the real work.",
-            "Replacing server-side authorization checks deeper in the app.",
+            "Heavy database access on every request is usually the wrong fit.",
+            "Complex business logic belongs near the route, handler, or action doing the real work.",
+            "Middleware is not the final authorization boundary; it is a coarse gate.",
+            "Edge runtime constraints around Node APIs, drivers, and heavy libraries mean not everything portable to Node is portable here.",
           ]}
         />
         <Paragraph>
-          Middleware is a fast gate, not the final trust boundary. Sensitive
-          authorization decisions should still be enforced in Route Handlers,
-          Server Actions, or server-rendered route code.
+          Running logic on every request amplifies both latency and cost. A
+          small redirect or locale rewrite can be appropriate. A large chain of
+          request-time business rules usually is not.
         </Paragraph>
 
-        <SectionHeader>When Edge Runtime Helps</SectionHeader>
+        <SectionHeader>When Edge Helps</SectionHeader>
         <BulletList
           items={[
-            "Latency-sensitive request preprocessing close to the user.",
+            "Latency-sensitive preprocessing close to the user.",
             "Simple personalization or redirects that benefit from geographic proximity.",
-            "Workloads that can run under the dependency and runtime restrictions of the platform.",
+            "Workloads that stay small and fit the runtime restrictions cleanly.",
           ]}
         />
         <Callout variant="warning">
-          Choose Edge because it solves a latency or topology problem, not
+          Choose Edge because it solves a topology or latency problem, not
           because it sounds more modern. Many backends and libraries still fit
           better in the Node runtime.
         </Callout>

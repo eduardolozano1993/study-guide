@@ -1,8 +1,10 @@
 import {
   BulletList,
+  Callout,
   CodeBlock,
   CollapsibleSection,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -25,7 +27,7 @@ export function UtilityTypes() {
         <TopicCard
           icon="T"
           title="Utility Types"
-          description="Utility types matter because they help derive new shapes from a source model instead of rewriting the same contract repeatedly."
+          description="Utility types matter because they let you derive shapes from a source model instead of rewriting the same contract repeatedly. The senior question is when that derivation clarifies intent and when it weakens it."
         />
 
         <CollapsibleSection title="Object shaping helpers" collapsible={false}>
@@ -42,16 +44,16 @@ type PublicUser = Pick<User, "id" | "email">;
 type RoleMap = Record<string, "reader" | "editor" | "owner">;`}
           />
           <Paragraph>
-            <code>Partial</code>, <code>Required</code>, <code>Pick</code>,{" "}
-            <code>Omit</code>, and <code>Record</code> appear constantly in real
-            code because they match normal product needs.
+            <code>Partial</code>, <code>Required</code>, <code>Pick</code>,
+            <code>Omit</code>, and <code>Record</code> appear constantly because
+            they match everyday product needs.
           </Paragraph>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Union and function helpers">
-          <CodeBlock
-            language="typescript"
-            code={`type EventName = "click" | "focus" | "blur";
+        <SectionHeader>Function and Async Helpers</SectionHeader>
+        <CodeBlock
+          language="typescript"
+          code={`type EventName = "click" | "focus" | "blur";
 type NonFocusEvent = Exclude<EventName, "focus">;
 
 function createSession(email: string, remember: boolean) {
@@ -59,20 +61,23 @@ function createSession(email: string, remember: boolean) {
 }
 
 type CreateSessionArgs = Parameters<typeof createSession>;
-type CreateSessionResult = ReturnType<typeof createSession>;`}
-          />
-        </CollapsibleSection>
+type CreateSessionResult = ReturnType<typeof createSession>;
+type CreateSessionValue = Awaited<Promise<CreateSessionResult>>;`}
+        />
 
-        <CollapsibleSection title="Interview pitfalls">
-          <BulletList
-            items={[
-              "Assuming Partial enforces valid business updates.",
-              "Forgetting that most built-in utilities are shallow.",
-              "Stacking so many utility types together that the result is unreadable.",
-              "Duplicating function arg and return types instead of deriving them.",
-            ]}
-          />
-        </CollapsibleSection>
+        <SectionHeader>Judgment and Failure Modes</SectionHeader>
+        <BulletList
+          items={[
+            "Most built-in utilities are shallow. They do not automatically preserve deep business invariants.",
+            "`Partial` is convenient for patches, but it can also weaken rules if a domain object should never exist half-filled.",
+            "`Pick` and `Omit` can create accidental coupling when downstream types track every upstream shape change automatically.",
+            "Sometimes a bespoke type communicates intent better than stacking several utility helpers together.",
+          ]}
+        />
+        <Callout variant="warning">
+          A utility type is not automatically the clearest type. Derivation is
+          useful when it preserves meaning, not when it hides the contract.
+        </Callout>
       </div>
     </TopicLessonPage>
   );

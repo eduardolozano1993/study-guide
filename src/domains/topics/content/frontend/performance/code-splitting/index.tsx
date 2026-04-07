@@ -3,7 +3,9 @@ import {
   Callout,
   CodeBlock,
   CollapsibleSection,
+  ComparisonTable,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -26,52 +28,68 @@ export function CodeSplitting() {
         <TopicCard
           icon="P"
           title="Code Splitting"
-          description="Code splitting matters because shipping less JavaScript up front is often one of the highest-leverage frontend performance wins."
+          description="Code splitting matters because shipping less JavaScript up front is often one of the highest-leverage frontend performance wins. The senior question is where to split and how not to replace one bottleneck with another."
         />
 
+        <SectionHeader>Split Around User-Centered Boundaries</SectionHeader>
         <Paragraph>
-          Code splitting breaks the application bundle into smaller chunks so
-          users only download what they need for the current route or feature.
-          The main goal is reducing initial load cost, not just making build
-          output look organized.
+          Code splitting breaks the application into smaller chunks so users only
+          download what they need for the current route or feature. The main
+          goal is reducing initial load cost, not just making build output look
+          organized.
         </Paragraph>
-
         <CollapsibleSection title="Typical route and feature splitting" collapsible={false}>
           <CodeBlock
             language="tsx"
             code={`const SettingsPage = React.lazy(() => import("./SettingsPage"));
 const AnalyticsPanel = React.lazy(() => import("./AnalyticsPanel"));`}
           />
-          <Paragraph>
-            This keeps rarely visited or heavy features out of the initial
-            bundle. It is especially effective for admin areas, rich editors,
-            analytics dashboards, and route-level boundaries.
-          </Paragraph>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Tradeoffs">
-          <BulletList
-            items={[
-              "Too little splitting keeps the initial bundle heavy.",
-              "Too much splitting can create many small requests and loading waterfalls.",
-              "Split around natural UX boundaries like routes, tabs, or optional tools.",
-              "Use loading states deliberately so the deferred content does not feel broken.",
-            ]}
-          />
-        </CollapsibleSection>
-
+        <SectionHeader>Tradeoffs: Size, Waterfalls, and UX</SectionHeader>
+        <ComparisonTable
+          columns={[
+            { key: "helps", label: "What it helps" },
+            { key: "hurts", label: "What can go wrong" },
+          ]}
+          rows={[
+            {
+              label: "Route-level splitting",
+              values: {
+                helps: "Keeps rarely visited pages out of the initial bundle.",
+                hurts: "Can create visible loading transitions if fallbacks and prefetching are weak.",
+              },
+            },
+            {
+              label: "Component-level splitting",
+              values: {
+                helps: "Defers heavy optional tools such as editors or analytics.",
+                hurts: "Can create new waterfalls or interaction latency if overused on hot paths.",
+              },
+            },
+          ]}
+        />
+        <BulletList
+          items={[
+            "Too little splitting keeps the initial bundle heavy.",
+            "Too much splitting can create many small requests and loading waterfalls.",
+            "Preloading and prefetching are often better answers than just splitting more.",
+            "Fallback UI matters because a smaller bundle can still feel worse if loading states feel broken or jumpy.",
+          ]}
+        />
         <Callout variant="tip">
-          A senior answer should mention both bundle-size reduction and the risk
-          of creating new network waterfalls if the split strategy is naive.
+          A senior answer mentions bundle-size reduction, route and feature
+          boundaries, preload strategy, and the risk of shifting latency from
+          startup to the first interaction with a deferred feature.
         </Callout>
 
-        <CollapsibleSection title="Common interview pitfalls">
+        <CollapsibleSection title="Interviewer questions">
           <BulletList
             items={[
-              "Treating code splitting as always beneficial with no tradeoffs.",
-              "Splitting hot paths so aggressively that interaction gets slower later.",
-              "Ignoring user-visible loading and fallback states.",
-              "Talking about code splitting without connecting it to actual bundle and route behavior.",
+              "When is route-level splitting enough, and when is component-level splitting worth the extra complexity?",
+              "How can code splitting accidentally create waterfalls?",
+              "Why might prefetching or preloading be better than splitting even more?",
+              "How do you know whether a split improved UX instead of just changing where the waiting happens?",
             ]}
           />
         </CollapsibleSection>

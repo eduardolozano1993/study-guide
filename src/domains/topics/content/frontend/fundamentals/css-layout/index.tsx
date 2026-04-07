@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -159,14 +160,66 @@ Choose positioning:
           />
         </CollapsibleSection>
 
+        <SectionHeader>Hard Cases and Debugging</SectionHeader>
+
+        <CollapsibleSection title="Flex and Grid Fail on Sizing More Than Syntax" collapsible={false}>
+          <BulletList
+            items={[
+              "Flex items often overflow because intrinsic content size still wins unless you allow shrinking with `min-width: 0` or explicit constraints.",
+              "Grid auto-placement is powerful, but the result depends on track definitions, content size, and whether items are spanning tracks.",
+              "Alignment answers where items sit inside available space. Distribution answers how remaining space is divided. Mixing those ideas causes many weak interview answers.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Positioning Pitfalls: Containing Blocks and Stacking Contexts" collapsible={false}>
+          <BulletList
+            items={[
+              "`absolute` looks for the nearest containing block, which is often created by a positioned ancestor, not by visual nesting alone.",
+              "`fixed` can behave unexpectedly when transforms or certain containment rules create a different containing context.",
+              "`z-index` only makes sense within stacking contexts, which is why 'z-index is not working' is usually a diagnosis failure rather than a browser bug.",
+              "`sticky` fails when scroll containers, overflow clipping, or missing inset values break the conditions it depends on.",
+            ]}
+          />
+          <Callout variant="warning">
+            If layering is broken, inspect stacking context boundaries before
+            increasing `z-index` values randomly.
+          </Callout>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="A Senior Layout Debugging Heuristic" collapsible={false}>
+          <BulletList
+            items={[
+              "Identify the formatting context first: normal flow, flex, grid, or positioned overlay.",
+              "Check sizing constraints next: intrinsic size, min/max rules, and whether children are allowed to shrink.",
+              "Inspect overflow and scroll containers before changing layout primitives.",
+              "Only then debug positioning and layering rules such as containing blocks and stacking contexts.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why can a grid or flex item overflow even when the tracks look correct?",
+              "What is the difference between alignment and space distribution in Flexbox or Grid?",
+              "Why is `z-index` often the wrong first explanation when an overlay appears underneath something else?",
+              "How would you systematically debug a layout bug without guessing between Flexbox, Grid, and positioning?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Saying Flexbox and Grid are interchangeable.</li>
-            <li>Forgetting the main axis and cross axis change with `flex-direction`.</li>
-            <li>Using margins everywhere instead of `gap` inside layout containers.</li>
-            <li>Not understanding the containing block for absolutely positioned elements.</li>
-            <li>Trying to solve page layout by stacking absolute positions.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Saying Flexbox and Grid are interchangeable.",
+              "Forgetting the main axis and cross axis change with `flex-direction`.",
+              "Using margins everywhere instead of `gap` inside layout containers.",
+              "Not understanding the containing block for absolutely positioned elements.",
+              "Ignoring intrinsic sizing and overflow when a layout refuses to shrink.",
+              "Trying to solve page layout by stacking absolute positions.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

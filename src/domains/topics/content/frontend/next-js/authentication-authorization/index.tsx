@@ -1,12 +1,14 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
+  CollapsibleSection,
+  ComparisonTable,
   Paragraph,
   SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
-import { BulletList } from "@/features/content";
 import { nextJsAuthenticationAuthorizationLesson } from "./meta";
 
 export function NextJsAuthenticationAuthorization() {
@@ -26,10 +28,10 @@ export function NextJsAuthenticationAuthorization() {
         <TopicCard
           icon="N"
           title="Authentication and Authorization"
-          description="Interviewers expect you to separate identity from permissions, and UI gating from actual server-side enforcement."
+          description="Interviewers expect you to separate identity from permissions, and UI gating from actual enforcement. The server remains the trust boundary even when the client helps with navigation and UX."
         />
 
-        <SectionHeader>Sessions and Cookies</SectionHeader>
+        <SectionHeader>Read Sessions on the Server</SectionHeader>
         <CodeBlock
           language="tsx"
           code={`import { cookies } from "next/headers";
@@ -48,31 +50,74 @@ export default async function AccountPage() {
         />
         <Paragraph>
           Reading the session on the server keeps auth checks close to trusted
-          data. It also avoids shipping secret-bearing logic to the browser.
+          data and avoids shipping secret-bearing logic to the browser.
         </Paragraph>
 
-        <SectionHeader>Auth vs Authorization</SectionHeader>
-        <BulletList
-          items={[
-            "Authentication answers who the user is.",
-            "Authorization answers what that user is allowed to do.",
-            "Seeing an admin button in the UI is not authorization. The server must still verify the permission before serving data or mutating state.",
+        <SectionHeader>Authentication, Authorization, and UI Gating</SectionHeader>
+        <ComparisonTable
+          columns={[
+            { key: "means", label: "What it means" },
+            { key: "mistake", label: "Common mistake" },
+          ]}
+          rows={[
+            {
+              label: "Authentication",
+              values: {
+                means: "Identify who the user is, usually through a session or token-backed flow.",
+                mistake: "Treating presence of a client-side user object as proof the server trusts the request.",
+              },
+            },
+            {
+              label: "Authorization",
+              values: {
+                means: "Decide what the authenticated user is allowed to read or mutate.",
+                mistake: "Hiding admin UI and calling that access control.",
+              },
+            },
+            {
+              label: "UI gating",
+              values: {
+                means: "Improve UX by redirecting, hiding controls, or showing fallback states early.",
+                mistake: "Confusing a smoother UI with actual enforcement.",
+              },
+            },
           ]}
         />
 
         <SectionHeader>Where Middleware Fits</SectionHeader>
         <BulletList
           items={[
-            "Middleware is useful for broad route protection, redirects, or coarse access checks.",
-            "Deeper authorization must still run in Server Components, Route Handlers, or Server Actions.",
-            "Relying only on client-side route guards is not a security model.",
+            "Middleware is useful for broad redirects, coarse route protection, locale/session bootstrapping, or early request shaping.",
+            "Detailed authorization still belongs in Server Components, Route Handlers, or Server Actions where the actual data access happens.",
+            "Client-side guards can reduce a flash of unauthenticated UI, but they are never the real security boundary.",
+          ]}
+        />
+
+        <SectionHeader>Failure Modes and Tradeoffs</SectionHeader>
+        <BulletList
+          items={[
+            "If private UI flashes briefly before redirect, the route likely relied too much on client-side checks.",
+            "If permissions are checked only in middleware, deeper data reads or mutations may still be exposed elsewhere.",
+            "Cookie-backed sessions usually fit same-origin web apps well, but the exact storage choice only matters after you explain the XSS and CSRF tradeoffs clearly.",
+            "Auth refresh races, stale sessions, and cross-tab logout are operational issues that separate toy auth from production auth.",
           ]}
         />
         <Callout variant="warning">
-          In interviews, weak answers usually over-index on hiding pages in the
-          client. Strong answers focus on server trust boundaries and data access
-          control.
+          In interviews, weak answers over-index on hiding pages in the client.
+          Strong answers focus on server trust boundaries, permission checks, and
+          protecting the data path itself.
         </Callout>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "What is the difference between authentication and authorization in a Next.js app?",
+              "What belongs in middleware, and what still has to be checked deeper in the stack?",
+              "Why is hiding an admin button not authorization?",
+              "How would you prevent a flash of private UI without pretending the client is the security boundary?",
+            ]}
+          />
+        </CollapsibleSection>
       </div>
     </TopicLessonPage>
   );

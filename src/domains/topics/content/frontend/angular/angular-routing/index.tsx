@@ -1,4 +1,5 @@
 import {
+  BulletList,
   CodeBlock,
   CollapsibleSection,
   Paragraph,
@@ -54,12 +55,46 @@ export function AngularRouting() {
           </Paragraph>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Route Boundaries Are Architectural Boundaries" collapsible={false}>
+          <BulletList
+            items={[
+              "Guards control navigation, resolvers prepare route data, and preload strategies trade startup cost against later navigation speed.",
+              "Lazy-loaded routes are not only a performance feature. They also help enforce feature ownership and dependency boundaries.",
+              "Nested child routes can mirror UI shells and preserve context, but they can also create confusing ownership if overused.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Common Edge Cases" collapsible={false}>
+          <BulletList
+            items={[
+              "Route reuse can keep components alive longer than expected, which affects state lifetime.",
+              "Cancelled navigations and resolver failures need explicit reasoning so UX does not feel broken.",
+              "Client-side route protection is not the same thing as real authorization on the backend.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When would you put data loading in a resolver versus in the component or service?",
+              "How do lazy-loaded routes change architecture beyond bundle size?",
+              "Why is a route guard not a substitute for actual authorization?",
+              "How would you structure routing in a large app with nested sections and distinct ownership boundaries?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Treating routing as only URL-to-component mapping.</li>
-            <li>Ignoring lazy loading as an architectural and performance tool.</li>
-            <li>Not knowing where guards or resolvers fit into the route lifecycle.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Treating routing as only URL-to-component mapping.",
+              "Ignoring lazy loading as an architectural and performance tool.",
+              "Not knowing where guards or resolvers fit into the route lifecycle.",
+              "Confusing UX route protection with real authorization.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

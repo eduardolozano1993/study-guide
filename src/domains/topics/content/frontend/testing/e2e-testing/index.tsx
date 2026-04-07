@@ -27,19 +27,20 @@ export function E2eTesting() {
         <TopicCard
           icon="T"
           title="End-to-End Testing"
-          description="E2E tests exercise the application as a user would, through the browser, across the real routing, rendering, and interaction stack."
+          description="E2E tests exercise the application as a user would, through the browser, across real routing, rendering, auth, and interaction boundaries. Their value is high, but so is their operational cost."
         />
 
         <SectionHeader>Mental Model</SectionHeader>
         <Paragraph>
           E2E tests sit at the top of the testing pyramid. They are slower and
           more expensive than unit or integration tests, but they give
-          confidence that critical user journeys actually work in the browser.
+          confidence that critical user journeys actually work in the browser
+          and in a realistic environment.
         </Paragraph>
         <Paragraph>
           This is where you validate the full stack of concerns that smaller
           tests often abstract away: routing, hydration, cookies, browser APIs,
-          real DOM behavior, and cross-page flows.
+          redirects, focus behavior, and cross-page flows.
         </Paragraph>
 
         <CollapsibleSection title="Typical E2E flow" collapsible={false}>
@@ -57,29 +58,37 @@ export function E2eTesting() {
           />
         </CollapsibleSection>
 
-        <CollapsibleSection title="What E2E tests are best for">
-          <BulletList
-            items={[
-              "Authentication and authorization journeys.",
-              "Checkout, payment, or other business-critical funnels.",
-              "Navigation across pages, layouts, and protected routes.",
-              "Browser-specific behaviors that smaller tests cannot prove convincingly.",
-            ]}
-          />
-        </CollapsibleSection>
+        <SectionHeader>What Deserves E2E Coverage</SectionHeader>
+        <BulletList
+          items={[
+            "Authentication, checkout, onboarding, billing, and other business-critical funnels.",
+            "Navigation across pages, layouts, protected routes, and browser history behavior.",
+            "Flows where browser-only behavior, real cookies, redirects, or production-like rendering are the actual risk.",
+            "A small set of critical paths that justify the maintenance cost because a broken flow would be expensive or embarrassing.",
+          ]}
+        />
 
+        <SectionHeader>Operational Realism</SectionHeader>
+        <BulletList
+          items={[
+            "Flakiness usually comes from nondeterministic data, timing races, weak waits, unstable selectors, and environment drift.",
+            "Deterministic test accounts, controlled network behavior, and test isolation matter more than piling on retries.",
+            "If failures only reproduce in CI, observability matters: screenshots, videos, traces, console logs, and network history turn guesswork into diagnosis.",
+            "Environment parity matters because the browser stack, auth configuration, and backend behavior often differ more than teams expect.",
+          ]}
+        />
         <Callout variant="tip">
           Senior candidates usually say E2E tests should cover a small number of
           high-value flows, not the entire test surface of the app.
         </Callout>
 
-        <CollapsibleSection title="Common interview pitfalls">
+        <CollapsibleSection title="Interviewer questions">
           <BulletList
             items={[
-              "Treating E2E tests as the default for every feature.",
-              "Ignoring cost, flakiness, and maintenance tradeoffs.",
-              "Relying on E2E tests to compensate for missing unit or integration coverage.",
-              "Writing brittle selectors that break on harmless UI changes.",
+              "What makes an E2E test flaky, and how would you reduce that without hiding the problem?",
+              "Why should some flows get E2E coverage while others stay at integration or unit level?",
+              "How do you keep E2E suites fast enough that the team still trusts them?",
+              "What extra observability do you want when a test only fails in CI?",
             ]}
           />
         </CollapsibleSection>

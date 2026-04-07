@@ -27,7 +27,7 @@ export function IntegrationTesting() {
         <TopicCard
           icon="T"
           title="Integration Testing"
-          description="Integration tests verify that separate pieces of the system actually work together: components, state, routing, forms, API adapters, and side effects."
+          description="Integration tests verify that several real pieces of the system work together: components, form state, router state, data fetching, and user interactions. The hard part is deciding what to keep real and what to mock."
         />
 
         <SectionHeader>Mental Model</SectionHeader>
@@ -37,9 +37,10 @@ export function IntegrationTesting() {
           pieces of the application.
         </Paragraph>
         <Paragraph>
-          In frontend code, this often means rendering a component tree with the
-          real form logic, state updates, and user interactions while mocking
-          only the true external boundaries such as HTTP.
+          In frontend code, this often means rendering a component tree with
+          real form logic, state updates, validation, and user interaction while
+          mocking only the true external boundaries such as HTTP or browser APIs
+          that are outside the scope of the collaboration you want to prove.
         </Paragraph>
 
         <CollapsibleSection title="Typical integration-test shape" collapsible={false}>
@@ -58,35 +59,39 @@ export function IntegrationTesting() {
   expect(await screen.findByText(/saved successfully/i)).toBeInTheDocument();
 });`}
           />
-          <Paragraph>
-            This is not a unit test because it relies on several pieces working
-            together. That is exactly why it is useful.
-          </Paragraph>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Where integration tests shine">
-          <BulletList
-            items={[
-              "Form submission and validation flows.",
-              "State updates that involve several components.",
-              "Routing and page-level behavior.",
-              "Data fetching behavior with mocked network boundaries.",
-            ]}
-          />
-        </CollapsibleSection>
+        <SectionHeader>What To Keep Real</SectionHeader>
+        <BulletList
+          items={[
+            "Keep the component tree, user interactions, and the state transitions under test real.",
+            "Mock true process boundaries such as HTTP, payment providers, or browser services that would make the test slower or nondeterministic.",
+            "Real router behavior and realistic form validation are often worth keeping because they are exactly where integration bugs hide.",
+            "If the collaboration between modules is the risk, over-mocking turns the test into a unit test with extra ceremony.",
+          ]}
+        />
 
+        <SectionHeader>Good Integration Targets</SectionHeader>
+        <BulletList
+          items={[
+            "Forms with validation, submission, error recovery, and disabled-button logic.",
+            "Route-aware components that react to params, navigation, or location state.",
+            "Data-fetching boundaries where a component responds to loading, error, and success states.",
+            "Cross-component state changes where the bug only appears when several pieces coordinate.",
+          ]}
+        />
         <Callout variant="warning">
-          If the collaboration between modules is the risk, a narrow unit test
-          will often miss the bug.
+          If you mock most of the system and still call the result an integration
+          test, you are usually overstating what the test proves.
         </Callout>
 
-        <CollapsibleSection title="Common interview pitfalls">
+        <CollapsibleSection title="Interviewer questions">
           <BulletList
             items={[
-              "Calling a component test a unit test when it exercises several real dependencies.",
-              "Mocking most of the system and then claiming the test proves integration.",
-              "Testing implementation details like internal state instead of user-visible outcomes.",
-              "Pushing full user journeys into integration tests when the browser stack itself is the real risk.",
+              "What should stay real in an integration test, and what should be mocked?",
+              "How do you know an integration test is proving real collaboration instead of just dressed-up unit logic?",
+              "Why are forms, router behavior, and data boundaries strong integration-test targets?",
+              "What failure mode appears when a team over-mocks integration tests?",
             ]}
           />
         </CollapsibleSection>

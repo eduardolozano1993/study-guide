@@ -1,8 +1,10 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -80,6 +82,59 @@ console.log(items[0].id); // 99`}
             Copying the array did not copy the objects inside it. Immutability
             questions often test whether you can spot that shared nested state.
           </Paragraph>
+        </CollapsibleSection>
+
+        <SectionHeader>Tradeoffs and Real-World Constraints</SectionHeader>
+
+        <CollapsibleSection title="Structural Sharing Beats Blind Deep Cloning" collapsible={false}>
+          <Paragraph>
+            Senior answers usually favor structural sharing: copy only the
+            branches that changed and keep untouched references stable. Deep
+            cloning everything is simple to describe but often wastes time,
+            memory, and referential identity.
+          </Paragraph>
+          <BulletList
+            items={[
+              "Structural sharing makes change detection and memoization more useful.",
+              "Deep cloning can become expensive on large nested state graphs.",
+              "Keeping stable references for unchanged branches reduces unnecessary rerenders and cache churn.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Maps, Sets, and Immer Change the Ergonomics" collapsible={false}>
+          <BulletList
+            items={[
+              "Maps and Sets still have mutable APIs, so immutable updates require creating replacement instances when their contents change.",
+              "Nested updates stay conceptually hard even when spread syntax makes shallow copies easy.",
+              "Immer improves update ergonomics by letting you write mutation-like code while producing immutable results, but it does not remove the need to understand what changed.",
+            ]}
+          />
+          <Callout variant="tip">
+            Libraries can reduce boilerplate. They do not remove the need to
+            reason about identity and shared references.
+          </Callout>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Why Interviewers Connect This to UI Frameworks" collapsible={false}>
+          <BulletList
+            items={[
+              "React relies heavily on reference comparisons for state updates, memoization, and prop stability.",
+              "Angular OnPush benefits when reference changes accurately represent state changes.",
+              "Cache invalidation logic often depends on knowing which data changed versus which references stayed stable.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why is 'just deep clone it' usually a weak answer?",
+              "How does immutability help React rendering behavior or Angular OnPush change detection?",
+              "What changes when the data structure is a `Map` or `Set` instead of a plain object?",
+              "What does Immer improve, and what conceptual problems does it not solve for you?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -99,13 +100,76 @@ export function PromisesAsyncAwait() {
           </Paragraph>
         </CollapsibleSection>
 
+        <CollapsibleSection title="`Promise.all` vs `Promise.allSettled`" collapsible={false}>
+          <BulletList
+            items={[
+              "`Promise.all` is usually right when every result is required and any failure should fail the whole operation.",
+              "`Promise.allSettled` is better when partial success still has value or when you need to inspect all outcomes.",
+              "More concurrency can improve latency, but it can also make cleanup, retries, and error attribution harder to reason about.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <SectionHeader>Lifecycle Control and Event Loop Reality</SectionHeader>
+
+        <CollapsibleSection title="Cancellation and Timeouts Need Explicit Design" collapsible={false}>
+          <CodeBlock
+            language="javascript"
+            code={`const controller = new AbortController();
+
+const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+try {
+  const response = await fetch("/api/search?q=closures", {
+    signal: controller.signal,
+  });
+
+  return await response.json();
+} finally {
+  clearTimeout(timeoutId);
+}`}
+          />
+          <Paragraph>
+            `await` improves readability, but it does not cancel work or impose
+            timeouts. UI code still needs lifecycle control so requests do not
+            outlive the screen, overwrite newer results, or hang forever.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Microtasks Do Not Make CPU Work Free" collapsible={false}>
+          <Paragraph>
+            Promise callbacks and `await` continuations run in the microtask
+            queue. They still execute on the main thread. If the code after an
+            `await` does heavy parsing or computation, the UI can still become
+            unresponsive even though the I/O was asynchronous.
+          </Paragraph>
+          <Callout variant="warning">
+            Async syntax solves waiting on future values. It does not solve
+            CPU-bound work or guarantee a render between every step.
+          </Callout>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When should independent work run sequentially, and when should it run in parallel?",
+              "What tradeoff changes the answer between `Promise.all` and `Promise.allSettled`?",
+              "Why does `await` not solve cancellation or timeout control by itself?",
+              "How can async code still hurt responsiveness if the heavy work is CPU-bound?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Thinking `await` makes code synchronous overall.</li>
-            <li>Forgetting that async functions always return promises.</li>
-            <li>Running independent requests sequentially without reason.</li>
-            <li>Assuming rejected promises behave exactly like thrown sync errors in every context.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Thinking `await` makes code synchronous overall.",
+              "Forgetting that async functions always return promises.",
+              "Running independent requests sequentially without reason.",
+              "Assuming rejected promises behave exactly like thrown sync errors in every context.",
+              "Assuming async syntax prevents stale results, leaks, or blocked rendering automatically.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

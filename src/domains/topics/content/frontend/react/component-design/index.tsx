@@ -1,4 +1,6 @@
 import {
+  BulletList,
+  Callout,
   CodeBlock,
   CollapsibleSection,
   ComparisonTable,
@@ -26,20 +28,15 @@ export function ReactComponentDesign() {
         <TopicCard
           icon="C"
           title="Component Design"
-          description="Good React design is about APIs and boundaries. Senior engineers are expected to design components that scale in flexibility without becoming impossible to reason about."
+          description="Good React design is about APIs and boundaries. Senior engineers are expected to design components that scale in flexibility without becoming impossible to reason about, test, or use accessibly."
         />
 
         <SectionHeader>Composition Over Inheritance</SectionHeader>
         <Paragraph>
           React favors composition because UI variation usually comes from
           combining smaller parts rather than extending a class hierarchy.
-          Composition keeps data flow explicit and aligns with React&apos;s tree
-          model.
-        </Paragraph>
-        <Paragraph>
-          In interviews, explain inheritance as a poor fit because React
-          components are already compositional functions. Reuse usually comes
-          from props, children, render props, hooks, or slots.
+          Reuse usually comes from props, children, slots, hooks, or headless
+          behavior layers.
         </Paragraph>
         <CollapsibleSection title="Composition through children and slots" collapsible={false}>
           <CodeBlock
@@ -64,53 +61,61 @@ function Panel({ title, actions, children }: PanelProps) {
           />
         </CollapsibleSection>
 
-        <SectionHeader>Controlled, Uncontrolled, and Headless Patterns</SectionHeader>
-        <Paragraph>
-          Controlled components receive their current value and change handler
-          from a parent. Uncontrolled components let the DOM or internal state
-          hold the value. Controlled APIs are easier when validation,
-          synchronization, or derived UI matters.
-        </Paragraph>
-        <Paragraph>
-          Headless components expose behavior and accessibility logic without
-          prescribing markup or visual styles. They are useful when teams need
-          design freedom with consistent interaction behavior.
-        </Paragraph>
+        <SectionHeader>Controlled, Uncontrolled, and Headless Tradeoffs</SectionHeader>
         <ComparisonTable
           columns={[
-            { key: "controlled", label: "Controlled" },
-            { key: "uncontrolled", label: "Uncontrolled" },
+            { key: "fit", label: "Best fit" },
+            { key: "watch", label: "What to watch" },
           ]}
           rows={[
             {
-              label: "State owner",
+              label: "Controlled API",
               values: {
-                controlled: "Parent or form manager owns the current value.",
-                uncontrolled: "DOM or internal component state owns the current value.",
+                fit: "Validation, synchronized UI, analytics, multi-step flows, and parent-owned state.",
+                watch: "Can get verbose if the state does not truly need to live outside the component.",
               },
             },
             {
-              label: "Best fit",
+              label: "Uncontrolled API",
               values: {
-                controlled: "Validation, analytics, multi-step flows, synchronized UI.",
-                uncontrolled: "Simple fields, file inputs, or ref-driven libraries.",
+                fit: "Simple fields, file inputs, and integrations that work naturally with refs or native form behavior.",
+                watch: "Harder to coordinate when several parts of the UI need the current value.",
+              },
+            },
+            {
+              label: "Headless component",
+              values: {
+                fit: "Reusable interaction and accessibility behavior with custom visual design.",
+                watch: "The component still owns keyboard and ARIA responsibilities even if it does not own styling.",
               },
             },
           ]}
         />
 
-        <SectionHeader>Reusable APIs</SectionHeader>
-        <Paragraph>
-          A reusable component API should expose the smallest useful set of
-          decisions. If every internal implementation detail leaks into props,
-          the component is not really an abstraction.
-        </Paragraph>
-        <CollapsibleSection title="Signals of a weak component API">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Too many booleans that create invalid combinations.</li>
-            <li>One component trying to cover unrelated use cases with flags.</li>
-            <li>No clear ownership of validation, loading, or accessibility responsibilities.</li>
-          </ul>
+        <SectionHeader>API Design Failure Modes</SectionHeader>
+        <BulletList
+          items={[
+            "Too many boolean flags create invalid combinations and make the public API harder to reason about.",
+            "One component trying to cover unrelated use cases with escape-hatch props usually means the abstraction boundary is wrong.",
+            "A reusable dialog, listbox, or combobox is not reusable unless it owns the accessibility behavior users actually depend on.",
+            "Prop explosions, unclear loading ownership, and ambiguous validation responsibility are signs the component is not truly abstracting anything.",
+          ]}
+        />
+        <Callout variant="warning">
+          A component is not good because it is flexible. It is good when it
+          makes the common path obvious, keeps invalid states hard to represent,
+          and preserves clear ownership.
+        </Callout>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When should a component expose a controlled API instead of owning its own state?",
+              "What accessibility behavior must a reusable dialog or listbox component own?",
+              "How do you know a component API has become over-generalized?",
+              "When are escape hatches healthy, and when do they mean the abstraction is failing?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

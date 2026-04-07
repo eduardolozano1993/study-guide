@@ -3,6 +3,7 @@ import {
   Callout,
   ComparisonTable,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -25,14 +26,15 @@ export function WebpackVite() {
         <TopicCard
           icon="T"
           title="Webpack vs Vite"
-          description="This topic is really about build architecture. Interviewers want to know whether you understand why the developer experience differs, not just which tool feels faster."
+          description="This topic is really about build architecture. Interviewers want to know why the developer experience differs, what happens in production, and when migration is straightforward versus painful."
         />
 
+        <SectionHeader>Why The Development Experience Feels Different</SectionHeader>
         <Paragraph>
           Webpack bundles the module graph during development and production.
-          Vite uses native ESM in development and delegates production bundling
-          to a build step. That architectural difference is the reason Vite dev
-          servers often feel much faster.
+          Vite serves source modules over native ESM in development and uses a
+          separate production build step. That architectural difference is the
+          reason Vite dev servers often feel much faster.
         </Paragraph>
 
         <ComparisonTable
@@ -49,33 +51,53 @@ export function WebpackVite() {
               },
             },
             {
-              label: "Best known for",
+              label: "Strength",
               values: {
-                webpack: "Deep configurability and mature ecosystem.",
+                webpack: "Deep configurability, mature loader ecosystem, and strong legacy flexibility.",
                 vite: "Fast startup, fast HMR, and simpler modern defaults.",
               },
             },
             {
-              label: "Tradeoff",
+              label: "Main tradeoff",
               values: {
-                webpack: "Can be heavy and config-intensive.",
-                vite: "Usually simpler, but some edge integrations still need tooling awareness.",
+                webpack: "Can become config-heavy and operationally expensive to maintain.",
+                vite: "Migration can get awkward when the build depends on unusual webpack-era assumptions.",
               },
             },
           ]}
         />
 
-        <Callout variant="tip">
-          A senior answer should mention that Vite feels faster in dev because
-          it avoids eagerly bundling the whole app before serving it.
-        </Callout>
-
+        <SectionHeader>Production Nuance</SectionHeader>
         <BulletList
           items={[
-            "Webpack is highly customizable and still very capable for complex builds.",
-            "Vite is optimized around modern frontend workflows and quick iteration.",
-            "Production behavior still depends on the final bundling strategy, not only on dev server speed.",
-            "Tool choice should be explained in terms of team needs, ecosystem fit, and operational complexity.",
+            "Vite being fast usually describes development experience, not a universal production win in every codebase.",
+            "Production performance still depends on chunking, plugin behavior, SSR strategy, asset handling, and what the final bundler emits.",
+            "Webpack can remain the right choice when a legacy build has deep custom loaders, enterprise constraints, or unusual integration points that are expensive to reproduce.",
+            "Migration cost matters: a tool that is cleaner in theory may not be cheaper once plugin gaps, SSR behavior, or monorepo assumptions are counted.",
+          ]}
+        />
+
+        <SectionHeader>Migration and Ecosystem Tradeoffs</SectionHeader>
+        <BulletList
+          items={[
+            "Ask about plugin ecosystem needs, SSR support, library mode, monorepo behavior, and unusual asset pipelines before calling migration easy.",
+            "A large webpack setup may encode years of product constraints, not just outdated preferences.",
+            "If the build depends on custom loaders or highly specialized transforms, migration can be more like a platform rewrite than a config cleanup.",
+          ]}
+        />
+        <Callout variant="tip">
+          A senior answer should say Vite feels faster in dev because it avoids
+          eagerly bundling the whole app before serving it, then immediately add
+          that production and migration tradeoffs still need separate analysis.
+        </Callout>
+
+        <SectionHeader>Interviewer Questions</SectionHeader>
+        <BulletList
+          items={[
+            "Why does Vite often feel faster than webpack during development?",
+            "Why is `Vite is faster` an incomplete answer for production decisions?",
+            "What kinds of webpack customizations make migration harder than the simple narrative suggests?",
+            "How do SSR support, plugin ecosystem fit, and monorepo constraints affect the choice?",
           ]}
         />
       </div>

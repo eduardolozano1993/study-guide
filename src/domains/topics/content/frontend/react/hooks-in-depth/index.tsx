@@ -1,4 +1,6 @@
 import {
+  BulletList,
+  Callout,
   CodeBlock,
   CollapsibleSection,
   ComparisonTable,
@@ -26,76 +28,63 @@ export function ReactHooksInDepth() {
         <TopicCard
           icon="H"
           title="Hooks In Depth"
-          description="Senior React engineers should explain what each hook is for, what problem it solves, and what bugs appear when the hook is used as an escape hatch instead of a design tool."
+          description="Senior React engineers should explain what each hook is for, how to choose the right primitive, and what bugs appear when hooks are used as escape hatches instead of design tools."
         />
 
-        <SectionHeader>Core Hook Responsibilities</SectionHeader>
+        <SectionHeader>Choose the Primitive That Matches the Constraint</SectionHeader>
         <Paragraph>
           Hooks let function components use React features such as state,
           effects, refs, reducers, and context. The advanced part is not
           memorizing the names. It is choosing the right primitive for the
           constraint in front of you.
         </Paragraph>
-        <Paragraph>
-          Strong answers distinguish reactive values from mutable containers,
-          state transitions from side effects, and dependency injection through
-          context from full application state management.
-        </Paragraph>
         <ComparisonTable
           columns={[
-            { key: "use-case", label: "Best fit" },
+            { key: "fit", label: "Best fit" },
             { key: "misuse", label: "Common misuse" },
           ]}
           rows={[
             {
               label: "useState",
               values: {
-                "use-case": "Simple local state with independent updates.",
+                fit: "Simple local state with independent updates.",
                 misuse: "Managing many coordinated transitions that really want a reducer.",
               },
             },
             {
               label: "useReducer",
               values: {
-                "use-case": "Complex transitions where actions tell a clearer story than multiple setters.",
+                fit: "Complex transitions where actions tell a clearer story than scattered setters.",
                 misuse: "Adding ceremony for one or two trivial booleans.",
               },
             },
             {
               label: "useRef",
               values: {
-                "use-case": "Mutable values that should not trigger renders, or imperative DOM access.",
+                fit: "Mutable values that should not trigger renders, or imperative DOM access.",
                 misuse: "Hiding reactive state in refs to avoid understanding render behavior.",
               },
             },
             {
               label: "useContext",
               values: {
-                "use-case": "Sharing stable values such as theme, auth session, or injected services.",
-                misuse: "Treating context like a free global store for high-frequency updates.",
+                fit: "Dependency injection or sharing stable values such as theme, auth session, or services.",
+                misuse: "Treating context like a free high-frequency global store.",
               },
             },
           ]}
         />
 
-        <SectionHeader>useState, useReducer, useRef, and useContext</SectionHeader>
-        <Paragraph>
-          `useState` schedules re-renders when state changes. `useReducer` does
-          the same but centralizes transitions. `useRef` persists mutable data
-          without notifying React. `useContext` reads a value from the nearest
-          provider above the component.
-        </Paragraph>
-        <Paragraph>
-          Interviewers often test whether you understand when a change should
-          participate in rendering. If it affects UI, it belongs in state. If
-          it only coordinates imperative work, a ref may be better.
-        </Paragraph>
+        <SectionHeader>Reducer, Ref, Effect, or Event Handler?</SectionHeader>
+        <BulletList
+          items={[
+            "If it affects UI and changes over time, it probably belongs in state or a reducer.",
+            "If it only coordinates imperative work and should not cause a re-render, a ref may be better.",
+            "If it synchronizes with an external system after commit, use an effect.",
+            "If it is caused by a user interaction and can happen directly there, an event handler is usually clearer than an effect.",
+          ]}
+        />
         <CollapsibleSection title="Reducer for coordinated state changes" collapsible={false}>
-          <Paragraph>
-            Reducers help when multiple updates are related and the action says
-            why state changed instead of scattering setters across handlers and
-            effects.
-          </Paragraph>
           <CodeBlock
             language="tsx"
             code={`type CheckoutState = {
@@ -124,11 +113,11 @@ function checkoutReducer(
           />
         </CollapsibleSection>
 
-        <SectionHeader>useEffect, Custom Hooks, and Hook Rules</SectionHeader>
+        <SectionHeader>Custom Hooks and Hook Rules</SectionHeader>
         <Paragraph>
-          `useEffect` synchronizes a component with external systems after a
-          commit. Custom hooks package stateful logic behind a smaller API so
-          components stay focused on rendering.
+          Custom hooks package stateful logic behind a smaller API so components
+          stay focused on rendering. They share logic, not component instances,
+          unless they intentionally point at shared external state.
         </Paragraph>
         <Paragraph>
           The Rules of Hooks exist because React matches hook calls by order.
@@ -158,13 +147,28 @@ function checkoutReducer(
 }`}
           />
         </CollapsibleSection>
+        <BulletList
+          items={[
+            "Weak custom hooks leak effects, expose unstable callback contracts, or hide too much business logic behind a vague abstraction.",
+            "Dependency arrays and stable references matter because hooks participate in React’s dataflow model, not because the linter likes arrays.",
+            "A hook is not automatically a better abstraction than a plain function or domain module.",
+          ]}
+        />
+        <Callout variant="warning">
+          The weak answer is `I put logic in a custom hook`. The strong answer
+          is why the hook is the right boundary and what contract it exposes to
+          components.
+        </Callout>
 
-        <CollapsibleSection title="Signals of deep understanding">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>You can explain why hook order must stay stable across renders.</li>
-            <li>You know a custom hook shares logic, not state instances, unless it points to shared external state.</li>
-            <li>You treat `useEffect` as a synchronization boundary, not as a substitute for application architecture.</li>
-          </ul>
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When should state be a ref instead of `useState`?",
+              "When is a reducer warranted instead of several independent setters?",
+              "Why is context better understood as dependency injection than as a free global store?",
+              "What failure modes show that a custom hook has become the wrong abstraction?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

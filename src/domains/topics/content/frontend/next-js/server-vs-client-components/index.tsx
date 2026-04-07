@@ -1,13 +1,14 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
+  CollapsibleSection,
   ComparisonTable,
   Paragraph,
   SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
-import { BulletList } from "@/features/content";
 import { nextJsServerVsClientComponentsLesson } from "./meta";
 
 export function NextJsServerVsClientComponents() {
@@ -27,15 +28,15 @@ export function NextJsServerVsClientComponents() {
         <TopicCard
           icon="N"
           title="Server vs Client Components"
-          description="This is one of the most important modern Next.js interview topics because it affects performance, security, data access, and the mental model for React code placement."
+          description="This topic matters because the boundary changes bundle size, secret safety, serialization rules, and where stateful interactivity is allowed. Senior answers explain the boundary, not just the syntax."
         />
 
         <SectionHeader>Different Execution Environments</SectionHeader>
         <Paragraph>
           Server Components run on the server during rendering. Client
           Components run in the browser after hydration. The `"use client"`
-          directive does not just enable hooks. It defines a bundling boundary
-          and moves that module into client-side JavaScript.
+          directive is not just a hook enabler. It is a bundling boundary that
+          moves that module into client-side JavaScript.
         </Paragraph>
         <ComparisonTable
           columns={[
@@ -44,24 +45,24 @@ export function NextJsServerVsClientComponents() {
           ]}
           rows={[
             {
-              label: "Runs in",
-              values: {
-                server: "Server runtime during render.",
-                client: "Browser after hydration, plus initial server rendering support.",
-              },
-            },
-            {
               label: "Best for",
               values: {
-                server: "Data access, auth-aware rendering, secret usage, and reducing JS bundles.",
+                server: "Data access, auth-aware rendering, secret usage, and reducing client bundle size.",
                 client: "Interactivity, event handlers, local state, browser APIs, and effects.",
               },
             },
             {
-              label: "Cannot do",
+              label: "Key limitation",
               values: {
-                server: "Attach DOM events or use client-only hooks like `useState`.",
-                client: "Safely access server secrets or talk directly to privileged backends.",
+                server: "Cannot attach DOM events or use client-only hooks like `useState`.",
+                client: "Cannot safely hold trusted secrets or become the true authorization boundary.",
+              },
+            },
+            {
+              label: "Hidden cost",
+              values: {
+                server: "You must respect serialization and server/client composition rules.",
+                client: "Every high-level boundary ships more JavaScript and hydration work.",
               },
             },
           ]}
@@ -98,32 +99,44 @@ export default function ProductFilters() {
         />
         <Paragraph>
           This is a healthy split: the server handles data-heavy rendering while
-          a small interactive island handles only browser concerns.
+          a small interactive island handles browser-only concerns.
         </Paragraph>
 
-        <SectionHeader>Bundle Impact</SectionHeader>
+        <SectionHeader>Serialization and Bundle Thinking</SectionHeader>
         <BulletList
           items={[
-            "Every client boundary increases JavaScript shipped to the browser.",
-            "Marking a high-level component as client often pulls many children into the client bundle unnecessarily.",
-            "Keeping data-heavy presentation on the server can dramatically reduce hydration cost and improve startup performance.",
+            "Pass serializable data from server to client instead of moving the entire tree client-side.",
+            "Keep `use client` as low as possible so static presentation and data composition stay on the server.",
+            "Do not pass functions or privileged server objects through the boundary unless the framework explicitly supports that pattern.",
+            "If a parent becomes a Client Component, many descendants may get pulled into the client bundle unnecessarily.",
           ]}
         />
         <Callout variant="warning">
           A weak answer is `use client means interactive`. A stronger answer is
-          `use client creates a client bundle boundary, so I keep it as low in
-          the tree as possible`.
+          `use client creates a client bundle boundary, so I keep it low in the
+          tree and move only the interactive island`.
         </Callout>
 
-        <SectionHeader>Practical Boundary Rules</SectionHeader>
+        <SectionHeader>Common Failure Modes</SectionHeader>
         <BulletList
           items={[
-            "Default to Server Components for route-level UI and data composition.",
-            "Use Client Components for forms, toggles, tabs, optimistic UI, and browser events.",
-            "Pass serializable data from server to client instead of moving the entire tree client-side.",
-            "Keep secrets, database access, and trusted authorization checks on the server.",
+            "Turning a whole route into a Client Component because one button needs state.",
+            "Trying to read secrets or trust authorization decisions in client-only code.",
+            "Forgetting that context providers and interactivity often need client boundaries, so placement affects bundle shape.",
+            "Assuming server components remove all client fetching needs even when live, user-driven state still exists.",
           ]}
         />
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why should `use client` usually stay low in the tree?",
+              "What kinds of props can cross the server-client boundary safely?",
+              "When would you keep a route-level shell on the server but carve out a client island?",
+              "Why is moving auth-sensitive logic to the client both a security and architecture mistake?",
+            ]}
+          />
+        </CollapsibleSection>
       </div>
     </TopicLessonPage>
   );

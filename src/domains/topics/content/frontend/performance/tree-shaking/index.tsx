@@ -3,6 +3,7 @@ import {
   Callout,
   CodeBlock,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -25,13 +26,13 @@ export function TreeShaking() {
         <TopicCard
           icon="P"
           title="Tree Shaking"
-          description="Tree shaking removes unused exported code from bundles when the module graph and build tool can prove that code is not needed."
+          description="Tree shaking removes unused exported code when the module graph and build tool can prove it is safe. The senior question is why it often fails in production even when the package looks clean in theory."
         />
 
         <Paragraph>
           Tree shaking is a build-time optimization. It works best with ES
           modules because static imports and exports are easier for bundlers to
-          analyze than dynamic or CommonJS-heavy patterns.
+          analyze than CommonJS-heavy or side-effectful patterns.
         </Paragraph>
         <CodeBlock
           language="typescript"
@@ -42,24 +43,28 @@ export function formatDate() {}
 // page.ts
 import { formatCurrency } from "./utils";`}
         />
-        <Paragraph>
-          If the bundler can prove <code>formatDate</code> is unused and has no
-          side effects, it can often remove it from the final bundle.
-        </Paragraph>
 
-        <Callout variant="warning">
-          Tree shaking is limited by side effects. If importing a module runs
-          code with observable effects, bundlers have to be more conservative.
-        </Callout>
-
+        <SectionHeader>Why Tree Shaking Fails In Practice</SectionHeader>
         <BulletList
           items={[
-            "ES modules make tree shaking much more reliable.",
-            "Large barrel files and broad imports can reduce clarity around what is actually used.",
-            "Third-party libraries vary a lot in how tree-shakable they are.",
-            "Tree shaking is not a substitute for measuring what actually ships in production bundles.",
+            "Side effects force bundlers to stay conservative, which is why `sideEffects` metadata matters.",
+            "Barrel files and broad re-export patterns can make it harder to see what is actually used.",
+            "Mixed ESM and CommonJS packages often reduce how effectively bundlers can eliminate dead code.",
+            "A package can be tree-shakable in theory and still ship too much code in practice because import style, metadata, and bundler configuration all matter.",
           ]}
         />
+        <Callout variant="warning">
+          Tree shaking is not a substitute for measuring the real production
+          bundle. The question is always what shipped, not what should have been
+          removable in theory.
+        </Callout>
+
+        <SectionHeader>How To Verify It</SectionHeader>
+        <Paragraph>
+          Use bundle analysis tools and production build inspection to confirm
+          what actually survived. Senior answers mention verification, not just
+          the mechanism.
+        </Paragraph>
       </div>
     </TopicLessonPage>
   );

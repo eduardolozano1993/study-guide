@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   Paragraph,
@@ -6,7 +7,6 @@ import {
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
-import { BulletList } from "@/features/content";
 import { nextJsErrorHandlingObservabilityLesson } from "./meta";
 
 export function NextJsErrorHandlingObservability() {
@@ -26,7 +26,7 @@ export function NextJsErrorHandlingObservability() {
         <TopicCard
           icon="N"
           title="Error Handling and Observability"
-          description="Good production systems isolate failures, produce useful telemetry, and make it possible to debug distributed request paths instead of only showing generic fallback UI."
+          description="Good production systems isolate failures, distinguish expected missing states from true exceptions, and produce telemetry that makes distributed request paths debuggable."
         />
 
         <SectionHeader>Segment-Level Error Handling</SectionHeader>
@@ -55,10 +55,10 @@ export default function DashboardError({
         <Paragraph>
           `error.tsx` behaves like a route-scoped error boundary. That matters
           because it lets one subtree fail without taking down the entire app
-          shell.
+          shell, and the `reset()` path gives the user a real recovery action.
         </Paragraph>
 
-        <SectionHeader>Expected Missing Resources</SectionHeader>
+        <SectionHeader>Expected Missing Data vs True Exceptions</SectionHeader>
         <CodeBlock
           language="tsx"
           code={`import { notFound } from "next/navigation";
@@ -78,20 +78,27 @@ export default async function PostPage({
   return <Article post={post} />;
 }`}
         />
+        <BulletList
+          items={[
+            "Missing content can be an expected product state and should not always trip error monitoring.",
+            "User-correctable failures such as bad input or expired sessions need recovery UX, not just logs.",
+            "True exceptions should surface into monitoring with enough context to be actionable.",
+          ]}
+        />
 
         <SectionHeader>Observability in Practice</SectionHeader>
         <BulletList
           items={[
-            "Log enough request context to correlate errors with route, user, and deployment version.",
-            "Capture server-side errors separately from client-side errors because their root causes differ.",
-            "Use tracing and timing data to identify slow backends, cache misses, and waterfall patterns.",
-            "Treat production debugging as a full request-path problem, not just a component problem.",
+            "Log enough request context to correlate failures with route, deployment version, user action, and environment.",
+            "Capture server-side and client-side streams separately because the failure classes differ.",
+            "Use tracing and timing to identify slow backends, cache misses, and waterfalls that do not show up in one stack trace.",
+            "Redaction matters because request and session context should help diagnosis without leaking secrets or PII.",
           ]}
         />
         <Callout variant="important">
           In a server-rendered app, some failures happen before the browser gets
-          meaningful UI. That is why logs, traces, and monitoring are first-class
-          engineering concerns rather than optional extras.
+          meaningful UI. Logs, traces, and request correlation are first-class
+          engineering concerns, not optional extras.
         </Callout>
       </div>
     </TopicLessonPage>

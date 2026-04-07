@@ -1,12 +1,11 @@
 import {
+  BulletList,
   CodeBlock,
   ComparisonTable,
-  Paragraph,
   SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
-import { BulletList } from "@/features/content";
 import { nextJsPagesRouterLegacyLesson } from "./meta";
 
 export function NextJsPagesRouterLegacy() {
@@ -26,7 +25,7 @@ export function NextJsPagesRouterLegacy() {
         <TopicCard
           icon="N"
           title="Pages Router Legacy Knowledge"
-          description="Many production apps still use the Pages Router. Senior candidates do not need nostalgia, but they do need enough knowledge to maintain or migrate those codebases."
+          description="Many production apps still use the Pages Router. Senior candidates do not need nostalgia, but they do need enough knowledge to maintain, compare, and migrate those codebases credibly."
         />
 
         <SectionHeader>Core Pages Router APIs</SectionHeader>
@@ -61,8 +60,15 @@ export async function getStaticPaths() {
   };
 }`}
         />
+        <BulletList
+          items={[
+            "`getStaticProps` handled build-time generation plus ISR revalidation for cacheable routes.",
+            "`getStaticPaths` defined which dynamic routes were known at build time and how fallback behavior should work.",
+            "`getServerSideProps` handled request-time rendering for personalized or rapidly changing pages.",
+          ]}
+        />
 
-        <SectionHeader>How It Differs from the App Router</SectionHeader>
+        <SectionHeader>How It Differs From The App Router</SectionHeader>
         <ComparisonTable
           columns={[
             { key: "pages", label: "Pages Router" },
@@ -73,21 +79,21 @@ export async function getStaticPaths() {
               label: "Data model",
               values: {
                 pages: "Route-level data functions such as `getStaticProps` and `getServerSideProps`.",
-                app: "Data fetching directly inside components with server-first rendering semantics.",
+                app: "Server-first composition with data fetching directly in components and layouts.",
               },
             },
             {
-              label: "Component model",
+              label: "Layout model",
               values: {
-                pages: "Classic React pages with client-centric composition.",
-                app: "Server Components, layouts, streaming, and segment-level boundaries.",
+                pages: "More manual layout composition and duplication risk.",
+                app: "Nested layouts, streaming, and segment boundaries are first-class.",
               },
             },
             {
-              label: "Routing shape",
+              label: "Migration trap",
               values: {
-                pages: "`pages/` filesystem routes and API routes.",
-                app: "`app/` segment-based routing with layouts and special files.",
+                pages: "Client-centric habits often survive too long.",
+                app: "Teams may expect migration to be mechanical when it is actually architectural.",
               },
             },
           ]}
@@ -96,16 +102,11 @@ export async function getStaticPaths() {
         <SectionHeader>Why It Still Matters</SectionHeader>
         <BulletList
           items={[
-            "Many companies are mid-migration and need engineers who can work on both models.",
-            "Interviewers often ask for differences to see whether you understand the architectural shift rather than just current syntax.",
-            "Knowing legacy APIs helps you reason about old ISR setups, fallback behavior, and migration tradeoffs.",
+            "Many companies are mid-migration and need engineers who can reason about both models.",
+            "Interviewers often ask for differences to see whether you understand the architectural shift, not just current syntax.",
+            "Legacy data waterfalls, duplicated layouts, and misunderstood ISR fallback behavior are common maintenance topics.",
           ]}
         />
-        <Paragraph>
-          A strong senior answer explains the migration in terms of architecture:
-          fewer route-level data functions, more server-first composition, and
-          better layout and streaming primitives.
-        </Paragraph>
       </div>
     </TopicLessonPage>
   );

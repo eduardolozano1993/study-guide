@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -134,14 +135,50 @@ menuButton.addEventListener("click", (event) => {
           </Paragraph>
         </CollapsibleSection>
 
+        <SectionHeader>Modern Event Complexity</SectionHeader>
+
+        <CollapsibleSection title="Passive, Pointer, Wheel, and Scroll Events" collapsible={false}>
+          <BulletList
+            items={[
+              "Passive listeners tell the browser a listener will not call `preventDefault()`, which can improve scroll and touch responsiveness.",
+              "Pointer events unify mouse, touch, and pen input better than treating each interaction type as a separate world.",
+              "Wheel and scroll handlers are performance-sensitive because they can run frequently on the main thread.",
+              "Touch and gesture interactions often expose hidden assumptions about target size, cancellation, and browser default behavior.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Composed Events and Shadow DOM Boundaries" collapsible={false}>
+          <Paragraph>
+            Not every event crosses every boundary the same way. In component
+            systems using Shadow DOM, composed events can pass through shadow
+            boundaries while others stay encapsulated. That matters when
+            delegation and global listeners appear to miss interactions.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When should you call `preventDefault()` instead of `stopPropagation()`?",
+              "Why can overusing propagation control make components harder to compose?",
+              "When would you prefer event delegation over a listener on every child?",
+              "Why do touch, pointer, wheel, and scroll handlers deserve extra performance attention?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Confusing bubbling with capturing.</li>
-            <li>Using `stopPropagation` when the real problem is a default browser action.</li>
-            <li>Forgetting that `event.target` may be a nested child, not the button you expected.</li>
-            <li>Attaching many listeners where delegation is simpler.</li>
-            <li>Describing framework events without understanding the DOM underneath them.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Confusing bubbling with capturing.",
+              "Using `stopPropagation` when the real problem is a default browser action.",
+              "Forgetting that `event.target` may be a nested child, not the button you expected.",
+              "Attaching many listeners where delegation is simpler.",
+              "Ignoring passive listener tradeoffs in touch or scroll-heavy UI.",
+              "Describing framework events without understanding the DOM underneath them.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

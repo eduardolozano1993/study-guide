@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -70,13 +71,56 @@ export class UserCardComponent {
           </Callout>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Binding Tradeoffs Are About Clarity and Ownership" collapsible={false}>
+          <BulletList
+            items={[
+              "Interpolation is best for plain text output with minimal template logic.",
+              "Property binding is clearer when you are expressing DOM state such as `disabled`, `value`, or ARIA properties.",
+              "Event binding is the right boundary for user intent because state changes stay explicit in the component class.",
+              "`[(ngModel)]` is convenient for simple forms, but one-way data flow is often easier to reason about in complex screens.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Template Cost and Correctness Traps" collapsible={false}>
+          <CodeBlock
+            language="html"
+            code={`<!-- risky when expensive or stateful -->
+<div>{{ computeExpensiveSummary() }}</div>
+
+<!-- usually clearer -->
+<div>{{ summary }}</div>`}
+          />
+          <BulletList
+            items={[
+              "Calling methods from templates can cause repeated recomputation during change detection.",
+              "Dense expressions in templates make ownership and debugging harder.",
+              "Two-way binding can blur the boundary between form state, component state, and domain state when the form grows complex.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When is `[(ngModel)]` appropriate, and when is one-way data flow clearer?",
+              "What is the practical difference between interpolation and property binding?",
+              "Why can template method calls become a performance or correctness problem?",
+              "How do your binding choices affect state ownership in a large form or feature?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Confusing DOM attributes with DOM properties.</li>
-            <li>Using two-way binding everywhere without explaining state flow.</li>
-            <li>Forgetting that templates execute expressions within Angular change detection.</li>
-            <li>Putting too much business logic directly in template expressions.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Confusing DOM attributes with DOM properties.",
+              "Using two-way binding everywhere without explaining state flow.",
+              "Forgetting that templates execute expressions within Angular change detection.",
+              "Calling methods freely from templates without discussing recomputation cost.",
+              "Putting too much business logic directly in template expressions.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

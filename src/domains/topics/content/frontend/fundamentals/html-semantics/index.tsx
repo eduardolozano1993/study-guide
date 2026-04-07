@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -103,16 +104,52 @@ export function HtmlSemantics() {
           />
         </CollapsibleSection>
 
+        <SectionHeader>Reasoning Beyond Tag Names</SectionHeader>
+
+        <CollapsibleSection title="Semantics Shape the Accessibility Tree" collapsible={false}>
+          <Paragraph>
+            Semantic HTML is not only about cleaner markup. Native elements
+            create roles, relationships, landmark regions, names, and expected
+            keyboard behavior in the accessibility tree. When you replace them
+            with generic containers, you take on that responsibility yourself.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Buttons, Links, Lists, and App Shells" collapsible={false}>
+          <BulletList
+            items={[
+              "Use a `button` for in-page actions and a link for navigation. Styling one like the other does not change its semantics.",
+              "Use real lists when the content is actually a collection. Styled `div`s often lose grouping and announcement cues.",
+              "Dashboards and single-page app shells still benefit from landmarks like `header`, `nav`, `main`, and `aside`.",
+              "`div` is the correct choice when no semantic element matches, which is better than forcing the wrong meaning onto the markup.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When would you choose `section`, when would you choose `article`, and when is `div` correct?",
+              "Why does heading hierarchy matter even when the page looks visually fine?",
+              "Why is a styled `div` not a good replacement for a button or link?",
+              "How do semantics help assistive technology understand a dashboard or single-page app shell?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <SectionHeader>Interview Pitfalls</SectionHeader>
 
         <CollapsibleSection title="Common Mistakes">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Using `div` for buttons, links, or other interactive controls.</li>
-            <li>Choosing headings for visual size instead of hierarchy.</li>
-            <li>Using `section` everywhere with no meaningful grouping.</li>
-            <li>Skipping labels and landmarks.</li>
-            <li>Relying on placeholders as form instructions.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Using `div` for buttons, links, or other interactive controls.",
+              "Choosing headings for visual size instead of hierarchy.",
+              "Using `section` everywhere with no meaningful grouping.",
+              "Skipping labels and landmarks.",
+              "Forgetting that semantic choices affect the accessibility tree, not just markup style.",
+              "Relying on placeholders as form instructions.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

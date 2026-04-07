@@ -1,7 +1,9 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
+  ComparisonTable,
   Paragraph,
   SectionHeader,
   TopicCard,
@@ -26,23 +28,23 @@ export function BrowserRendering() {
         <TopicCard
           icon="B"
           title="Browser Rendering Basics"
-          description="Interviewers use rendering questions to test whether you understand where visual cost comes from: parsing, style calculation, layout, paint, compositing, and main-thread work."
+          description="Interviewers use rendering questions to test whether you know where visual cost comes from: parsing, style recalculation, layout, paint, compositing, and main-thread work."
         />
 
-        <CollapsibleSection title="The Simplified Rendering Pipeline" collapsible={false}>
+        <CollapsibleSection title="A Useful Rendering Pipeline Model" collapsible={false}>
           <Paragraph>
             A practical browser model is: parse HTML into the DOM, parse CSS
-            into the CSSOM, combine them into a render tree, calculate layout,
-            paint pixels, and composite layers to the screen.
+            into the CSSOM, calculate styles, determine layout, paint pixels,
+            and composite layers to the screen.
           </Paragraph>
           <CodeBlock
             language="text"
             code={`HTML -> DOM
 CSS -> CSSOM
-DOM + CSSOM -> Render tree
-Render tree -> Layout
-Layout -> Paint
-Paint -> Composite`}
+DOM + CSSOM -> style calculation
+style -> layout
+layout -> paint
+paint -> composite`}
           />
           <Paragraph>
             This is simplified, but it is accurate enough for most interview
@@ -50,52 +52,60 @@ Paint -> Composite`}
           </Paragraph>
         </CollapsibleSection>
 
-        <CollapsibleSection title="What Different Changes Cost" collapsible={false}>
-          <Paragraph>
-            Not every update is equally expensive. Geometry changes often force
-            layout. Pixel changes require paint. Some changes can be handled
-            mostly at the compositing stage.
-          </Paragraph>
-          <CodeBlock
-            language="javascript"
-            code={`element.style.transform = "translateX(20px)"; // often composite
+        <SectionHeader>What Different Changes Actually Cost</SectionHeader>
+        <ComparisonTable
+          columns={[
+            { key: "stage", label: "Typical stage hit" },
+            { key: "example", label: "Example" },
+          ]}
+          rows={[
+            {
+              label: "Geometry change",
+              values: {
+                stage: "Often layout, then paint, then composite.",
+                example: "Changing width, height, top, or left.",
+              },
+            },
+            {
+              label: "Visual-only change",
+              values: {
+                stage: "Usually paint, then composite.",
+                example: "Changing background color or box shadow.",
+              },
+            },
+            {
+              label: "Compositor-friendly change",
+              values: {
+                stage: "Often mostly composite when the layer setup allows it.",
+                example: "Animating transform or opacity.",
+              },
+            },
+          ]}
+        />
+        <CodeBlock
+          language="javascript"
+          code={`element.style.transform = "translateX(20px)"; // often composite
 element.style.opacity = "0.5"; // often composite
 element.style.backgroundColor = "tomato"; // paint
 element.style.width = "400px"; // layout + paint`}
-          />
-          <Callout variant="tip">
-            Interview shorthand: layout changes geometry, paint changes pixels,
-            compositing assembles layers.
-          </Callout>
-        </CollapsibleSection>
+        />
+        <Callout variant="tip">
+          Interview shorthand: layout changes geometry, paint changes pixels,
+          compositing assembles layers. That shorthand is useful, but it is not
+          permission to ignore the actual page context.
+        </Callout>
 
-        <SectionHeader>Why Rendering Knowledge Matters</SectionHeader>
+        <SectionHeader>Render Blocking and Jank</SectionHeader>
+        <BulletList
+          items={[
+            "CSS is render-blocking because the browser needs styles before it can paint correct layout.",
+            "Synchronous JavaScript can block parsing or monopolize the main thread even after initial HTML arrives.",
+            "Animating `transform` often helps because it can avoid repeated layout, but forced layer promotion still has memory cost.",
+            "A janky animation is often a combination of heavy scripting, repeated layout invalidation, and too much paint work.",
+          ]}
+        />
 
-        <CollapsibleSection title="Critical Rendering Path and Render Blocking" collapsible={false}>
-          <Paragraph>
-            Browsers cannot paint useful content until they have enough HTML and
-            CSS to build the render tree. CSS is render-blocking for that
-            reason. JavaScript can also delay rendering when it blocks parsing
-            or monopolizes the main thread.
-          </Paragraph>
-          <CodeBlock
-            language="html"
-            code={`<link rel="stylesheet" href="/app.css" />
-<script defer src="/app.js"></script>`}
-          />
-          <Paragraph>
-            `defer` helps scripts wait until HTML parsing completes, which is
-            why it is a common answer when interviewers ask how to reduce
-            blocking behavior.
-          </Paragraph>
-        </CollapsibleSection>
-
-        <CollapsibleSection title="Layout Thrashing">
-          <Paragraph>
-            Layout thrashing happens when code alternates DOM writes with layout
-            reads, forcing the browser to recalculate layout repeatedly within a
-            single interaction.
-          </Paragraph>
+        <CollapsibleSection title="Layout thrashing example">
           <CodeBlock
             language="javascript"
             code={`for (const item of items) {
@@ -104,23 +114,31 @@ element.style.width = "400px"; // layout + paint`}
 }`}
           />
           <Paragraph>
-            A better pattern is batching reads together, then batching writes
-            together.
+            Layout thrashing happens when code alternates DOM writes with layout
+            reads, forcing the browser to recalculate repeatedly inside one
+            interaction. Batch reads together, then batch writes together.
           </Paragraph>
-          <Callout variant="warning">
-            If you can explain layout thrashing clearly, you are already above
-            the level of many "frontend basics" answers.
-          </Callout>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Treating rendering as one opaque step.</li>
-            <li>Not knowing that CSS can delay first paint.</li>
-            <li>Assuming every animation is equally cheap.</li>
-            <li>Ignoring main-thread JavaScript cost when discussing perceived performance.</li>
-            <li>Reading layout repeatedly right after style writes.</li>
-          </ul>
+        <SectionHeader>How to Debug Rendering Problems</SectionHeader>
+        <BulletList
+          items={[
+            "Use the browser Performance panel to see whether the cost is scripting, style recalculation, layout, paint, or composite work.",
+            "Inspect layers and rendering tools when `z-index`, sticky positioning, or animations behave unexpectedly.",
+            "Ask whether the problem is parser blocking, render blocking, main-thread saturation, or a hot DOM mutation loop.",
+            "When an animation janks, compare `transform` and `opacity` strategies against layout-affecting properties like `top` and `left`.",
+          ]}
+        />
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why is CSS render-blocking?",
+              "Why can `transform` help when animating `top` or `left` hurts?",
+              "What causes layout thrashing, and how would you detect it?",
+              "How would you investigate a slow or janky animation in DevTools?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

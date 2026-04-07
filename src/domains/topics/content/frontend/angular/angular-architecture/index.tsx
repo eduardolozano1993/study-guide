@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -76,13 +77,51 @@ export function AngularArchitecture() {
           </Paragraph>
         </CollapsibleSection>
 
+        <SectionHeader>Scaling Decisions</SectionHeader>
+
+        <CollapsibleSection title="Feature Boundaries, Monorepos, and Shared Libraries" collapsible={false}>
+          <BulletList
+            items={[
+              "Strong Angular architecture usually follows feature boundaries first, not technical folders only.",
+              "Shared libraries are useful for stable cross-cutting primitives, but a 'shared-everything' module quickly becomes a dumping ground with unclear ownership.",
+              "In a monorepo, teams need boundaries for domain logic, UI primitives, and infrastructure so features do not reach through each other casually.",
+              "Architecture is partly about team ownership: lazy boundaries, testability, and release independence often matter as much as code organization.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Standalone Migration and Lazy Boundaries" collapsible={false}>
+          <BulletList
+            items={[
+              "Migrating from NgModules to standalone APIs can simplify bootstrap and local feature composition.",
+              "That migration is not always urgent. Legacy consistency can be a reasonable tradeoff if the team has stable patterns and higher-priority work.",
+              "Lazy-loading boundaries should follow product slices and ownership boundaries, not arbitrary file groupings.",
+              "Cross-feature dependencies should flow through explicit contracts instead of importing internals across lazy boundaries.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "How would you organize a large Angular monorepo without creating a giant shared library nobody owns?",
+              "When would you migrate an existing NgModule-heavy app to standalone APIs, and when would you not?",
+              "How do lazy-loading boundaries affect startup cost, testing, and team ownership?",
+              "What architectural smell tells you a feature boundary is too porous?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Describing Angular as only a component framework.</li>
-            <li>Ignoring dependency injection as a core architectural feature.</li>
-            <li>Not distinguishing app bootstrap, routing, and feature composition.</li>
-            <li>Assuming standalone components mean Angular no longer has structure.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Describing Angular as only a component framework.",
+              "Ignoring dependency injection as a core architectural feature.",
+              "Not distinguishing app bootstrap, routing, and feature composition.",
+              "Treating shared libraries as always good without discussing ownership and coupling costs.",
+              "Assuming standalone components mean Angular no longer has structure.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

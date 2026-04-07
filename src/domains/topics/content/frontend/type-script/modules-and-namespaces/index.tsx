@@ -2,7 +2,9 @@ import {
   BulletList,
   Callout,
   CodeBlock,
+  CollapsibleSection,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -25,13 +27,14 @@ export function ModulesAndNamespaces() {
         <TopicCard
           icon="T"
           title="Modules and Namespaces"
-          description="In modern TypeScript projects, most module questions are really questions about build behavior, emitted code, and runtime compatibility."
+          description="In modern TypeScript projects, most module questions are really questions about build behavior, runtime resolution, and interop pain between ESM, CommonJS, bundlers, and tests."
         />
 
+        <SectionHeader>Compile-Time Paths vs Runtime Resolution</SectionHeader>
         <Paragraph>
-          Modern application code generally uses ES module syntax. TypeScript,
-          the bundler, and the runtime all need to agree on how those imports
-          resolve.
+          Modern application code generally uses file-based modules with ES
+          module syntax. TypeScript, the bundler, the test runner, and the
+          runtime all need to agree on how those imports resolve.
         </Paragraph>
         <CodeBlock
           language="typescript"
@@ -42,25 +45,38 @@ export function saveUser(user: User) {
   return createUser(user);
 }`}
         />
-        <Paragraph>
-          <code>import type</code> is not only style. It clarifies intent and
-          can change emitted runtime behavior in some toolchains.
-        </Paragraph>
+        <BulletList
+          items={[
+            "`import type` clarifies intent and can affect emitted behavior in some toolchains.",
+            "Path aliases are conveniences until the bundler, test runner, and runtime are configured to understand them too.",
+            "What compiles successfully is not automatically what resolves correctly in Node, Vitest, Jest, or the browser build.",
+          ]}
+        />
 
+        <SectionHeader>ESM, CommonJS, and Legacy Namespaces</SectionHeader>
+        <BulletList
+          items={[
+            "Interop bugs often come from default imports, named imports, or synthetic compatibility settings masking the actual module format.",
+            "Side-effect imports should be explicit because they change runtime behavior even when no value is referenced.",
+            "Namespaces are mostly legacy in application code, but they still appear in some declaration and ambient-typing scenarios.",
+          ]}
+        />
         <Callout variant="warning">
           Module bugs often come from confusing TypeScript configuration with
           bundler behavior and actual runtime loading. Those systems overlap,
           but they are not the same thing.
         </Callout>
 
-        <BulletList
-          items={[
-            "Use file-based modules for modern application code.",
-            "Be explicit about ESM and CommonJS interop.",
-            "Treat path aliases as compile-time or bundler conveniences, not automatic runtime support.",
-            "Know that namespaces are mostly legacy outside a few declaration scenarios.",
-          ]}
-        />
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "What is the difference between a path alias compiling and actually resolving at runtime?",
+              "Why can `import type` matter beyond code style?",
+              "What are common pain points in ESM and CommonJS interop?",
+              "When do namespaces still appear in modern TypeScript work?",
+            ]}
+          />
+        </CollapsibleSection>
       </div>
     </TopicLessonPage>
   );

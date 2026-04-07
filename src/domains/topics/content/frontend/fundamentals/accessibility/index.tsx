@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -27,7 +28,7 @@ export function Accessibility() {
         <TopicCard
           icon="A"
           title="Accessibility Basics"
-          description="Interviewers usually want practical accessibility judgment: native semantics first, correct labeling, keyboard support, visible focus, and careful ARIA usage."
+          description="Interviewers want practical accessibility judgment: native semantics first, correct accessible names, logical focus order, composite widget behavior, and a real verification strategy instead of vague good intentions."
         />
 
         <CollapsibleSection title="What Accessibility Covers" collapsible={false}>
@@ -37,9 +38,9 @@ export function Accessibility() {
             reduced precision input, and different visual or cognitive needs.
           </Paragraph>
           <Paragraph>
-            For interviews, you usually do not need exhaustive standards detail.
-            You do need to explain how semantics, labels, focus order, keyboard
-            interaction, and contrast affect real users.
+            For interviews, you do not need to recite standards. You do need to
+            explain how semantics, names, focus, keyboard interaction, and
+            announcements affect real users.
           </Paragraph>
         </CollapsibleSection>
 
@@ -63,13 +64,13 @@ export function Accessibility() {
           </Callout>
         </CollapsibleSection>
 
-        <SectionHeader>Practical Accessibility Requirements</SectionHeader>
-
-        <CollapsibleSection title="Accessible Names, Descriptions, and Errors" collapsible={false}>
+        <SectionHeader>Accessible Names, Focus, and Composite Widgets</SectionHeader>
+        <CollapsibleSection title="Accessible name computation" collapsible={false}>
           <SubHeader>Names</SubHeader>
           <Paragraph>
             Interactive controls need an accessible name from visible text,
-            `label`, `aria-label`, or `aria-labelledby`.
+            `label`, `aria-label`, or `aria-labelledby`. A control that looks
+            obvious visually can still be unnamed to assistive technology.
           </Paragraph>
           <CodeBlock
             language="html"
@@ -81,8 +82,8 @@ export function Accessibility() {
 
           <SubHeader>Descriptions and errors</SubHeader>
           <Paragraph>
-            Supporting help text and validation errors should be associated with
-            the control so assistive technology can announce them.
+            Help text and validation errors should be associated with the
+            control so assistive technology can announce them in context.
           </Paragraph>
           <CodeBlock
             language="html"
@@ -96,7 +97,7 @@ export function Accessibility() {
           />
         </CollapsibleSection>
 
-        <CollapsibleSection title="Keyboard and Focus Management" collapsible={false}>
+        <CollapsibleSection title="Keyboard and focus management" collapsible={false}>
           <Paragraph>
             Users must be able to reach controls in a logical order, understand
             where focus is, and complete tasks without a mouse.
@@ -111,9 +112,9 @@ input:focus-visible {
 }`}
           />
           <Paragraph>
-            For composite widgets such as dialogs and menus, focus should move
-            somewhere meaningful when the widget opens and return sensibly when
-            it closes.
+            Composite widgets such as dialogs, menus, and tabs need explicit
+            focus management. That can include roving tabindex, moving focus
+            into the widget when it opens, and restoring focus when it closes.
           </Paragraph>
           <Callout variant="warning">
             Removing outlines without a replacement is one of the clearest
@@ -121,34 +122,36 @@ input:focus-visible {
           </Callout>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Where ARIA Helps">
-          <Paragraph>
-            ARIA is useful for exposing state and relationships that HTML alone
-            does not fully express, such as expanded panels, dialogs, tabs, and
-            live updates.
-          </Paragraph>
-          <CodeBlock
-            language="html"
-            code={`<button
-  aria-expanded="false"
-  aria-controls="faq-panel-1"
->
-  What is event bubbling?
-</button>
-<div id="faq-panel-1" hidden>
-  Event bubbling moves an event up the DOM tree.
-</div>`}
+        <CollapsibleSection title="When ARIA patterns are unavoidable">
+          <BulletList
+            items={[
+              "Dialogs need labelled containers, focus trapping, escape handling, and sensible return focus.",
+              "Tabs need correct roles, selected state, keyboard navigation, and matching tabpanel relationships.",
+              "Live regions matter when important async updates need announcement without stealing focus.",
+              "Menus and other composite widgets need stronger keyboard rules than plain link lists.",
+            ]}
           />
         </CollapsibleSection>
 
-        <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Using placeholders as labels.</li>
-            <li>Removing focus styles or trapping keyboard users.</li>
-            <li>Adding ARIA roles that conflict with native semantics.</li>
-            <li>Ignoring alt text for meaningful images.</li>
-            <li>Talking about accessibility only in terms of screen readers.</li>
-          </ul>
+        <SectionHeader>How to Verify Accessibility</SectionHeader>
+        <BulletList
+          items={[
+            "Navigate the feature with keyboard only and confirm focus order, focus visibility, and activation behavior.",
+            "Inspect the browser accessibility tree to verify names, roles, and relationships.",
+            "Use automated checks to catch obvious issues, but do not mistake them for full coverage.",
+            "Do screen-reader smoke tests for high-risk flows such as dialogs, forms, navigation, and async status updates.",
+          ]}
+        />
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why can a visually obvious control still be inaccessible?",
+              "How would you make a dialog or tabs component keyboard accessible?",
+              "When is ARIA necessary, and when does it make things worse?",
+              "How would you verify accessibility beyond running an automated linter?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

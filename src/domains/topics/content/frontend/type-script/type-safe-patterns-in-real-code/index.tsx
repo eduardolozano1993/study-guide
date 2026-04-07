@@ -2,6 +2,7 @@ import {
   BulletList,
   CodeBlock,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -27,10 +28,7 @@ export function TypeSafePatternsInRealCode() {
           description="The senior interview version of TypeScript is scenario-based: can you model real UI and service constraints without creating a brittle type maze?"
         />
 
-        <Paragraph>
-          Real-world safety comes from combining strong models, runtime
-          validation, and clear boundaries between components and services.
-        </Paragraph>
+        <SectionHeader>Model Impossible States Out of the UI</SectionHeader>
         <CodeBlock
           language="tsx"
           code={`type ButtonProps =
@@ -45,15 +43,29 @@ function Button(props: ButtonProps) {
   );
 }`}
         />
+        <Paragraph>
+          Discriminated unions work best when they remove impossible prop
+          combinations and make the render logic line up with real product
+          modes.
+        </Paragraph>
 
+        <SectionHeader>Boundary Validation, Mapping, and Locality</SectionHeader>
         <BulletList
           items={[
-            "Use discriminated unions to model real component modes.",
-            "Validate data at the process boundary and keep the unsafe edge small.",
-            "Share contracts only when frontend and backend truly share semantics.",
-            "Prefer local mapping layers when transport and UI needs are different.",
+            "Validate data at the process boundary so the rest of the app can operate on trusted domain types.",
+            "Use mapping layers when generated types or DTOs do not match the semantics the UI actually needs.",
+            "Share contracts across layers only when the meaning is truly shared, not just because the field names happen to match today.",
+            "Prefer locality when a type is tightly bound to one feature’s UI logic; over-sharing can create accidental coupling.",
           ]}
         />
+
+        <SectionHeader>Production-Style Flow</SectionHeader>
+        <Paragraph>
+          A realistic type-safe flow often looks like this: parse unknown input,
+          validate it, map it into a domain shape, narrow it into specific UI
+          states, and render from a discriminated union that makes impossible
+          states unrepresentable.
+        </Paragraph>
       </div>
     </TopicLessonPage>
   );

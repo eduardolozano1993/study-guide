@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -37,40 +38,31 @@ export function ReactFundamentals() {
           against the previous tree.
         </Paragraph>
         <Paragraph>
-          At senior level, the important shift is to stop talking about
-          components as template files and start talking about state ownership,
-          identity, data flow, and rendering cost. JSX, props, state, and keys
-          all feed that model.
+          At senior level, the important shift is to talk about state
+          ownership, identity, preservation, and remounting. JSX, props, state,
+          keys, Strict Mode, and batching all feed that model.
         </Paragraph>
         <Callout variant="tip">
-          A strong interview answer ties every primitive back to one question:
-          how does React decide what should be preserved, updated, or discarded
-          between renders?
+          A strong answer ties every primitive back to one question: how does
+          React decide what should be preserved, updated, or discarded between
+          renders?
         </Callout>
 
-        <SectionHeader>JSX, Components, Props, and State</SectionHeader>
+        <SectionHeader>Props, State, and Ownership</SectionHeader>
         <Paragraph>
-          JSX is syntax for creating React elements. It is not HTML and it is
-          not a browser template language. It compiles into JavaScript that
-          describes a tree React can compare over time.
+          JSX is syntax for creating React elements. Components are functions
+          from props and state to UI. Props are inputs owned by a parent, while
+          state is data owned by the component instance.
         </Paragraph>
-        <Paragraph>
-          Components are functions from props and state to UI. Props are inputs
-          owned by a parent, while state is data owned by the component
-          instance. Many React bugs come from putting state in the wrong place,
-          so ownership is a core interview topic.
-        </Paragraph>
-        <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-          <li>Use props to pass data and callbacks downward.</li>
-          <li>Use state for data that changes over time and affects rendering.</li>
-          <li>Avoid mirroring props into state unless you can justify the synchronization strategy.</li>
-        </ul>
+        <BulletList
+          items={[
+            "Use props to pass data and callbacks downward.",
+            "Use state for data that changes over time and affects rendering.",
+            "Avoid mirroring props into state unless you can justify the synchronization boundary clearly.",
+            "State should live at the narrowest point that still owns the coordination.",
+          ]}
+        />
         <CollapsibleSection title="Small but complete example" collapsible={false}>
-          <Paragraph>
-            This example shows how JSX defines a component boundary, how props
-            flow down, and how local state stays owned by the component that
-            updates it.
-          </Paragraph>
           <CodeBlock
             language="tsx"
             code={`type ProductCardProps = {
@@ -99,17 +91,11 @@ function ProductCard({ name, price, onAddToCart }: ProductCardProps) {
           />
         </CollapsibleSection>
 
-        <SectionHeader>Render, Reconciliation, and Keys</SectionHeader>
+        <SectionHeader>Identity, Keys, and Remounting</SectionHeader>
         <Paragraph>
-          In modern React, it is clearer to talk about render and commit than
-          old class lifecycle names. Render computes the next tree. Commit
-          applies DOM updates and runs effects.
-        </Paragraph>
-        <Paragraph>
-          Reconciliation is React&apos;s diffing strategy. React compares the old
-          and new trees by type and position. Keys matter because they give list
-          items stable identity across renders so React knows which child state
-          should be preserved.
+          React compares the old and new trees by type and position. Keys matter
+          because they give elements stable identity so React knows which child
+          state should be preserved and when something should remount.
         </Paragraph>
         <ComparisonTable
           columns={[
@@ -127,38 +113,36 @@ function ProductCard({ name, price, onAddToCart }: ProductCardProps) {
             {
               label: "State preservation",
               values: {
-                good: "React can preserve child state when the logical item stays the same.",
+                good: "React preserves child state when the logical item stays the same.",
                 bad: "React remounts or mismatches children, wiping local state or keeping it on the wrong element.",
               },
             },
           ]}
         />
-        <CollapsibleSection title="Why index keys break interactive lists" collapsible={false}>
-          <Paragraph>
-            When order changes, index keys tell React that position is identity.
-            That makes input state stick to a slot instead of the underlying
-            todo item.
-          </Paragraph>
-          <CodeBlock
-            language="tsx"
-            code={`function TodoList({ todos }: { todos: { id: string; text: string }[] }) {
-  return (
-    <ul>
-      {todos.map((todo) => (
-        <TodoRow key={todo.id} todo={todo} />
-      ))}
-    </ul>
-  );
-}`}
-          />
-        </CollapsibleSection>
+        <BulletList
+          items={[
+            "Keys matter outside simple lists too, including form reset behavior, tab panels, and route transitions.",
+            "Moving a component in the tree can change its identity even if its props look the same.",
+            "Sometimes remounting is desirable because it intentionally resets local state for a new flow.",
+          ]}
+        />
 
-        <CollapsibleSection title="Interview pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Saying keys are only for performance instead of identity.</li>
-            <li>Using only outdated lifecycle terminology without explaining render and commit.</li>
-            <li>Treating JSX as HTML instead of a UI description.</li>
-          </ul>
+        <SectionHeader>Strict Mode and Batching Context</SectionHeader>
+        <Paragraph>
+          Modern React fundamentals include understanding that development
+          Strict Mode may re-run logic to expose unsafe patterns and that state
+          updates are batched to avoid unnecessary work.
+        </Paragraph>
+
+        <CollapsibleSection title="Interview questions">
+          <BulletList
+            items={[
+              "How does React decide whether state is preserved or reset between renders?",
+              "Why are keys about identity, not just performance?",
+              "What happens when you move a component to a different position in the tree?",
+              "How do Strict Mode and batching change what you observe during development?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -93,13 +94,60 @@ console.log(state.user.preferences.theme); // "light"`}
           </Paragraph>
         </CollapsibleSection>
 
+        <SectionHeader>Edge Cases and Judgment</SectionHeader>
+
+        <CollapsibleSection title="Defaults, `undefined`, and Evaluation Order" collapsible={false}>
+          <CodeBlock
+            language="javascript"
+            code={`const config = { retries: undefined };
+const { retries = 3 } = config; // 3
+
+const options = undefined;
+// const { theme } = options; // throws
+const { theme = "dark" } = options ?? {};
+
+const {
+  user: { name: displayName = "Unknown" } = {},
+} = payload;`}
+          />
+          <Paragraph>
+            Destructuring defaults apply when a value is `undefined`, not for
+            every falsy value. It also fails fast when you destructure from
+            `null` or `undefined` unless you guard the source first.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Renaming Collisions and Rest Readability" collapsible={false}>
+          <BulletList
+            items={[
+              "Renaming during destructuring avoids local-name collisions, but too much renaming can make the code harder to scan.",
+              "Object rest is convenient for omission patterns, but it can obscure which properties are intentionally carried forward.",
+              "Concise syntax is only better when the reader can still tell what data is being selected and what remains shared.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "What does object spread actually copy, and what stays shared?",
+              "Why can destructuring `undefined` throw, and how do you guard against it cleanly?",
+              "When does object rest improve clarity, and when does it hide too much behavior?",
+              "Why can deeply nested destructuring become a maintainability problem in production code?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Using deeply nested destructuring that is harder to read than direct access.</li>
-            <li>Assuming spread performs a deep clone.</li>
-            <li>Confusing rest parameters in functions with rest properties in object destructuring.</li>
-            <li>Using spread on large nested structures without understanding what is still shared.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Using deeply nested destructuring that is harder to read than direct access.",
+              "Assuming spread performs a deep clone.",
+              "Confusing rest parameters in functions with rest properties in object destructuring.",
+              "Forgetting that destructuring defaults apply to `undefined`, not every falsy value.",
+              "Using spread on large nested structures without understanding what is still shared.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

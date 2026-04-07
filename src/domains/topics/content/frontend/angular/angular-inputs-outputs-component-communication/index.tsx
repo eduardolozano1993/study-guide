@@ -1,4 +1,5 @@
 import {
+  BulletList,
   CodeBlock,
   CollapsibleSection,
   Paragraph,
@@ -56,12 +57,47 @@ export class UserCardComponent {
           </Paragraph>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Choosing Between Inputs/Outputs, Services, and Store" collapsible={false}>
+          <BulletList
+            items={[
+              "Inputs and outputs are ideal when the parent already owns the state and the relationship is direct.",
+              "A shared service is better when siblings or nearby feature parts need coordination without prop drilling through unrelated wrappers.",
+              "Route-level or feature-level state containers become more appropriate when communication starts spanning many branches and ownership is no longer local.",
+              "If every presentational wrapper forwards the same inputs and outputs, the architecture is signaling that state probably lives too high or in the wrong place.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Common Failure Modes" collapsible={false}>
+          <BulletList
+            items={[
+              "Long event chains can make debugging ownership and timing difficult.",
+              "A shared service can quietly become hidden global state if everything starts writing to it.",
+              "Smart-versus-presentational splits help when you want easier testing and clearer ownership boundaries.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When are inputs and outputs enough, and when would you move to a shared service?",
+              "What smell tells you prop drilling through wrappers is becoming a problem?",
+              "How do smart and presentational components affect communication design?",
+              "When does route-level state make more sense than component-level event chains?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Using outputs for broad shared state when a service is the better fit.</li>
-            <li>Confusing `EventEmitter` with a general-purpose RxJS event bus.</li>
-            <li>Not explaining how communication changes when components are not directly related.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Using outputs for broad shared state when a service is the better fit.",
+              "Confusing `EventEmitter` with a general-purpose RxJS event bus.",
+              "Not explaining how communication changes when components are not directly related.",
+              "Letting a shared service become hidden mutable global state.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

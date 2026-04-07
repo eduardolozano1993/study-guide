@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -106,14 +107,70 @@ box.style.transform = "translateX(120px)";`}
           />
         </CollapsibleSection>
 
+        <SectionHeader>Nuance and Debugging</SectionHeader>
+
+        <CollapsibleSection title="Forced Layout Happens When Reads Follow Invalidating Writes" collapsible={false}>
+          <CodeBlock
+            language="javascript"
+            code={`box.style.width = "320px"; // invalidates layout
+const bounds = box.getBoundingClientRect(); // can force layout now
+
+requestAnimationFrame(() => {
+  const nextBounds = box.getBoundingClientRect();
+  box.style.transform = "translateX(" + nextBounds.width + "px)";
+});`}
+          />
+          <Paragraph>
+            The senior point is not memorizing APIs. It is recognizing the
+            read-after-write pattern that forces the browser to flush layout
+            work synchronously.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Compositor-Only Properties Still Have Tradeoffs" collapsible={false}>
+          <BulletList
+            items={[
+              "`transform` and `opacity` are often cheaper for animation because they can avoid repeated layout work.",
+              "That does not mean every element should be promoted to its own layer.",
+              "Extra layers can consume memory and sometimes increase compositing overhead.",
+              "The right answer is to optimize the hot path, not to cargo-cult layer promotion everywhere.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Browser Tools That Make This Visible" collapsible={false}>
+          <BulletList
+            items={[
+              "Use performance traces to spot long layout and paint tasks during an interaction.",
+              "Use paint flashing or rendering overlays to see when visual updates are more expensive than expected.",
+              "Use layout shift diagnostics when movement on the page feels unstable to users.",
+              "Correlate the trace with the actual code path instead of assuming every jank issue is a React or framework problem.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "What pattern causes forced synchronous layout?",
+              "Why are `transform` and `opacity` usually preferred for animation, and what tradeoff can they introduce?",
+              "How would `requestAnimationFrame` help when batching visual work?",
+              "Which browser tools would you use to confirm whether the problem is layout, paint, or layout shift?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common interview pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Using reflow and repaint as if they mean the same thing.</li>
-            <li>Forgetting that reflow often causes repaint too.</li>
-            <li>Ignoring layout reads like `offsetWidth`, `getBoundingClientRect`, or `scrollTop` in performance discussions.</li>
-            <li>Claiming every animation is cheap without separating layout, paint, and compositing.</li>
-            <li>Suggesting transform and opacity without explaining why they are usually preferred.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Using reflow and repaint as if they mean the same thing.",
+              "Forgetting that reflow often causes repaint too.",
+              "Ignoring layout reads like `offsetWidth`, `getBoundingClientRect`, or `scrollTop` in performance discussions.",
+              "Claiming every animation is cheap without separating layout, paint, and compositing.",
+              "Suggesting transform and opacity without explaining why they are usually preferred.",
+              "Forgetting that extra compositing layers have memory and complexity costs too.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

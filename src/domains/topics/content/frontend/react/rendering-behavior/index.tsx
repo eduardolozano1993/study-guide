@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -27,36 +28,68 @@ export function ReactRenderingBehavior() {
         <TopicCard
           icon="B"
           title="Rendering Behavior"
-          description="This topic separates strong candidates from average ones because it forces clear thinking about render, commit, batching, closures, dependency arrays, and memoization tradeoffs."
+          description="This topic separates strong candidates from average ones because it forces clear thinking about render purity, commit timing, bailouts, stale closures, dependency arrays, and concurrency-era debugging."
         />
 
-        <SectionHeader>Render vs Commit</SectionHeader>
+        <SectionHeader>Render, Commit, and Interrupted Work</SectionHeader>
         <Paragraph>
-          Render is the calculation phase. React calls components to compute the
-          next tree. Commit is the mutation phase where React applies DOM
-          changes and runs effects.
+          Render is the calculation phase. React calls components to decide what
+          the next UI should look like. Commit is the mutation phase where React
+          applies DOM changes, updates refs, and runs effects.
         </Paragraph>
         <Paragraph>
-          That distinction matters because render logic must stay pure. React
-          may render speculatively, more than once, or abandon work before
-          commit.
+          That distinction matters because render must stay pure. React can
+          start a render, pause it, throw it away, or re-run it before anything
+          visible changes on the screen.
         </Paragraph>
+        <ComparisonTable
+          columns={[
+            { key: "meaning", label: "What happens" },
+            { key: "failure", label: "What breaks if you misunderstand it" },
+          ]}
+          rows={[
+            {
+              label: "Render",
+              values: {
+                meaning: "Compute the next tree from props, state, and context.",
+                failure: "Impure work creates duplicated requests, mutations, or hard-to-reproduce bugs.",
+              },
+            },
+            {
+              label: "Commit",
+              values: {
+                meaning: "Apply DOM changes and run effects for committed work.",
+                failure: "You assume every render reached the screen, so debugging becomes misleading.",
+              },
+            },
+            {
+              label: "Paint",
+              values: {
+                meaning: "The browser renders committed DOM changes to pixels.",
+                failure: "You blame React for jank that is really layout, paint, or main-thread cost.",
+              },
+            },
+          ]}
+        />
         <Callout variant="warning">
-          Purity in render is not style guidance. React depends on being able to
-          call components multiple times safely.
+          Purity in render is not stylistic advice. React depends on being able
+          to call components multiple times safely.
         </Callout>
 
-        <SectionHeader>Batching and Stale Closures</SectionHeader>
+        <SectionHeader>Batching, Bailouts, and Stale Closures</SectionHeader>
         <Paragraph>
-          React batches state updates to avoid extra work. Multiple updates in
-          the same event are grouped before the next render commits.
+          React batches multiple state updates in the same turn so it can render
+          once with the final result. Bailouts happen when React decides the
+          visible output does not need more work, often using `Object.is`
+          equality for state updates and prop comparisons.
         </Paragraph>
         <Paragraph>
-          Stale closures happen when a callback captures values from an older
-          render. The issue is JavaScript closure behavior surfacing inside
-          React, not React forgetting to update a variable.
+          Stale closures are a JavaScript problem that becomes visible in React
+          when callbacks capture values from an older render. Strong answers
+          connect the bug to closure semantics, not to React "forgetting" the
+          latest state.
         </Paragraph>
-        <CollapsibleSection title="Functional updates prevent stale state math" collapsible={false}>
+        <CollapsibleSection title="Functional updates avoid stale state math" collapsible={false}>
           <CodeBlock
             language="tsx"
             code={`function Counter() {
@@ -71,45 +104,67 @@ export function ReactRenderingBehavior() {
 }`}
           />
         </CollapsibleSection>
+        <BulletList
+          items={[
+            "State updates to the same value can bail out, but React may still call your component before deciding no visible commit is needed.",
+            "Transitions change scheduling priority, which can improve perceived responsiveness without changing the correctness rules.",
+            "A callback that reads stale props or state usually needs a dependency fix, a functional update, or a different event/data-flow design.",
+          ]}
+        />
 
-        <SectionHeader>Dependency Arrays and Memoization Tradeoffs</SectionHeader>
+        <SectionHeader>Dependency Arrays Describe Dataflow</SectionHeader>
         <Paragraph>
-          Dependency arrays declare which reactive values an effect or memoized
-          computation depends on. They are not knobs for controlling frequency.
+          Dependency arrays are declarations of which reactive values an effect
+          or memoized computation reads. They are not frequency knobs.
         </Paragraph>
         <Paragraph>
-          Memoization is not free. `React.memo`, `useMemo`, and `useCallback`
-          add comparison and retention costs. Use them when they eliminate real
-          downstream work.
+          If an effect becomes too broad after adding all dependencies, that is
+          usually a design smell. The fix is often splitting the effect,
+          deriving values during render, or moving work into an event handler
+          instead of suppressing the linter.
         </Paragraph>
         <ComparisonTable
           columns={[
-            { key: "good", label: "Healthy reasoning" },
-            { key: "bad", label: "Weak reasoning" },
+            { key: "healthy", label: "Healthy reasoning" },
+            { key: "weak", label: "Weak reasoning" },
           ]}
           rows={[
             {
-              label: "Dependency arrays",
+              label: "Effects",
               values: {
-                good: "Declare all reactive inputs, then refactor if the effect became too broad.",
-                bad: "Leave dependencies out to run only once while still reading changing values.",
+                healthy: "List all reactive inputs, then refactor the effect if it is doing too much.",
+                weak: "Leave dependencies out so it only runs once while still reading changing values.",
               },
             },
             {
               label: "Memoization",
               values: {
-                good: "Use it when profiling or a clear cost model shows expensive downstream work.",
-                bad: "Wrap everything because re-render sounds bad in the abstract.",
+                healthy: "Use it when profiling shows expensive downstream work or unstable identities matter.",
+                weak: "Wrap everything because re-render sounds bad in the abstract.",
               },
             },
           ]}
         />
-        <CollapsibleSection title="Interview mistakes to avoid">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Claiming every re-render is a bug.</li>
-            <li>Treating exhaustive-deps warnings as optional style advice.</li>
-            <li>Explaining stale closures only as a React issue instead of a closure issue.</li>
-          </ul>
+
+        <SectionHeader>How to Debug Unexpected Renders</SectionHeader>
+        <BulletList
+          items={[
+            "Use React DevTools Profiler to see which components rendered, how long they took, and what interaction triggered them.",
+            "Check whether the issue is render cost, commit cost, or browser rendering cost before reaching for memoization.",
+            "When Strict Mode shows duplicate development behavior, ask whether the code is impure rather than assuming React is broken.",
+            "Trace identity changes first: props, context values, inline objects, and recreated callbacks often explain the re-render path.",
+          ]}
+        />
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why can React render a component without committing it?",
+              "What is the difference between batching and memoization?",
+              "Why is a stale closure bug usually a JavaScript problem expressed through React?",
+              "When would a dependency array warning indicate a design issue instead of a linting annoyance?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

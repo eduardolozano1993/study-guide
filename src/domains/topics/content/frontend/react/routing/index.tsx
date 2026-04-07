@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -26,7 +27,7 @@ export function ReactRouting() {
         <TopicCard
           icon="T"
           title="Routing"
-          description="Routing questions evaluate whether you think in terms of application structure, authorization boundaries, and URL-driven state rather than only link and route syntax."
+          description="Routing questions evaluate whether you think in terms of application structure, URL-driven state, data boundaries, and protected-flow UX rather than only link and route syntax."
         />
 
         <SectionHeader>Nested Routes, Layouts, and URL State</SectionHeader>
@@ -55,28 +56,39 @@ export function ReactRouting() {
 ]);`}
         />
 
-        <SectionHeader>Protected Routes</SectionHeader>
-        <Paragraph>
-          Protected routes are a coordination point between session state,
-          redirects, loading states, and role-based authorization.
-        </Paragraph>
+        <SectionHeader>Route-Level Data And Protection</SectionHeader>
+        <BulletList
+          items={[
+            "Modern routers can treat route boundaries as data boundaries through loaders and actions, not only navigation configuration.",
+            "Protected routes are coordination points between session state, redirects, loading states, and permission-aware UX.",
+            "URL state should not be duplicated into component state without a clear synchronization rule, or the app gets two sources of truth.",
+            "Back-button behavior is part of routing design, not a browser afterthought.",
+          ]}
+        />
         <Callout variant="warning">
           Client routing can improve UX, but it is not the real security
           boundary. Backend authorization still matters.
         </Callout>
 
-        <SectionHeader>React Router Patterns That Scale</SectionHeader>
-        <Paragraph>
-          As applications grow, route definitions become a structural map. Keep
-          route modules aligned with product areas and centralize access logic
-          at route boundaries rather than scattering it across leaf pages.
-        </Paragraph>
-        <CollapsibleSection title="Strong interview points">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Explain when state belongs in the URL versus component state.</li>
-            <li>Describe nested routes as UI composition, not only path composition.</li>
-            <li>Mention loading, redirect, and unauthorized states around protected areas.</li>
-          </ul>
+        <SectionHeader>Failure Modes That Show Up At Scale</SectionHeader>
+        <BulletList
+          items={[
+            "Route guards that render private UI briefly before redirecting create trust and polish problems.",
+            "Duplicated state between search params and component state makes back-button behavior feel broken.",
+            "Route definitions stop scaling when ownership is unclear and every feature edits one giant central file without boundaries.",
+            "Protected flows need explicit unauthorized, loading, and expired-session states instead of one vague redirect pattern.",
+          ]}
+        />
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When should the URL be the source of truth instead of local component state?",
+              "How do nested layouts improve route-level architecture?",
+              "What role do loaders and actions play in modern router design?",
+              "Why do route guards sometimes create a flash of private UI, and how would you avoid it?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

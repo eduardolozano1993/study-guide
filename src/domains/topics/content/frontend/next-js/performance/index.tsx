@@ -1,12 +1,11 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
-  Paragraph,
   SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
-import { BulletList } from "@/features/content";
 import { nextJsPerformanceLesson } from "./meta";
 
 export function NextJsPerformance() {
@@ -26,20 +25,20 @@ export function NextJsPerformance() {
         <TopicCard
           icon="N"
           title="Performance"
-          description="Good answers tie framework features to user-perceived speed: faster first render, less JavaScript, fewer waterfalls, smoother transitions, and better Core Web Vitals."
+          description="Good answers tie Next.js primitives to user-perceived speed: LCP, INP, CLS, hydration cost, server latency, and how much JavaScript reaches the browser."
         />
 
         <SectionHeader>High-Impact Performance Levers</SectionHeader>
         <BulletList
           items={[
-            "Use Server Components to reduce shipped JavaScript.",
-            "Split slow data behind Suspense boundaries to stream earlier content.",
-            "Optimize images and fonts with framework primitives instead of raw tags by default.",
-            "Avoid promoting large trees to Client Components unless they truly need browser interactivity.",
+            "Use Server Components to reduce shipped JavaScript and hydration work.",
+            "Split slow data behind Suspense boundaries so the route can stream earlier content.",
+            "Optimize images and fonts with framework primitives, but only when their usage actually matches the page’s needs.",
+            "Keep client boundaries low in the tree so bundle and hydration costs stay proportional to real interactivity.",
           ]}
         />
 
-        <SectionHeader>Image and Font Optimization</SectionHeader>
+        <SectionHeader>Image, Font, And Prefetch Tradeoffs</SectionHeader>
         <CodeBlock
           language="tsx"
           code={`import Image from "next/image";
@@ -61,27 +60,21 @@ export default function Hero() {
   );
 }`}
         />
-        <Paragraph>
-          These primitives help with responsive image delivery, layout
-          stability, and font loading behavior. They are not magic, but they
-          remove a lot of avoidable mistakes.
-        </Paragraph>
-
-        <SectionHeader>Prefetching, Streaming, and Bundle Control</SectionHeader>
         <BulletList
           items={[
-            "Route prefetching helps repeated app-style navigation feel instant.",
-            "Streaming prevents one slow subtree from blocking first paint for the entire route.",
-            "Bundle control starts with good server/client boundaries before it reaches memoization or micro-optimizations.",
+            "`next/image` helps responsive delivery and layout stability, but misusing it can still bloat LCP if the image is too large or prioritized incorrectly.",
+            "Font optimization helps CLS and render behavior, but loading too many variants still costs real bytes.",
+            "Prefetching can make navigation feel instant, but over-prefetching burns bandwidth and compute on routes users may never visit.",
           ]}
         />
 
-        <SectionHeader>Core Web Vitals Thinking</SectionHeader>
+        <SectionHeader>Hydration, Bundle Boundaries, And Measurement</SectionHeader>
         <BulletList
           items={[
-            "LCP improves when critical content renders sooner and large assets are optimized.",
-            "INP improves when hydration and client-side JavaScript stay under control.",
-            "CLS improves when media dimensions and layout slots are stable from the first render.",
+            "LCP often depends on rendering model choice, server delay, critical asset delivery, and whether the main content waits on client work.",
+            "INP often suffers when hydration and client-side JavaScript are too heavy on interactive routes.",
+            "CLS improves when image dimensions, font behavior, and dynamic layout slots are stable from the start.",
+            "Measure server and client bundle boundaries, route payloads, and Web Vitals instead of assuming the framework default is already optimal.",
           ]}
         />
         <Callout variant="note">

@@ -1,11 +1,11 @@
 import {
+  BulletList,
   CodeBlock,
   Paragraph,
   SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
-import { BulletList } from "@/features/content";
 import { nextJsSeoMetadataLesson } from "./meta";
 
 export function NextJsSeoMetadata() {
@@ -25,7 +25,7 @@ export function NextJsSeoMetadata() {
         <TopicCard
           icon="N"
           title="SEO and Metadata"
-          description="Strong candidates can explain both technical SEO mechanics and how Next.js makes metadata composition part of the route architecture."
+          description="Strong candidates can explain both technical SEO mechanics and how Next.js makes metadata composition part of route architecture instead of an afterthought."
         />
 
         <SectionHeader>Metadata API Basics</SectionHeader>
@@ -49,11 +49,11 @@ export const metadata: Metadata = {
         />
         <Paragraph>
           Metadata lives near the route, which is valuable because titles,
-          descriptions, canonical URLs, and social cards often depend on the
-          same route structure and content boundaries as the page itself.
+          descriptions, canonical URLs, social cards, and structured data often
+          depend on the same content and routing boundaries as the page itself.
         </Paragraph>
 
-        <SectionHeader>Dynamic Metadata</SectionHeader>
+        <SectionHeader>Dynamic Metadata And Crawlability</SectionHeader>
         <CodeBlock
           language="tsx"
           code={`export async function generateMetadata({
@@ -70,18 +70,25 @@ export const metadata: Metadata = {
   };
 }`}
         />
-
-        <SectionHeader>What a Senior Answer Should Cover</SectionHeader>
         <BulletList
           items={[
-            "Canonical tags prevent duplicate URL variants from competing in search indexes.",
-            "Open Graph and Twitter card metadata shape link previews rather than search ranking directly.",
-            "Sitemaps help discovery for large or frequently updated sites.",
-            "Server-rendered or statically generated content is generally easier for crawlers than content hidden behind client-only rendering.",
+            "Canonical tags help prevent duplicate URL variants from competing in search indexes.",
+            "`hreflang`, robots directives, structured data, and sitemap coverage often matter more in real follow-up questions than a basic title tag.",
+            "Client-only rendering can still create crawlability risk when meaningful content or metadata is unavailable in server-rendered HTML.",
+            "Multi-tenant apps need metadata strategies that respect tenant branding while preserving canonical and indexing discipline.",
           ]}
         />
 
-        <SectionHeader>Sitemap and Robots</SectionHeader>
+        <SectionHeader>How To Measure It</SectionHeader>
+        <BulletList
+          items={[
+            "Inspect rendered HTML, not just the React tree, to confirm what crawlers actually receive.",
+            "Validate indexing and canonical behavior with search tooling instead of assuming route metadata is correct.",
+            "Check social preview output because Open Graph and Twitter metadata affect real sharing behavior, not just abstract SEO quality.",
+          ]}
+        />
+
+        <SectionHeader>Sitemap And Robots</SectionHeader>
         <CodeBlock
           language="tsx"
           code={`// app/sitemap.ts

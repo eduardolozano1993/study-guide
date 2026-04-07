@@ -1,4 +1,5 @@
 import {
+  BulletList,
   CodeBlock,
   CollapsibleSection,
   Paragraph,
@@ -56,12 +57,46 @@ export class TopicsService {
           </Paragraph>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Typing Is Not Runtime Validation" collapsible={false}>
+          <BulletList
+            items={[
+              "`this.http.get<User>()` tells TypeScript what you expect, but it does not prove the server actually returned that shape.",
+              "Senior answers often mention DTO-to-domain mapping or runtime validation at system boundaries.",
+              "If the payload shape matters for safety, you usually need validation or normalization before the rest of the app trusts it.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Cancellation, Retry, and Boundary Design" collapsible={false}>
+          <BulletList
+            items={[
+              "Observables make cancellation natural through unsubscription, which matters for fast-changing route or search flows.",
+              "Retry and backoff policies should live where the ownership is clear, often in a service or carefully chosen interceptor rather than every component.",
+              "Error normalization and DTO mapping are often better handled near the API boundary so the rest of the app sees consistent data and failure shapes.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why does `get<User>()` not guarantee the server response is actually a `User`?",
+              "When would you map a DTO into a domain model inside a service?",
+              "What belongs in an interceptor versus in the API service itself?",
+              "When is returning an observable stream better than hiding everything behind a promise-like abstraction?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Using HttpClient directly in components everywhere.</li>
-            <li>Treating HttpClient responses like promises without discussing observables.</li>
-            <li>Ignoring interceptors and centralized error handling.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Using HttpClient directly in components everywhere.",
+              "Treating HttpClient responses like promises without discussing observables.",
+              "Assuming TypeScript response types validate payloads at runtime.",
+              "Ignoring interceptors and centralized error handling.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

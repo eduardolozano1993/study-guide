@@ -27,7 +27,7 @@ export function TypeSystemFundamentals() {
         <TopicCard
           icon="T"
           title="Type System Fundamentals"
-          description="Senior interview answers should explain what guarantees a type gives, how broad it is, and where it becomes unsafe."
+          description="Senior interview answers should explain what guarantee a type gives, how broad it is, and where it becomes unsafe or too imprecise."
         />
 
         <SectionHeader>Mental Model</SectionHeader>
@@ -38,14 +38,15 @@ export function TypeSystemFundamentals() {
         </Paragraph>
         <Paragraph>
           The fundamentals matter because every advanced topic builds on them:
-          unions describe alternatives, intersections combine constraints, and
-          special-purpose types like <code>any</code>, <code>unknown</code>, and{" "}
-          <code>never</code> define the edges of the system.
+          unions describe alternatives, intersections combine requirements, and
+          special-purpose types such as <code>any</code>, <code>unknown</code>,
+          <code>never</code>, and <code>void</code> define the edges of the
+          system.
         </Paragraph>
         <Callout variant="tip">
-          A strong answer explains why <code>unknown</code> is safer than{" "}
-          <code>any</code> and why <code>never</code> is useful for proving a
-          state is impossible.
+          A strong answer explains why <code>unknown</code> is safer than
+          <code>any</code>, why <code>never</code> proves impossibility, and why
+          literal inference matters for real APIs.
         </Callout>
 
         <CollapsibleSection title="Top, bottom, and special-purpose types" collapsible={false}>
@@ -65,11 +66,6 @@ function fail(message: string): never {
   throw new Error(message);
 }`}
           />
-          <Paragraph>
-            <code>any</code> opts out of safety, <code>unknown</code> preserves
-            uncertainty, <code>void</code> usually describes ignored returns,
-            and <code>never</code> marks impossible code paths.
-          </Paragraph>
         </CollapsibleSection>
 
         <CollapsibleSection title="Unions, intersections, and literals" collapsible={false}>
@@ -90,22 +86,20 @@ type WithAudit = {
 type AuditedOrder = BaseOrder & WithAudit;`}
           />
           <Paragraph>
-            Literal unions let you model exact allowed states. Intersections are
-            compile-time combinations of requirements, not runtime object
-            merges.
+            Literal unions model exact allowed states. Intersections are
+            compile-time combinations of constraints, not runtime object merges.
           </Paragraph>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Interview pitfalls">
-          <BulletList
-            items={[
-              "Treating any and unknown as interchangeable.",
-              "Using broad string instead of a precise literal union.",
-              "Confusing intersections with runtime object spread.",
-              "Forgetting that types disappear at runtime.",
-            ]}
-          />
-        </CollapsibleSection>
+        <SectionHeader>Subtle Follow-Ups Interviewers Ask</SectionHeader>
+        <BulletList
+          items={[
+            "`any` opts out of safety, while `unknown` preserves uncertainty and forces proof before use.",
+            "`void` and `undefined` are related, but they do not mean the same thing in every function or assignment context.",
+            "Literal inference is what lets APIs preserve exact values instead of widening everything to broad primitives.",
+            "Unreachable code and exhaustive switches are where `never` becomes practically useful instead of theoretical.",
+          ]}
+        />
       </div>
     </TopicLessonPage>
   );

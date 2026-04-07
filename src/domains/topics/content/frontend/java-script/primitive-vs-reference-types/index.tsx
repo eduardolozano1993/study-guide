@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -116,13 +117,67 @@ console.log(person.name); // "Lin"`}
           </Paragraph>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Call-by-Sharing Is the Precise Mental Model" collapsible={false}>
+          <Paragraph>
+            JavaScript is best described as call-by-sharing. Functions receive
+            the current value of each argument. For objects, that value is an
+            object reference that multiple variables can share. That is why a
+            function can mutate shared state without being able to replace the
+            caller's variable by reassigning its local parameter.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Equality Rules Matter in UI Code" collapsible={false}>
+          <CodeBlock
+            language="javascript"
+            code={`console.log(Object.is(NaN, NaN)); // true
+console.log(Object.is(-0, 0)); // false
+
+const prev = { page: 1 };
+const next = { page: 1 };
+
+console.log(prev === next); // false`}
+          />
+          <BulletList
+            items={[
+              "`===` works well for primitives but compares object identity for arrays, functions, Maps, Sets, and plain objects.",
+              "`Object.is` differs in a few edge cases and is commonly used by UI frameworks for bailout logic.",
+              "Memoization only helps when equal inputs keep stable identities across renders or recalculations.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="It Is Not Just About Plain Objects" collapsible={false}>
+          <BulletList
+            items={[
+              "Arrays are objects, so copied references can still share the same array instance.",
+              "Functions are objects too, which is why recreated callbacks can defeat memoization.",
+              "Maps and Sets compare by identity as well, so mutating them in place can hide meaningful changes from consumers expecting replacement semantics.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why is 'objects are passed by reference' an imprecise explanation?",
+              "What is the difference between `===` and `Object.is`, and why does a framework care?",
+              "Why can recreating arrays, objects, or functions affect memoization and rerender behavior?",
+              "How do Maps and Sets fit into the primitive-versus-reference conversation?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Saying JavaScript "passes objects by reference" without clarifying what is actually passed.</li>
-            <li>Expecting two identical object literals to be strictly equal.</li>
-            <li>Confusing reassignment of a variable with mutation of a referenced object.</li>
-            <li>Assuming spread syntax creates a deep copy.</li>
-          </ul>
+          <BulletList
+            items={[
+              'Saying JavaScript "passes objects by reference" without clarifying what is actually passed.',
+              "Expecting two identical object literals to be strictly equal.",
+              "Confusing reassignment of a variable with mutation of a referenced object.",
+              "Ignoring how equality rules affect memoization and rendering behavior.",
+              "Assuming spread syntax creates a deep copy.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

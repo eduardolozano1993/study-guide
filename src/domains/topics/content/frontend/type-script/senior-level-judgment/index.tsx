@@ -1,7 +1,10 @@
 import {
   BulletList,
   Callout,
+  CollapsibleSection,
+  ComparisonTable,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -24,29 +27,87 @@ export function SeniorLevelJudgment() {
         <TopicCard
           icon="T"
           title="Senior-Level Judgment"
-          description="This is the topic that turns TypeScript knowledge into engineering leadership: where to tighten contracts, where to simplify, and how to improve a codebase without freezing delivery."
+          description="This topic turns TypeScript knowledge into engineering leadership: where to tighten contracts first, where to simplify, how to stage stricter settings, and how to improve safety without freezing delivery."
         />
 
+        <SectionHeader>Fix the Dangerous Boundaries First</SectionHeader>
         <Paragraph>
-          Senior TypeScript judgment is mainly about tradeoffs. You should be
-          able to explain how you would refactor weak typings, where you would
-          place validation boundaries, and how much type complexity a team
-          should actually pay for.
+          Senior TypeScript judgment is mostly about sequencing. The first goal
+          is not maximum type cleverness. It is reducing the highest-risk seams:
+          `any`-heavy zones, unvalidated API input, weak nullability around core
+          flows, and impossible states that are still representable.
         </Paragraph>
-
-        <Callout variant="tip">
-          Strong senior answers sound like decisions made in a real codebase,
-          not like a features checklist.
-        </Callout>
-
-        <BulletList
-          items={[
-            "Tighten the unsafe seams first: any-heavy zones, API boundaries, and invalid state modeling.",
-            "Prefer unknown plus validation over any plus hope.",
-            "Use advanced types when they simplify a real contract, not when they only demonstrate cleverness.",
-            "Adopt stricter typing incrementally so the team can absorb the change.",
+        <ComparisonTable
+          columns={[
+            { key: "why", label: "Why it matters" },
+            { key: "mistake", label: "Common mistake" },
+          ]}
+          rows={[
+            {
+              label: "Boundary wrappers",
+              values: {
+                why: "Contain unsafe vendor APIs or legacy surfaces in one place.",
+                mistake: "Sprinkling assertions everywhere and pretending the codebase is safe.",
+              },
+            },
+            {
+              label: "Runtime validation",
+              values: {
+                why: "Protects typed code from untrusted input.",
+                mistake: "Believing shared interfaces or generated types verify runtime payloads.",
+              },
+            },
+            {
+              label: "Stricter compiler settings",
+              values: {
+                why: "Change day-to-day developer behavior and surface real bugs early.",
+                mistake: "Turning everything on at once and stalling delivery with no rollout plan.",
+              },
+            },
+            {
+              label: "Simpler domain models",
+              values: {
+                why: "Make invalid states harder to express without overengineering.",
+                mistake: "Overtyping trivial code while leaving dangerous boundaries weak.",
+              },
+            },
           ]}
         />
+
+        <SectionHeader>Migration Strategy Beats Grand Rewrite Thinking</SectionHeader>
+        <BulletList
+          items={[
+            "Harden `tsconfig` incrementally, often package by package or boundary by boundary.",
+            "Introduce safe wrappers around unstable API contracts instead of forcing the whole app to absorb raw DTOs immediately.",
+            "Reserve explicit `any` for truly temporary escape hatches and track why it exists.",
+            "Use error budgets and delivery constraints to choose which type debt must be fixed now versus staged over several iterations.",
+          ]}
+        />
+        <Callout variant="tip">
+          Strong senior answers sound like decisions made in a messy real
+          codebase, not like a features checklist from the TypeScript handbook.
+        </Callout>
+
+        <SectionHeader>What Mature Tradeoff Thinking Sounds Like</SectionHeader>
+        <BulletList
+          items={[
+            "Use advanced types when they make the public contract clearer, not when they only prove the author is clever.",
+            "Prefer `unknown` plus validation over `any` plus hope.",
+            "Simplify types when editor errors, compiler speed, or onboarding cost start hurting the team more than the extra precision helps.",
+            "Invest more heavily in types for shared libraries, domain boundaries, and failure-prone workflows than for disposable glue code.",
+          ]}
+        />
+
+        <CollapsibleSection title="Interviewer scenarios">
+          <BulletList
+            items={[
+              "A legacy codebase has widespread `any`, weak nullability, and unstable backend payloads. What gets fixed first and why?",
+              "A team wants every function fully generic and perfectly typed. Where do you push back?",
+              "How would you improve type safety without blocking product delivery for a quarter?",
+              "What are examples of senior mistakes in TypeScript? Overtyping trivial code, under-modeling unsafe boundaries, and confusing cleverness with maturity.",
+            ]}
+          />
+        </CollapsibleSection>
       </div>
     </TopicLessonPage>
   );

@@ -1,6 +1,9 @@
 import {
+  BulletList,
+  Callout,
   CodeBlock,
   CollapsibleSection,
+  ComparisonTable,
   Paragraph,
   SectionHeader,
   TopicCard,
@@ -25,15 +28,15 @@ export function ReactArchitecture() {
         <TopicCard
           icon="A"
           title="Architecture"
-          description="Architecture answers should show judgment: how you divide features, where logic lives, and how the codebase stays understandable as teams and requirements grow."
+          description="Architecture answers should show judgment: how features are divided, where business logic lives, how ownership works across teams, and how the codebase stays understandable as products and organizations grow."
         />
 
-        <SectionHeader>Folder Structure and Feature Boundaries</SectionHeader>
+        <SectionHeader>Feature Boundaries Matter More Than Folder Aesthetics</SectionHeader>
         <Paragraph>
-          Folder structure should reflect how the product evolves.
-          Feature-oriented organization often scales better than grouping
-          everything by technical type because it keeps UI, hooks, tests, and
-          domain logic for the same capability together.
+          Folder structure should reflect how the product evolves. Feature-first
+          organization often scales better than grouping everything by technical
+          type because it keeps UI, tests, hooks, route modules, and domain
+          logic for one capability close together.
         </Paragraph>
         <CodeBlock
           language="text"
@@ -50,31 +53,73 @@ export function ReactArchitecture() {
     api/
     utils/`}
         />
+        <BulletList
+          items={[
+            "Shared code should become shared only when several features genuinely need the same abstraction.",
+            "A shared-everything bucket usually means the architecture is centralizing convenience instead of preserving ownership.",
+            "Monorepos raise the same question one level up: what belongs in a shared package, and what should stay feature-local for autonomy?",
+          ]}
+        />
 
-        <SectionHeader>Separating UI from Business Logic</SectionHeader>
-        <Paragraph>
-          UI components should focus on presentation and interaction wiring.
-          Business rules, orchestration, and data access often belong in hooks,
-          services, or domain modules depending on the application shape.
-        </Paragraph>
-        <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-          <li>Put pure transformations in utility or domain modules.</li>
-          <li>Put data coordination in custom hooks or data-layer modules.</li>
-          <li>Keep presentational components narrow and predictable.</li>
-        </ul>
+        <SectionHeader>Where Logic Lives</SectionHeader>
+        <ComparisonTable
+          columns={[
+            { key: "fit", label: "Best fit" },
+            { key: "risk", label: "Failure mode" },
+          ]}
+          rows={[
+            {
+              label: "Hooks",
+              values: {
+                fit: "Component-facing orchestration and reusable UI state logic.",
+                risk: "Becoming a vague dumping ground for business rules and side effects.",
+              },
+            },
+            {
+              label: "Services or domain modules",
+              values: {
+                fit: "Pure business rules, API coordination, and logic that should outlive one component tree.",
+                risk: "Hidden mutable state or service layers that just wrap fetch without adding boundaries.",
+              },
+            },
+            {
+              label: "Context",
+              values: {
+                fit: "Dependency injection or stable shared values such as theme, auth session, or feature services.",
+                risk: "Acting like a free global store and coupling unrelated features together.",
+              },
+            },
+            {
+              label: "Data layer abstractions",
+              values: {
+                fit: "Server state, cache invalidation, and fetch orchestration.",
+                risk: "Mixing server cache with client workflow state until nothing has a clear owner.",
+              },
+            },
+          ]}
+        />
 
-        <SectionHeader>Scalability Decisions</SectionHeader>
+        <SectionHeader>Scale Means Ownership And Testability</SectionHeader>
         <Paragraph>
           Scalability is not only performance. It includes onboarding cost,
-          release safety, testability, and clarity of ownership across teams.
+          release safety, testability, and whether teams can change one product
+          area without tangling several others.
         </Paragraph>
-        <CollapsibleSection title="Good architectural signals">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Feature boundaries align with product workflows.</li>
-            <li>Shared code has clear criteria for becoming shared.</li>
-            <li>Business logic is not duplicated across page components.</li>
-            <li>Cross-cutting concerns such as API clients and logging have explicit homes.</li>
-          </ul>
+        <Callout variant="tip">
+          Strong architecture answers talk about ownership boundaries, shared UI
+          criteria, and how to stop cross-feature dependencies from becoming a
+          mesh.
+        </Callout>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "How would you organize a large React app so cross-feature dependencies do not become tangled?",
+              "When should logic live in a custom hook versus a domain service or data-layer abstraction?",
+              "How do shared UI libraries help, and when do they turn into a bottleneck?",
+              "What changes when the React app is split across several teams or a monorepo?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

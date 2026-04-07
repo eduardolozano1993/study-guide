@@ -3,7 +3,9 @@ import {
   Callout,
   CodeBlock,
   CollapsibleSection,
+  ComparisonTable,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -26,9 +28,10 @@ export function AsyncTyping() {
         <TopicCard
           icon="T"
           title="Async Typing"
-          description="Async code is where many TypeScript codebases lose safety at the network boundary unless success and failure are modeled deliberately."
+          description="Async code is where many TypeScript codebases lose safety at the network boundary. Senior answers model success, failure, cancellation, and stale or partial results explicitly."
         />
 
+        <SectionHeader>Promise&lt;T&gt; Only Describes Fulfillment</SectionHeader>
         <CodeBlock
           language="typescript"
           code={`type User = { id: string; email: string };
@@ -40,40 +43,76 @@ async function getUser(userId: string): Promise<User> {
         />
         <Paragraph>
           A <code>Promise&lt;User&gt;</code> annotation only describes the
-          fulfilled value. It does not prove the remote payload actually matches
-          that shape at runtime.
+          fulfilled value. It does not prove the transport succeeded, the JSON
+          matched the shape, or the business operation was valid.
         </Paragraph>
 
-        <CollapsibleSection title="Modeling success and failure">
+        <SectionHeader>Model Success, Failure, and Partial Outcomes</SectionHeader>
+        <CollapsibleSection title="Result-union style async contract" collapsible={false}>
           <CodeBlock
             language="typescript"
-            code={`type AsyncResult<T> =
+            code={`type AsyncResult<T, E extends string = string> =
   | { ok: true; data: T }
-  | { ok: false; error: string };
+  | { ok: false; error: E };
 
-async function loadSettings(): Promise<AsyncResult<{ theme: string }>> {
+async function loadSettings(): Promise<
+  AsyncResult<{ theme: string }, "network" | "invalid-payload">
+> {
   try {
     return { ok: true, data: { theme: "dark" } };
   } catch {
-    return { ok: false, error: "Could not load settings" };
+    return { ok: false, error: "network" };
   }
 }`}
           />
         </CollapsibleSection>
-
-        <Callout variant="tip">
-          Senior answers distinguish transport success, business success, and
-          runtime validation. Those are three different concerns.
-        </Callout>
-
-        <BulletList
-          items={[
-            "Do not assume response.json validates anything.",
-            "Be clear about whether your team throws errors or returns result unions.",
-            "Validate untrusted payloads before treating them as domain data.",
-            "Remember Promise<T> only models the fulfilled value.",
+        <ComparisonTable
+          columns={[
+            { key: "strength", label: "Strength" },
+            { key: "cost", label: "Cost or tradeoff" },
+          ]}
+          rows={[
+            {
+              label: "Thrown exceptions",
+              values: {
+                strength: "Works well for truly exceptional failures and integrates with existing try/catch flows.",
+                cost: "Expected business failures become harder to discover from the function signature.",
+              },
+            },
+            {
+              label: "Result unions",
+              values: {
+                strength: "Makes expected failure paths explicit for callers.",
+                cost: "Call sites must handle the union deliberately instead of assuming happy-path data.",
+              },
+            },
           ]}
         />
+
+        <SectionHeader>Cancellation, Concurrency, and Mutation Flows</SectionHeader>
+        <BulletList
+          items={[
+            "If filters, route params, or user identity can change quickly, async typing should pair with cancellation or stale-result ownership logic.",
+            "Concurrent workflows often need `Promise.all`, `allSettled`, or typed aggregation of partial failures rather than one vague `Promise<any[]>`.",
+            "Mutation flows deserve explicit result typing too, because optimistic UI and rollback logic depend on predictable outcomes.",
+            "A typed `response.json()` is still only a promise about developer intent until runtime validation confirms the payload.",
+          ]}
+        />
+        <Callout variant="tip">
+          Senior answers distinguish transport success, business success,
+          runtime validation, and freshness. Those are separate concerns.
+        </Callout>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "When would you return a result union instead of throwing?",
+              "What does `Promise<T>` fail to tell you about a remote API call?",
+              "How do you model partial failures when several async requests run together?",
+              "Why do mutation flows need just as much type care as read flows?",
+            ]}
+          />
+        </CollapsibleSection>
       </div>
     </TopicLessonPage>
   );

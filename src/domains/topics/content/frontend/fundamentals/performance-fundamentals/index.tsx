@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -109,14 +110,61 @@ const AnalyticsPanel = React.lazy(() => import("./AnalyticsPanel"));`}
           </Callout>
         </CollapsibleSection>
 
+        <SectionHeader>Budgets, Prioritization, and Measurement</SectionHeader>
+
+        <CollapsibleSection title="Network Cost vs Main-Thread Cost vs Rendering Cost" collapsible={false}>
+          <BulletList
+            items={[
+              "Network cost covers payload size, request count, caching behavior, image delivery, and server latency.",
+              "Main-thread cost covers parsing, script execution, hydration, event handling, and heavy JavaScript work after data arrives.",
+              "Rendering cost covers style recalculation, layout, paint, compositing, and animation smoothness.",
+              "Strong answers identify which bucket is dominant before choosing an optimization strategy.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Performance Budgets Force Better Decisions" collapsible={false}>
+          <Paragraph>
+            Budgets turn performance into a product constraint instead of a
+            vague aspiration. Teams can budget bundle size, image weight,
+            interaction latency, or Core Web Vitals targets so tradeoffs stay
+            visible during development.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="A Practical Measurement Stack" collapsible={false}>
+          <BulletList
+            items={[
+              "Use Lighthouse for lab-style audits and quick regressions in controlled conditions.",
+              "Use Real User Monitoring to understand what actual users experience on real devices and networks.",
+              "Use browser DevTools and profilers for local diagnosis when you need to trace a specific bottleneck.",
+              "Do not assume a micro-optimization matters until measurement shows it moves a meaningful user metric.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "How would you decide whether bundle size, server latency, render work, or images deserve attention first?",
+              "Why are performance budgets useful on a frontend team?",
+              "What is the difference between lab tools like Lighthouse and field data from real users?",
+              "Why can a local micro-optimization miss the real bottleneck completely?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Equating frontend performance only with algorithmic complexity.</li>
-            <li>Talking about memoization before bundle size, images, or render blocking.</li>
-            <li>Ignoring the difference between initial load and interaction performance.</li>
-            <li>Not mentioning layout shift, image sizing, or expensive main-thread work.</li>
-            <li>Suggesting optimizations without any plan to measure impact.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Equating frontend performance only with algorithmic complexity.",
+              "Talking about memoization before bundle size, images, or render blocking.",
+              "Ignoring the difference between network cost, main-thread cost, and rendering cost.",
+              "Ignoring the difference between initial load and interaction performance.",
+              "Not mentioning layout shift, image sizing, or expensive main-thread work.",
+              "Suggesting optimizations without any plan to measure impact.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

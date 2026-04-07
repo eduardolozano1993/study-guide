@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -67,12 +68,47 @@ export class CounterComponent {
           </Callout>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Signal Primitives and Common Mistakes" collapsible={false}>
+          <BulletList
+            items={[
+              "Writable signals hold mutable state, computed signals derive values, and effects react to changes with side effects.",
+              "Effects are for side effects, not for derivation that should really be a computed value.",
+              "Feedback loops can appear when an effect writes to the same state graph it depends on without clear boundaries.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Migration and Interop" collapsible={false}>
+          <BulletList
+            items={[
+              "Signals and RxJS interoperate, so migration can be incremental rather than a rewrite.",
+              "Replacing every observable-based state flow with signals is not automatically a win if the problem is really asynchronous composition or cancellation.",
+              "Standalone APIs simplify composition, but teams still need architectural conventions for imports, providers, and route boundaries.",
+              "A zoneless future changes some automatic assumptions, which makes explicit reactive dependencies more important.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Would you replace an existing observable-based state flow with signals? Why or why not?",
+              "What is the difference between a computed signal and an effect?",
+              "How do signals and RxJS complement each other instead of simply competing?",
+              "What changes in Angular architecture when standalone APIs and a zoneless future are part of the conversation?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Treating signals as a full replacement for RxJS.</li>
-            <li>Describing standalone components as "Angular without modules" without explaining composition benefits.</li>
-            <li>Ignoring how signals affect modern Angular change detection patterns.</li>
-          </ul>
+          <BulletList
+            items={[
+              "Treating signals as a full replacement for RxJS.",
+              'Describing standalone components as "Angular without modules" without explaining composition benefits.',
+              "Using effects for derivation instead of side effects.",
+              "Ignoring how signals affect modern Angular change detection patterns.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

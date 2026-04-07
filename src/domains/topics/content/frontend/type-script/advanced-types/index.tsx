@@ -3,7 +3,9 @@ import {
   Callout,
   CodeBlock,
   CollapsibleSection,
+  ComparisonTable,
   Paragraph,
+  SectionHeader,
   TopicCard,
   TopicLessonPage,
 } from "@/features/content";
@@ -26,13 +28,18 @@ export function AdvancedTypes() {
         <TopicCard
           icon="T"
           title="Advanced Types"
-          description="Advanced types are valuable when they encode a stable rule. They become harmful when they turn the type system into a puzzle."
+          description="Advanced types are valuable when they encode a stable rule in a public contract. They become harmful when they turn the type system into a puzzle the team cannot debug."
         />
 
-        <CollapsibleSection title="Mapped and indexed access types" collapsible={false}>
-          <CodeBlock
-            language="typescript"
-            code={`type ApiUser = {
+        <SectionHeader>Use Advanced Types to Preserve Relationships</SectionHeader>
+        <Paragraph>
+          The real value of mapped types, conditional types, <code>infer</code>,
+          and template-literal types is preserving relationships between inputs
+          and outputs without rewriting the same contract repeatedly.
+        </Paragraph>
+        <CodeBlock
+          language="typescript"
+          code={`type ApiUser = {
   id: string;
   email: string;
   lastLoginAt: string | null;
@@ -44,10 +51,10 @@ type NullableFlags<T> = {
 
 type ApiUserNullableFlags = NullableFlags<ApiUser>;
 type EmailType = ApiUser["email"];`}
-          />
-        </CollapsibleSection>
+        />
 
-        <CollapsibleSection title="Conditional types, infer, and template literals">
+        <SectionHeader>Conditional Types, infer, and Template Literals</SectionHeader>
+        <CollapsibleSection title="Common advanced tools" collapsible={false}>
           <CodeBlock
             language="typescript"
             code={`type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
@@ -56,25 +63,59 @@ type EventKey<T extends string> = \`on\${Capitalize<T>}\`;
 
 type UserLoadedEvent = EventKey<"loaded">;`}
           />
-          <Paragraph>
-            These tools let you compute one type from another, which is powerful
-            when the transformation reflects a real domain rule or public API
-            contract.
-          </Paragraph>
         </CollapsibleSection>
+        <ComparisonTable
+          columns={[
+            { key: "useful", label: "Useful use" },
+            { key: "risky", label: "Risky use" },
+          ]}
+          rows={[
+            {
+              label: "Distributive conditional types",
+              values: {
+                useful: "Transforming union members in a contract-aware way.",
+                risky: "Building deeply nested helpers nobody can mentally expand.",
+              },
+            },
+            {
+              label: "infer",
+              values: {
+                useful: "Extracting return, payload, or event types from a known shape.",
+                risky: "Hiding the public API behind layers of opaque type algebra.",
+              },
+            },
+            {
+              label: "Template-literal types",
+              values: {
+                useful: "Modeling naming conventions or event maps.",
+                risky: "Encoding brittle string puzzles instead of simple validated values.",
+              },
+            },
+          ]}
+        />
 
+        <SectionHeader>Debugging and Maintainability</SectionHeader>
+        <BulletList
+          items={[
+            "Name intermediate aliases so editor errors show human-sized concepts instead of one giant expression.",
+            "If a mapped or conditional type takes several minutes to explain, question whether the API should be simpler.",
+            "Prefer a slightly duplicated but obvious type over a maximally clever helper that slows down every future reader.",
+            "Advanced types should make call sites safer or clearer. If they only impress the author, they are not pulling their weight.",
+          ]}
+        />
         <Callout variant="warning">
-          If you cannot explain an advanced type in one or two sentences, it is
-          probably too clever for most application code.
+          The interview differentiator is not knowing the syntax. It is knowing
+          when advanced typing genuinely improves an API and when it is too
+          clever for application code.
         </Callout>
 
-        <CollapsibleSection title="Interview pitfalls">
+        <CollapsibleSection title="Interviewer questions">
           <BulletList
             items={[
-              "Using advanced types to impress instead of to simplify a contract.",
-              "Forgetting distributive conditional behavior over unions.",
-              "Creating unreadable editor errors for the rest of the team.",
-              "Applying type-level computation where a plain interface would be clearer.",
+              "What makes conditional types distributive over unions?",
+              "When would you use `infer` instead of repeating a known type manually?",
+              "How do you simplify unreadable advanced-type errors for a team?",
+              "When does a template-literal type improve an API, and when is a plain string plus validation enough?",
             ]}
           />
         </CollapsibleSection>

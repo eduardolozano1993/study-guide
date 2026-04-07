@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -93,13 +94,92 @@ authLog("signed in");`}
           </Callout>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Stale Closures in UI Code" collapsible={false}>
+          <CodeBlock
+            language="javascript"
+            code={`function createSaveHandler(draft) {
+  return async function handleSave() {
+    await api.save({ id: draft.id, title: draft.title });
+  };
+}
+
+let draft = { id: 1, title: "Old title" };
+let onSave = createSaveHandler(draft);
+
+draft = { id: 1, title: "New title" };
+
+// If the old handler is still wired somewhere, it still saves "Old title".
+onSave();`}
+          />
+          <Paragraph>
+            Stale-closure bugs show up when an old callback, timer, or async
+            continuation keeps a snapshot from an earlier render or setup path.
+            The function is behaving correctly. The bug is that the app kept
+            using a closure that no longer matches the latest state.
+          </Paragraph>
+          <BulletList
+            items={[
+              "Timers can fire later with older values than the UI currently shows.",
+              "Event handlers stored by third-party code can keep outdated assumptions alive.",
+              "Async callbacks often need current-state reads or a redesigned data flow, not just more re-renders.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <SectionHeader>Failure Modes and Debugging</SectionHeader>
+
+        <CollapsibleSection title="Closures Can Retain More Memory Than You Expect" collapsible={false}>
+          <CodeBlock
+            language="javascript"
+            code={`function attachPreview(button, largeDataSet) {
+  button.addEventListener("click", () => {
+    console.log(largeDataSet[0]);
+  });
+}
+
+// If the listener is never removed, the closure can keep
+// largeDataSet reachable longer than intended.`}
+          />
+          <Paragraph>
+            Closures do not leak memory by default, but they do keep referenced
+            values alive while the closure itself is still reachable. That
+            matters for DOM listeners, caches, long-lived timers, and
+            subscriptions.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="How to Reason About a Closure Bug" collapsible={false}>
+          <BulletList
+            items={[
+              "Ask which lexical scope created the callback, not just where it runs.",
+              "Check whether multiple callbacks share one binding or each callback gets its own binding.",
+              "Trace object lifetime: if a listener or timer outlives the screen, it may also retain old data.",
+              "When UI state looks stale, inspect whether the callback should read a current source of truth instead of a captured snapshot.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why does the `var` loop log the same value, and why does `let` change the result?",
+              "Why is this callback seeing stale state even though the UI already updated?",
+              "How can a closure contribute to memory retention without there being a classical memory leak?",
+              "When is a closure the right tool for private state, and when does it hide too much mutable behavior?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Defining closures only as "functions inside functions" without mentioning lexical scope.</li>
-            <li>Missing how closures enable state after the outer function returns.</li>
-            <li>Confusing closure behavior with hoisting or `this` binding.</li>
-            <li>Ignoring memory implications when large values are captured unnecessarily.</li>
-          </ul>
+          <BulletList
+            items={[
+              'Defining closures only as "functions inside functions" without mentioning lexical scope.',
+              "Missing how closures enable state after the outer function returns.",
+              "Confusing closure behavior with hoisting or `this` binding.",
+              "Ignoring stale-closure bugs because the code 'looks async' rather than stateful.",
+              "Ignoring memory implications when large values are captured unnecessarily.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

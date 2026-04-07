@@ -1,4 +1,5 @@
 import {
+  BulletList,
   CodeBlock,
   CollapsibleSection,
   Paragraph,
@@ -64,6 +65,37 @@ export function AngularLifecycleHooks() {
             DOM listeners manually. Failing to clean up creates leaks and stale
             updates.
           </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Beyond the Three Common Hooks" collapsible={false}>
+          <BulletList
+            items={[
+              "`ngAfterViewInit` is for logic that needs the component view or view children to exist first.",
+              "`ngAfterContentInit` matters when projected content changes what the component can access or measure.",
+              "Touching view-dependent APIs too early is a common cause of undefined references or timing bugs.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Cleanup Patterns and Hook Selection" collapsible={false}>
+          <BulletList
+            items={[
+              "`takeUntilDestroyed` is often a clearer modern cleanup pattern than manual subscription bookkeeping.",
+              "Memory leaks are not only forgotten `unsubscribe` calls. They also include stale timers, listeners, and async flows that keep updating dead views.",
+              "If logic depends on changing inputs, `ngOnChanges` is usually more precise than `ngOnInit`.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why is this logic in `ngOnChanges` instead of `ngOnInit`?",
+              "What breaks if you read or mutate the view too early?",
+              "When would you use `ngAfterViewInit` or `ngAfterContentInit`?",
+              "How does `takeUntilDestroyed` improve cleanup compared with manual unsubscription?",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>

@@ -1,4 +1,5 @@
 import {
+  BulletList,
   Callout,
   CodeBlock,
   CollapsibleSection,
@@ -57,12 +58,46 @@ export function AngularReactiveFormsValidation() {
           </Callout>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Typed Forms, FormArray, and Cross-Field Rules" collapsible={false}>
+          <BulletList
+            items={[
+              "Typed forms improve safety when large forms evolve and refactors need compiler support.",
+              "`FormArray` matters when the form shape is dynamic, such as repeated addresses, aliases, or line items.",
+              "Cross-field validation belongs at the right group level when one control depends on another, not only at individual control validators.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Async Validation and `updateOn` Tradeoffs" collapsible={false}>
+          <BulletList
+            items={[
+              "Async validators can race if multiple requests return out of order while the user is still typing.",
+              "`updateOn: 'blur'` or `'submit'` can reduce noisy remote validation and improve UX for expensive checks.",
+              "Validation strategy should balance fast feedback with not hammering backend services on every keystroke.",
+            ]}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Interviewer questions">
+          <BulletList
+            items={[
+              "Why do reactive forms scale better than template-driven forms for complex apps?",
+              "When would you reach for `FormArray` or nested `FormGroup`s?",
+              "How would you implement cross-field or async validation safely?",
+              "What tradeoff changes when you switch validation to `updateOn: 'blur'` or `updateOn: 'submit'`?",
+            ]}
+          />
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Interview Pitfalls">
-          <ul className="my-4 list-disc space-y-3 pl-6 text-base leading-8 text-muted-foreground">
-            <li>Describing reactive forms only as "forms in TypeScript".</li>
-            <li>Ignoring nested groups, dynamic controls, and validation state.</li>
-            <li>Not distinguishing form validity from when and how validation messages are shown.</li>
-          </ul>
+          <BulletList
+            items={[
+              'Describing reactive forms only as "forms in TypeScript".',
+              "Ignoring nested groups, dynamic controls, and validation state.",
+              "Ignoring async validator races and chatty backend validation.",
+              "Not distinguishing form validity from when and how validation messages are shown.",
+            ]}
+          />
         </CollapsibleSection>
       </div>
     </TopicLessonPage>
