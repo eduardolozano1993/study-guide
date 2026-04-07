@@ -491,17 +491,17 @@ describe("topic integrity", () => {
     expect(dnsLesson.id).toBe("dns");
     expect(dnsLesson.title.length).toBeGreaterThan(0);
     expect(dnsLesson.summary.length).toBeGreaterThan(0);
-    expect(dnsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+    expect(dnsLesson.relatedTopicIds?.every((topicId: string) => topicIds.has(topicId))).toBe(true);
 
     expect(http123Lesson.id).toBe("http-1-2-3");
     expect(http123Lesson.title.length).toBeGreaterThan(0);
     expect(http123Lesson.summary.length).toBeGreaterThan(0);
-    expect(http123Lesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+    expect(http123Lesson.relatedTopicIds?.every((topicId: string) => topicIds.has(topicId))).toBe(true);
 
     expect(tlsLesson.id).toBe("tls");
     expect(tlsLesson.title.length).toBeGreaterThan(0);
     expect(tlsLesson.summary.length).toBeGreaterThan(0);
-    expect(tlsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+    expect(tlsLesson.relatedTopicIds?.every((topicId: string) => topicIds.has(topicId))).toBe(true);
 
     expect(restLesson.id).toBe("rest");
     expect(restLesson.title.length).toBeGreaterThan(0);
