@@ -73,6 +73,86 @@ export function AngularRxjsBasics() {
           />
         </CollapsibleSection>
 
+        <CollapsibleSection title="When to Use `switchMap`" collapsible={false}>
+          <CodeBlock
+            language="typescript"
+            code={`searchControl.valueChanges.pipe(
+  debounceTime(300),
+  distinctUntilChanged(),
+  switchMap((term) => this.http.get<User[]>("/api/users", {
+    params: { q: term },
+  })),
+);`}
+          />
+          <Paragraph>
+            Use `switchMap` when a newer trigger should cancel the previous
+            inner stream. Typeahead search is the standard example because you
+            usually want only the latest request result, not stale responses
+            arriving out of order.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="When to Use `mergeMap`" collapsible={false}>
+          <CodeBlock
+            language="typescript"
+            code={`from(fileIds).pipe(
+  mergeMap((fileId) =>
+    this.http.post("/api/process-file", { fileId }),
+  ),
+);`}
+          />
+          <Paragraph>
+            Use `mergeMap` when multiple inner operations should run
+            concurrently and you want all of them to complete. This fits cases
+            like background uploads, fire-and-track analytics batches, or
+            parallel processing where canceling earlier work would be wrong.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="When to Use `concatMap`" collapsible={false}>
+          <CodeBlock
+            language="typescript"
+            code={`saveClicks$.pipe(
+  concatMap((draft) =>
+    this.http.post("/api/save-draft", draft),
+  ),
+);`}
+          />
+          <Paragraph>
+            Use `concatMap` when order matters and each inner operation should
+            wait for the previous one to finish. It is a better fit than
+            `mergeMap` when sequential saves, queued mutations, or rate-limited
+            APIs must stay in request order.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Hot vs Cold Observables" collapsible={false}>
+          <CodeBlock
+            language="typescript"
+            code={`const users$ = this.http.get<User[]>("/api/users"); // cold
+
+users$.subscribe(); // starts request
+users$.subscribe(); // starts a second request
+
+const clicks$ = fromEvent(button, "click"); // hot
+
+clicks$.subscribe((event) => console.log("A", event));
+clicks$.subscribe((event) => console.log("B", event));`}
+          />
+          <BulletList
+            items={[
+              "A cold observable starts its producer per subscription. Angular `HttpClient` requests are the classic example.",
+              "A hot observable has a source that exists independently of one subscriber. DOM events and many Subjects behave this way.",
+              "Cold streams often repeat work unless you explicitly share them. Hot streams often need care because late subscribers can miss past values.",
+            ]}
+          />
+          <Callout variant="tip">
+            `shareReplay` is a common Angular answer when you want to avoid
+            refetching a cold HTTP observable for every subscriber while still
+            sharing the latest successful value.
+          </Callout>
+        </CollapsibleSection>
+
         <CollapsibleSection title="Cancellation and Cleanup" collapsible={false}>
           <BulletList
             items={[

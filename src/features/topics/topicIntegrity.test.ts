@@ -15,6 +15,7 @@ import { frontendSecurityLesson } from "@/domains/topics/content/frontend/fundam
 import { primitiveVsReferenceTypesLesson } from "@/domains/topics/content/frontend/java-script/primitive-vs-reference-types/meta";
 import { closuresLesson } from "@/domains/topics/content/frontend/java-script/closures/meta";
 import { objectsDestructuringSpreadRestLesson } from "@/domains/topics/content/frontend/java-script/objects-destructuring-spread-rest/meta";
+import { javascriptCollectionOperationsLesson } from "@/domains/topics/content/frontend/java-script/javascript-collection-operations/meta";
 import { promisesAsyncAwaitLesson } from "@/domains/topics/content/frontend/java-script/promises-async-await/meta";
 import { errorHandlingJavaScriptLesson } from "@/domains/topics/content/frontend/java-script/error-handling-javascript/meta";
 import { domManipulationBasicsLesson } from "@/domains/topics/content/frontend/java-script/dom-manipulation-basics/meta";
@@ -195,6 +196,11 @@ describe("topic integrity", () => {
     expect(objectsDestructuringSpreadRestLesson.title.length).toBeGreaterThan(0);
     expect(objectsDestructuringSpreadRestLesson.summary.length).toBeGreaterThan(0);
     expect(objectsDestructuringSpreadRestLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
+
+    expect(javascriptCollectionOperationsLesson.id).toBe("javascript-collection-operations");
+    expect(javascriptCollectionOperationsLesson.title.length).toBeGreaterThan(0);
+    expect(javascriptCollectionOperationsLesson.summary.length).toBeGreaterThan(0);
+    expect(javascriptCollectionOperationsLesson.relatedTopicIds?.every((topicId) => topicIds.has(topicId))).toBe(true);
 
     expect(promisesAsyncAwaitLesson.id).toBe("promises-async-await");
     expect(promisesAsyncAwaitLesson.title.length).toBeGreaterThan(0);

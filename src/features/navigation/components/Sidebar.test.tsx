@@ -19,7 +19,12 @@ const mockItem: MenuItem = {
 const renderMenuItem = (item: MenuItem, initialPath: string = "/") => {
   return render(
     <MemoryRouter initialEntries={[initialPath]}>
-      <MenuItemComponent item={item} pathname={initialPath} />
+      <MenuItemComponent
+        item={item}
+        pathname={initialPath}
+        completedTopics={{}}
+        onToggleTopicCompletion={() => {}}
+      />
     </MemoryRouter>,
   );
 };
@@ -27,6 +32,7 @@ const renderMenuItem = (item: MenuItem, initialPath: string = "/") => {
 describe("MenuItemComponent", () => {
   beforeEach(() => {
     sessionStorage.removeItem("sidebar-menu-state");
+    localStorage.removeItem("sidebar-topic-completion");
   });
 
   describe("active state", () => {
@@ -40,7 +46,7 @@ describe("MenuItemComponent", () => {
 
       const link = screen.getByRole("link");
       expect(link).toHaveAttribute("aria-current", "page");
-      expect(link.className).toContain("bg-primary");
+      expect(link.parentElement?.className).toContain("bg-primary");
     });
 
     it("does not apply active styling when href does not match", () => {
@@ -101,7 +107,7 @@ describe("MenuItemComponent", () => {
 
       renderMenuItem(parentItem);
 
-      const button = screen.getByRole("button");
+      const button = screen.getByRole("button", { name: "Parent" });
       expect(screen.queryByText("Child 1")).not.toBeInTheDocument();
 
       await userEvent.click(button);
@@ -129,7 +135,7 @@ describe("MenuItemComponent", () => {
 
       renderMenuItem(parentItem);
 
-      const button = screen.getByRole("button");
+      const button = screen.getByRole("button", { name: "Parent" });
       await userEvent.click(button);
       expect(screen.getByText("Child 1")).toBeInTheDocument();
 
@@ -156,7 +162,7 @@ describe("MenuItemComponent", () => {
 
       renderMenuItem(parentItem);
 
-      const button = screen.getByRole("button");
+      const button = screen.getByRole("button", { name: "Parent" });
       expect(button).toHaveAttribute("aria-expanded", "false");
 
       await userEvent.click(button);
@@ -169,7 +175,7 @@ describe("MenuItemComponent", () => {
     it("does not render a button when item has no children", () => {
       renderMenuItem(mockItem);
 
-      expect(screen.queryByRole("button")).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Test Label" })).not.toBeInTheDocument();
     });
 
     it("renders link without children", () => {
@@ -177,6 +183,58 @@ describe("MenuItemComponent", () => {
 
       expect(screen.getByRole("link")).toBeInTheDocument();
       expect(screen.getByText("Test Label")).toBeInTheDocument();
+    });
+  });
+
+  describe("topic completion", () => {
+    it("renders a completion checkbox for ready topics", () => {
+      render(
+        <MemoryRouter initialEntries={["/"]}>
+          <Sidebar menuItems={[mockItem]} showBrand={false} />
+        </MemoryRouter>,
+      );
+
+      expect(
+        screen.getByRole("button", { name: "Mark as complete: Test Label" }),
+      ).toBeInTheDocument();
+    });
+
+    it("stores completion state in localStorage when toggled", async () => {
+      const user = userEvent.setup();
+
+      render(
+        <MemoryRouter initialEntries={["/"]}>
+          <Sidebar menuItems={[mockItem]} showBrand={false} />
+        </MemoryRouter>,
+      );
+
+      const checkbox = screen.getByRole("button", {
+        name: "Mark as complete: Test Label",
+      });
+
+      await user.click(checkbox);
+
+      expect(checkbox).toHaveAttribute("aria-pressed", "true");
+      expect(localStorage.getItem("sidebar-topic-completion")).toBe(
+        JSON.stringify({ "test-item": true }),
+      );
+    });
+
+    it("restores completion state from localStorage", () => {
+      localStorage.setItem(
+        "sidebar-topic-completion",
+        JSON.stringify({ "test-item": true }),
+      );
+
+      render(
+        <MemoryRouter initialEntries={["/"]}>
+          <Sidebar menuItems={[mockItem]} showBrand={false} />
+        </MemoryRouter>,
+      );
+
+      expect(
+        screen.getByRole("button", { name: "Mark as incomplete: Test Label" }),
+      ).toHaveAttribute("aria-pressed", "true");
     });
   });
 

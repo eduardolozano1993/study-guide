@@ -27,32 +27,61 @@ export function AngularDirectives() {
         <TopicCard
           icon="A"
           title="Directives"
-          description="Directives extend template behavior. Structural directives change what gets rendered, while attribute directives change how an element behaves or looks."
+          description="Directives extend template behavior. In Angular 20+, control flow is typically written with block syntax like `@if`, `@for`, and `@switch`, while attribute directives still modify an existing host element."
         />
 
         <CollapsibleSection title="Structural vs Attribute Directives" collapsible={false}>
           <CodeBlock
             language="html"
-            code={`<li *ngFor="let user of users">{{ user.name }}</li>
-<p *ngIf="isLoading">Loading...</p>
+            code={`@if (isLoading) {
+  <p>Loading...</p>
+} @else {
+  <ul>
+    @for (user of users; track user.id) {
+      <li>{{ user.name }}</li>
+    }
+  </ul>
+}
 
 <div [ngClass]="{ selected: isSelected }"></div>
 <button [ngStyle]="{ color: danger ? 'red' : 'black' }"></button>`}
           />
           <Paragraph>
-            `*ngIf` and `*ngFor` are structural because they affect embedded
-            view creation. `ngClass` and `ngStyle` are attribute directives
-            because they modify an existing element.
+            `@if` and `@for` are the modern control-flow primitives for
+            conditional and repeated rendering. `ngClass` and `ngStyle` remain
+            attribute directives because they modify an existing element rather
+            than controlling whether Angular creates a block of UI.
           </Paragraph>
         </CollapsibleSection>
 
         <SectionHeader>What Interviewers Usually Ask</SectionHeader>
 
-        <CollapsibleSection title="How Structural Directives Work">
+        <CollapsibleSection title="How Angular 20+ Control Flow Works">
           <Paragraph>
-            Structural directives are syntactic sugar around Angular generating
-            or removing views. That is why only one structural directive can be
-            applied directly to a single host element without extra wrappers.
+            In modern Angular, `@if`, `@for`, and `@switch` compile into view
+            creation logic without the older `*` microsyntax. The core idea is
+            still the same: Angular creates, updates, or removes embedded views
+            based on control flow rather than merely toggling CSS visibility.
+          </Paragraph>
+          <CodeBlock
+            language="html"
+            code={`@switch (status) {
+  @case ("idle") {
+    <p>Idle</p>
+  }
+  @case ("loading") {
+    <p>Loading...</p>
+  }
+  @default {
+    <p>Done</p>
+  }
+}`}
+          />
+          <Paragraph>
+            You still use `ng-container` when you want grouping without adding
+            an extra DOM element, but the old rule about stacking multiple
+            structural directives on one host is no longer the main thing to
+            memorize for interview answers.
           </Paragraph>
         </CollapsibleSection>
 
@@ -79,11 +108,12 @@ export class AutofocusDirective {
           </Paragraph>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Structural Microsyntax and Readability Tradeoffs" collapsible={false}>
+        <CollapsibleSection title="Modern Template Control Flow and Readability Tradeoffs" collapsible={false}>
           <BulletList
             items={[
-              "Only one structural directive can sit on the same host element, which is why `ng-container` often becomes the extra wrapper boundary.",
-              "The microsyntax is concise, but too much hidden control flow in a template can become hard to scan.",
+              "`@if`, `@for`, and `@switch` make template logic read more like explicit control flow and avoid much of the old microsyntax confusion.",
+              "`@for` should usually include a `track` expression so Angular can update list items predictably and efficiently.",
+              "Even with cleaner syntax, too much branching and looping directly in a template can still make it hard to scan.",
               "Directives are better than wrapper components when the main concern is behavior on an existing host element rather than new structure.",
             ]}
           />
@@ -98,7 +128,8 @@ export class AutofocusDirective {
             items={[
               "When is a directive better than a wrapper component?",
               "How would you implement reusable focus or permission behavior?",
-              "Why can only one structural directive live directly on a host element?",
+              "What changed with Angular's modern `@if`, `@for`, and `@switch` syntax compared with legacy structural directives?",
+              "Why is the `track` expression important in `@for` blocks?",
               "When does a custom directive help readability, and when does it make templates harder to understand?",
             ]}
           />
@@ -107,9 +138,10 @@ export class AutofocusDirective {
         <CollapsibleSection title="Common Interview Pitfalls">
           <BulletList
             items={[
-              "Describing `*ngIf` as only CSS-style hiding instead of conditional view creation.",
-              "Not knowing why structural directives use the `*` microsyntax.",
-              "Ignoring `ng-container` when multiple structural concerns need composition.",
+              "Describing `@if` as only CSS-style hiding instead of conditional view creation.",
+              "Answering with only legacy `*ngIf` and `*ngFor` syntax when the team is using modern Angular.",
+              "Forgetting `track` in `@for` examples or not being able to explain why stable identity matters.",
+              "Ignoring `@switch` and `@else` when they make template intent clearer.",
               "Ignoring custom directives as a way to reuse DOM behavior.",
             ]}
           />

@@ -1,7 +1,8 @@
 import {
   BulletList,
-  CodeBlock,
+  Callout,
   CollapsibleSection,
+  ComparisonTable,
   Paragraph,
   SectionHeader,
   TopicCard,
@@ -26,63 +27,119 @@ export function AngularLifecycleHooks() {
         <TopicCard
           icon="A"
           title="Lifecycle Hooks"
-          description="Lifecycle hooks let Angular components react at predictable points such as initialization, input changes, view creation, and teardown."
+          description="Lifecycle hooks let Angular components react at predictable points such as input changes, initialization, content projection, view creation, render completion, and teardown."
         />
 
-        <CollapsibleSection title="Common Hooks" collapsible={false}>
-          <CodeBlock
-            language="typescript"
-            code={`export class UserListComponent implements OnInit, OnDestroy {
-  ngOnInit() {
-    this.loadUsers();
-  }
-
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
-}`}
-          />
+        <CollapsibleSection title="Lifecycle Hooks in Execution Order" collapsible={false}>
           <Paragraph>
-            Interviewers usually ask when to use `ngOnInit`, `ngOnChanges`, and
-            `ngOnDestroy`, especially for data loading, reacting to input
-            changes, and cleanup.
-          </Paragraph>
-        </CollapsibleSection>
-
-        <SectionHeader>Practical Usage</SectionHeader>
-
-        <CollapsibleSection title="Initialization vs Input Change Logic">
-          <Paragraph>
-            `ngOnInit` is a good place for initialization that depends on the
-            component existing. `ngOnChanges` is for responding specifically to
-            input changes. Mixing these concerns is a common source of confusion.
-          </Paragraph>
-        </CollapsibleSection>
-
-        <CollapsibleSection title="Cleanup Matters">
-          <Paragraph>
-            `ngOnDestroy` is critical when you manage subscriptions, timers, or
-            DOM listeners manually. Failing to clean up creates leaks and stale
+            This is the execution order interviewers usually expect you to know
+            for a component instance. Some hooks run once, some repeat during
+            change detection, and render hooks run after Angular flushes DOM
             updates.
           </Paragraph>
-        </CollapsibleSection>
-
-        <CollapsibleSection title="Beyond the Three Common Hooks" collapsible={false}>
-          <BulletList
-            items={[
-              "`ngAfterViewInit` is for logic that needs the component view or view children to exist first.",
-              "`ngAfterContentInit` matters when projected content changes what the component can access or measure.",
-              "Touching view-dependent APIs too early is a common cause of undefined references or timing bugs.",
+          <ComparisonTable
+            columns={[
+              { key: "when", label: "When It Runs", className: "min-w-56" },
+              { key: "description", label: "Short Description", className: "min-w-80" },
+            ]}
+            rows={[
+              {
+                label: "1. ngOnChanges",
+                values: {
+                  when: "Before `ngOnInit`, and again whenever an input changes.",
+                  description:
+                    "Responds to input changes with access to current and previous values through `SimpleChanges`.",
+                },
+              },
+              {
+                label: "2. ngOnInit",
+                values: {
+                  when: "Once, after the first `ngOnChanges`.",
+                  description:
+                    "Runs component initialization logic after Angular has set the initial inputs.",
+                },
+              },
+              {
+                label: "3. ngDoCheck",
+                values: {
+                  when: "During every change-detection pass.",
+                  description:
+                    "Lets you run custom change-detection logic when default checks are not enough.",
+                },
+              },
+              {
+                label: "4. ngAfterContentInit",
+                values: {
+                  when: "Once, after projected content is initialized.",
+                  description:
+                    "Runs when content projected with `ng-content` becomes available for the first time.",
+                },
+              },
+              {
+                label: "5. ngAfterContentChecked",
+                values: {
+                  when: "After every check of projected content.",
+                  description:
+                    "Runs after Angular checks projected content for updates.",
+                },
+              },
+              {
+                label: "6. ngAfterViewInit",
+                values: {
+                  when: "Once, after the component view and child views initialize.",
+                  description:
+                    "Use it when view queries or DOM-dependent logic need the rendered view tree to exist.",
+                },
+              },
+              {
+                label: "7. ngAfterViewChecked",
+                values: {
+                  when: "After every check of the component view and child views.",
+                  description:
+                    "Runs after Angular checks the component's own view, so heavy logic here is usually a mistake.",
+                },
+              },
+              {
+                label: "8. afterNextRender",
+                values: {
+                  when: "Once, after Angular finishes rendering the next full DOM update.",
+                  description:
+                    "Modern render hook for one-time post-render work such as measuring layout after the UI is painted.",
+                },
+              },
+              {
+                label: "9. afterEveryRender",
+                values: {
+                  when: "After every render that flushes DOM updates.",
+                  description:
+                    "Modern render hook for repeated post-render work, but it should stay lightweight.",
+                },
+              },
+              {
+                label: "10. ngOnDestroy",
+                values: {
+                  when: "Once, right before Angular destroys the component.",
+                  description:
+                    "Final cleanup point for subscriptions, timers, listeners, and other resources tied to the instance.",
+                },
+              },
             ]}
           />
+          <Callout variant="tip">
+            `constructor` runs before all of this, but it is not a lifecycle
+            hook. Keep it for dependency injection and cheap setup, not
+            lifecycle work.
+          </Callout>
         </CollapsibleSection>
 
-        <CollapsibleSection title="Cleanup Patterns and Hook Selection" collapsible={false}>
+        <SectionHeader>Practical Notes</SectionHeader>
+
+        <CollapsibleSection title="Modern Angular Guidance" collapsible={false}>
           <BulletList
             items={[
               "`takeUntilDestroyed` is often a clearer modern cleanup pattern than manual subscription bookkeeping.",
-              "Memory leaks are not only forgotten `unsubscribe` calls. They also include stale timers, listeners, and async flows that keep updating dead views.",
-              "If logic depends on changing inputs, `ngOnChanges` is usually more precise than `ngOnInit`.",
+              "Signal-based state and computed values reduce the amount of code that needs manual hook orchestration.",
+              "If code depends on final DOM output rather than only the component instance, prefer render hooks or view hooks over early initialization hooks.",
             ]}
           />
         </CollapsibleSection>

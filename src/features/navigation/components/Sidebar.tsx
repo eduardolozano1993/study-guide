@@ -1,45 +1,67 @@
 import React from "react";
-import { BookOpenText, ChevronRight } from "lucide-react";
+import { BookOpenText, Check, ChevronRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import type { MenuItem } from "@/features/navigation/types/menuItem.interface";
 import { cn } from "@/lib/utils";
 import { MENU_ITEMS } from "../data/menuItems";
 
 const MENU_STATE_KEY = "sidebar-menu-state";
+const TOPIC_COMPLETION_KEY = "sidebar-topic-completion";
 
-const getStoredMenuState = (): Record<string, boolean> => {
+const getStoredState = (
+  storage: Storage,
+  storageKey: string,
+): Record<string, boolean> => {
   try {
-    const stored = sessionStorage.getItem(MENU_STATE_KEY);
+    const stored = storage.getItem(storageKey);
     return stored ? JSON.parse(stored) : {};
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.warn("Failed to read menu state from sessionStorage:", error);
+      console.warn(`Failed to read state from ${storageKey}:`, error);
     }
     return {};
   }
 };
 
-const storeMenuState = (state: Record<string, boolean>) => {
+const storeState = (
+  storage: Storage,
+  storageKey: string,
+  state: Record<string, boolean>,
+) => {
   try {
-    sessionStorage.setItem(MENU_STATE_KEY, JSON.stringify(state));
+    storage.setItem(storageKey, JSON.stringify(state));
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.warn("Failed to store menu state in sessionStorage:", error);
+      console.warn(`Failed to store state in ${storageKey}:`, error);
     }
   }
 };
+
+const getStoredMenuState = () => getStoredState(sessionStorage, MENU_STATE_KEY);
+
+const storeMenuState = (state: Record<string, boolean>) =>
+  storeState(sessionStorage, MENU_STATE_KEY, state);
+
+const getStoredTopicCompletion = () =>
+  getStoredState(localStorage, TOPIC_COMPLETION_KEY);
+
+const storeTopicCompletion = (state: Record<string, boolean>) =>
+  storeState(localStorage, TOPIC_COMPLETION_KEY, state);
 
 export interface MenuItemProps {
   item: MenuItem;
   depth?: number;
   onNavigate?: () => void;
   pathname: string;
+  completedTopics: Record<string, boolean>;
+  onToggleTopicCompletion: (topicId: string) => void;
 }
 
 const depthStyles = {
   0: {
     button: "px-3 py-2.5 text-base font-semibold",
     link: "px-3 py-2.5 text-base font-medium",
+    content: "text-base font-medium",
     icon: "text-base",
     label: "text-base",
     chevron: "text-xs",
@@ -47,6 +69,7 @@ const depthStyles = {
   1: {
     button: "px-3 py-2 text-sm font-medium",
     link: "px-3 py-2 text-sm font-medium",
+    content: "text-sm font-medium",
     icon: "text-sm",
     label: "text-sm",
     chevron: "text-xs",
@@ -54,6 +77,7 @@ const depthStyles = {
   2: {
     button: "px-3 py-1.5 text-sm font-normal",
     link: "px-3 py-1.5 text-sm font-normal",
+    content: "text-sm font-normal",
     icon: "text-xs",
     label: "text-[0.95rem]",
     chevron: "text-xs",
@@ -142,6 +166,8 @@ export const NavigationItemComponent = React.memo(
     depth = 0,
     onNavigate,
     pathname,
+    completedTopics,
+    onToggleTopicCompletion,
   }: MenuItemProps) {
     const styles = getDepthStyles(depth);
     const indent = getIndent(depth);
@@ -184,6 +210,8 @@ export const NavigationItemComponent = React.memo(
                   depth={depth + 1}
                   onNavigate={onNavigate}
                   pathname={pathname}
+                  completedTopics={completedTopics}
+                  onToggleTopicCompletion={onToggleTopicCompletion}
                 />
               ))}
             </ul>
@@ -194,7 +222,8 @@ export const NavigationItemComponent = React.memo(
 
     const isActive = item.href !== "#" && pathname === item.href;
     const isDisabled = item.disabled || item.href === "#";
-    const baseStateClasses = isActive
+    const isCompleted = completedTopics[item.id] ?? false;
+    const rowStateClasses = isActive
       ? "bg-primary text-primary-foreground shadow-sm"
       : "text-foreground hover:bg-muted/80";
 
@@ -219,20 +248,51 @@ export const NavigationItemComponent = React.memo(
 
     return (
       <li>
-        <Link
-          to={item.href}
-          onClick={onNavigate}
-          className={`flex items-center gap-2 rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${baseStateClasses} ${styles.link}`}
+        <div
+          className={`flex items-center gap-2 rounded-xl transition-all duration-200 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ring ${rowStateClasses}`}
           style={{
             paddingLeft: `${indent + (item.icon ? 8 : 0)}px`,
             paddingRight: `${indent / 1.5}px`,
           }}
-          aria-current={isActive ? "page" : undefined}
         >
-          {item.icon && <span className={styles.icon}>{item.icon}</span>}
-          <span className={styles.label}>{item.label}</span>
-          {renderStatusBadge(item)}
-        </Link>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onToggleTopicCompletion(item.id);
+            }}
+            aria-label={`${isCompleted ? "Mark as incomplete" : "Mark as complete"}: ${item.label}`}
+            aria-pressed={isCompleted}
+            className={cn(
+              "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              isCompleted
+                ? "border-emerald-700 bg-emerald-700 text-white shadow-[0_0_0_1px_rgba(4,120,87,0.28)]"
+                : "border-slate-300 bg-background/80 text-transparent hover:border-emerald-600 hover:bg-emerald-50",
+              isActive && isCompleted && "border-emerald-800 bg-emerald-800",
+            )}
+          >
+            <Check className="h-3.5 w-3.5" strokeWidth={3} />
+          </button>
+          <Link
+            to={item.href}
+            onClick={onNavigate}
+            className={`flex min-w-0 flex-1 items-center gap-2 py-1.5 transition-all duration-200 ${styles.content}`}
+            aria-current={isActive ? "page" : undefined}
+          >
+            {item.icon && <span className={styles.icon}>{item.icon}</span>}
+            <span
+              className={cn(
+                "min-w-0 truncate",
+                styles.label,
+                isCompleted && !isActive && "text-foreground/60",
+              )}
+            >
+              {item.label}
+            </span>
+            {renderStatusBadge(item)}
+          </Link>
+        </div>
       </li>
     );
   },
@@ -256,6 +316,21 @@ export function Sidebar({
   className,
 }: SidebarProps) {
   const { pathname } = useLocation();
+  const [completedTopics, setCompletedTopics] = React.useState(() =>
+    getStoredTopicCompletion(),
+  );
+
+  const toggleTopicCompletion = React.useCallback((topicId: string) => {
+    setCompletedTopics((currentState) => {
+      const nextState = {
+        ...currentState,
+        [topicId]: !currentState[topicId],
+      };
+
+      storeTopicCompletion(nextState);
+      return nextState;
+    });
+  }, []);
 
   return (
     <div className={cn("flex h-full min-h-0 flex-col", className)}>
@@ -285,6 +360,8 @@ export function Sidebar({
               item={item}
               onNavigate={onNavigate}
               pathname={pathname}
+              completedTopics={completedTopics}
+              onToggleTopicCompletion={toggleTopicCompletion}
             />
           ))}
         </ul>

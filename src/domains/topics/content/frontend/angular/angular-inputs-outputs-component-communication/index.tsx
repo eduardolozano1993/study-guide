@@ -26,24 +26,44 @@ export function AngularInputsOutputsComponentCommunication() {
         <TopicCard
           icon="A"
           title="Inputs, Outputs, and Component Communication"
-          description="Angular components usually communicate through inputs for incoming data and outputs for outgoing events, with services handling broader shared state."
+          description="Angular components usually communicate through signal-based inputs for incoming data and outputs for outgoing events, with services handling broader shared state."
         />
 
         <CollapsibleSection title="Parent to Child and Child to Parent" collapsible={false}>
           <CodeBlock
             language="typescript"
-            code={`@Component({
+            code={`import { Component, input, output } from "@angular/core";
+
+@Component({
   selector: "app-user-card",
-  template: \`<button (click)="select.emit(userId)">Select</button>\`,
+  template: \`
+    <button (click)="select.emit(userId())">Select</button>
+  \`,
 })
 export class UserCardComponent {
-  @Input() userId!: string;
-  @Output() select = new EventEmitter<string>();
+  userId = input.required<string>();
+  select = output<string>();
 }`}
           />
           <Paragraph>
-            Inputs pass data down. Outputs emit events up. This keeps parent and
-            child responsibilities explicit.
+            Inputs pass data down. Outputs emit events up. In Angular 20+,
+            `input()` and `output()` are the modern API, and signal-based inputs
+            are read by calling them like `userId()`.
+          </Paragraph>
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Modern Parent Template Usage" collapsible={false}>
+          <CodeBlock
+            language="html"
+            code={`<app-user-card
+  [userId]="selectedUserId"
+  (select)="onUserSelected($event)"
+/>`}
+          />
+          <Paragraph>
+            Template binding syntax stays familiar: square brackets still bind
+            values into the child, and parentheses still listen to child events.
+            What changed is the component API used to declare those bindings.
           </Paragraph>
         </CollapsibleSection>
 
@@ -68,6 +88,27 @@ export class UserCardComponent {
           />
         </CollapsibleSection>
 
+        <CollapsibleSection title="Two-Way Binding in Modern Angular" collapsible={false}>
+          <CodeBlock
+            language="typescript"
+            code={`import { Component, model } from "@angular/core";
+
+@Component({
+  selector: "app-search-box",
+  template: \`<input [value]="query()" (input)="query.set($any($event.target).value)" />\`,
+})
+export class SearchBoxComponent {
+  query = model("");
+}`}
+          />
+          <Paragraph>
+            When a component truly owns a value that should participate in
+            two-way binding, `model()` is the modern option. It is better than
+            inventing paired input and output names just to simulate a single
+            writable value.
+          </Paragraph>
+        </CollapsibleSection>
+
         <CollapsibleSection title="Common Failure Modes" collapsible={false}>
           <BulletList
             items={[
@@ -82,6 +123,8 @@ export class UserCardComponent {
           <BulletList
             items={[
               "When are inputs and outputs enough, and when would you move to a shared service?",
+              "What changed between decorator-based `@Input()` and `@Output()` APIs and modern `input()` and `output()`?",
+              "When is `model()` appropriate, and when is explicit input/output clearer?",
               "What smell tells you prop drilling through wrappers is becoming a problem?",
               "How do smart and presentational components affect communication design?",
               "When does route-level state make more sense than component-level event chains?",
@@ -93,7 +136,9 @@ export class UserCardComponent {
           <BulletList
             items={[
               "Using outputs for broad shared state when a service is the better fit.",
-              "Confusing `EventEmitter` with a general-purpose RxJS event bus.",
+              "Answering only with legacy `@Input()` and `@Output()` decorator syntax when the codebase uses modern Angular.",
+              "Confusing component outputs with a general-purpose RxJS event bus.",
+              "Using two-way binding everywhere instead of keeping data flow explicit where that improves clarity.",
               "Not explaining how communication changes when components are not directly related.",
               "Letting a shared service become hidden mutable global state.",
             ]}

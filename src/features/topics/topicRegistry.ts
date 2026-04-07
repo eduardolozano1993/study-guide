@@ -81,6 +81,12 @@ const topicLoaders: Record<
         "@/domains/topics/content/frontend/java-script/objects-destructuring-spread-rest"
       ),
   ),
+  "javascript-collection-operations": React.lazy(
+    () =>
+      import(
+        "@/domains/topics/content/frontend/java-script/javascript-collection-operations"
+      ),
+  ),
   "promises-async-await": React.lazy(
     () =>
       import("@/domains/topics/content/frontend/java-script/promises-async-await"),
@@ -853,6 +859,15 @@ const topicDefinitions: TopicDefinition[] = [
     status: "ready",
     menuPath: frontendJavaScriptMenuPath,
     loader: topicLoaders["objects-destructuring-spread-rest"],
+  },
+  {
+    id: "javascript-collection-operations",
+    title: "JavaScript Collection Operations",
+    menuLabel: "Collection operations",
+    path: "/topic/javascript-collection-operations",
+    status: "ready",
+    menuPath: frontendJavaScriptMenuPath,
+    loader: topicLoaders["javascript-collection-operations"],
   },
   {
     id: "promises-async-await",

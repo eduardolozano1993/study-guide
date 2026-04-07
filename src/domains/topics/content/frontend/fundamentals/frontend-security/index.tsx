@@ -105,6 +105,73 @@ element.innerHTML = message; // risky`}
           </Paragraph>
         </CollapsibleSection>
 
+        <CollapsibleSection title="Cross-Site Request Forgery (CSRF)" collapsible={false}>
+          <Paragraph>
+            CSRF is different from XSS. The attacker does not need to run code
+            in your app. They only need the browser to send a request that
+            automatically includes the user&apos;s cookies or other ambient
+            credentials.
+          </Paragraph>
+          <CodeBlock
+            language="html"
+            code={`<!-- attacker-controlled page -->
+<form action="https://bank.example/transfer" method="POST">
+  <input type="hidden" name="to" value="attacker" />
+  <input type="hidden" name="amount" value="5000" />
+</form>
+
+<script>
+  document.forms[0].submit();
+</script>`}
+          />
+          <Paragraph>
+            Frontend code helps by using explicit anti-CSRF tokens, avoiding
+            state-changing GET requests, and understanding when cookie-backed
+            auth needs SameSite and server-side CSRF validation.
+          </Paragraph>
+          <CodeBlock
+            language="javascript"
+            code={`await fetch("/api/profile", {
+  method: "POST",
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+    "X-CSRF-Token": csrfToken,
+  },
+  body: JSON.stringify({ displayName: "Ada" }),
+});`}
+          />
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Cross-Origin Resource Sharing (CORS)" collapsible={false}>
+          <Paragraph>
+            CORS is a browser rule about which origins may read a response. It
+            does not stop requests from reaching the server, and it does not
+            replace authentication or authorization.
+          </Paragraph>
+          <CodeBlock
+            language="javascript"
+            code={`fetch("https://api.example.com/admin/stats", {
+  credentials: "include",
+})
+  .then((response) => response.json())
+  .catch((error) => {
+    console.error("Blocked by the browser if CORS headers do not allow it", error);
+  });`}
+          />
+          <Paragraph>
+            If the API does not return the right `Access-Control-Allow-Origin`
+            policy, the browser blocks JavaScript from reading the response.
+            That is useful, but it is not real backend protection because
+            non-browser clients can still call the endpoint directly.
+          </Paragraph>
+          <CodeBlock
+            language="http"
+            code={`Access-Control-Allow-Origin: https://app.example.com
+Access-Control-Allow-Credentials: true`}
+          />
+        </CollapsibleSection>
+
         <SectionHeader>Storage and Browser-Side Tradeoffs</SectionHeader>
         <BulletList
           items={[
