@@ -4,7 +4,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { MenuItem } from "@/features/navigation/types/menuItem.interface";
-import { MenuItemComponent } from "./Sidebar";
+import { MenuItemComponent, Sidebar } from "./Sidebar";
 
 const mockItem: MenuItem = {
   kind: "topic",
@@ -65,7 +65,7 @@ describe("MenuItemComponent", () => {
       renderMenuItem(itemWithHref, "/");
 
       expect(screen.queryByRole("link")).not.toBeInTheDocument();
-      expect(screen.getByText("Test Label")).toHaveAttribute(
+      expect(screen.getByText("Test Label").closest('[aria-disabled="true"]')).toHaveAttribute(
         "aria-disabled",
         "true",
       );
@@ -177,6 +177,24 @@ describe("MenuItemComponent", () => {
 
       expect(screen.getByRole("link")).toBeInTheDocument();
       expect(screen.getByText("Test Label")).toBeInTheDocument();
+    });
+  });
+
+  describe("sidebar layout", () => {
+    it("keeps the navigation area scrollable within the sidebar height", () => {
+      render(
+        <MemoryRouter>
+          <Sidebar />
+        </MemoryRouter>,
+      );
+
+      const navigation = screen.getByRole("navigation", {
+        name: "Study topics",
+      });
+
+      expect(navigation.className).toContain("min-h-0");
+      expect(navigation.className).toContain("flex-1");
+      expect(navigation.className).toContain("overflow-y-auto");
     });
   });
 });

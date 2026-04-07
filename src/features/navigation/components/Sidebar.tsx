@@ -2,6 +2,7 @@ import React from "react";
 import { BookOpenText, ChevronRight } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import type { MenuItem } from "@/features/navigation/types/menuItem.interface";
+import { cn } from "@/lib/utils";
 import { MENU_ITEMS } from "../data/menuItems";
 
 const MENU_STATE_KEY = "sidebar-menu-state";
@@ -257,7 +258,7 @@ export function Sidebar({
   const { pathname } = useLocation();
 
   return (
-    <div className={className}>
+    <div className={cn("flex h-full min-h-0 flex-col", className)}>
       {showBrand && (
         <div className="border-b border-border/70 px-5 py-5">
           <div className="flex items-center gap-3">
@@ -273,7 +274,10 @@ export function Sidebar({
         </div>
       )}
 
-      <nav aria-label={navLabel} className="h-full overflow-y-auto px-3 py-4">
+      <nav
+        aria-label={navLabel}
+        className="min-h-0 flex-1 overflow-y-auto px-3 py-4"
+      >
         <ul className="space-y-1.5">
           {menuItems.map((item) => (
             <NavigationItemComponent
