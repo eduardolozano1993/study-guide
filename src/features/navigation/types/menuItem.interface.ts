@@ -1,8 +1,9 @@
-export interface MenuItem {
-  id?: string;
-  label: string;
-  icon?: string;
-  children?: MenuItem[];
-  href?: string;
-  disabled?: boolean;
-}
+import type {
+  NavigationGroupNode,
+  NavigationNode,
+  NavigationTopicNode,
+} from "../model/navigationTree";
+
+export type MenuItem = NavigationNode;
+export type MenuGroupItem = NavigationGroupNode;
+export type MenuTopicItem = NavigationTopicNode;

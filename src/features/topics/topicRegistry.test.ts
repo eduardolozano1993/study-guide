@@ -1,0 +1,482 @@
+import "@testing-library/jest-dom/vitest";
+import { describe, expect, it } from "vitest";
+import { MENU_ITEMS } from "@/features/navigation/data/menuItems";
+import type { NavigationNode } from "@/features/navigation/model/navigationTree";
+import { TOPIC_DEFINITIONS } from "./topicRegistry";
+
+const getLeafItems = (items: NavigationNode[] = MENU_ITEMS): NavigationNode[] =>
+  items.flatMap((item: NavigationNode): NavigationNode[] => {
+    if (item.kind === "group") {
+      return getLeafItems(item.children);
+    }
+
+    return [item];
+  });
+
+describe("topic registry", () => {
+  it("drives the sidebar menu from the canonical topic definitions", () => {
+    const leafItems = getLeafItems();
+
+    expect(leafItems).toHaveLength(TOPIC_DEFINITIONS.length);
+    expect(leafItems.every((item) => item.kind === "topic")).toBe(true);
+    expect(leafItems.map((item) => item.id)).toEqual(
+      TOPIC_DEFINITIONS.map((topic) => topic.id),
+    );
+    expect(
+      leafItems.map((item) => (item.kind === "topic" ? item.href : "")),
+    ).toEqual(
+      TOPIC_DEFINITIONS.map((topic) => topic.path),
+    );
+    expect(
+      leafItems.every(
+        (item) => item.kind === "topic" && item.href && item.href !== "#",
+      ),
+    ).toBe(true);
+  });
+
+  it("preserves the shared top-level navigation grouping", () => {
+    expect(MENU_ITEMS).toHaveLength(5);
+    expect(MENU_ITEMS[0]).toMatchObject({
+      kind: "group",
+      id: "frontend",
+      label: "Frontend",
+    });
+    const firstGroup = MENU_ITEMS[0].kind === "group" ? MENU_ITEMS[0] : null;
+    expect(firstGroup?.children).toHaveLength(9);
+    expect(firstGroup?.children?.[0]).toMatchObject({
+      kind: "group",
+      id: "fundamentals",
+      label: "Fundamentals",
+    });
+    expect(firstGroup?.children?.[1]).toMatchObject({
+      kind: "group",
+      id: "java-script",
+      label: "JavaScript",
+    });
+    expect(firstGroup?.children?.[2]).toMatchObject({
+      kind: "group",
+      id: "type-script",
+      label: "TypeScript",
+    });
+    expect(firstGroup?.children?.[3]).toMatchObject({
+      kind: "group",
+      id: "testing",
+      label: "Testing",
+    });
+    expect(firstGroup?.children?.[4]).toMatchObject({
+      kind: "group",
+      id: "performance",
+      label: "Performance",
+    });
+    expect(firstGroup?.children?.[5]).toMatchObject({
+      kind: "group",
+      id: "tooling",
+      label: "Tooling",
+    });
+    expect(firstGroup?.children?.[6]).toMatchObject({
+      kind: "group",
+      id: "angular",
+      label: "Angular",
+    });
+    expect(firstGroup?.children?.[7]).toMatchObject({
+      kind: "group",
+      id: "react",
+      label: "React",
+    });
+    expect(firstGroup?.children?.[8]).toMatchObject({
+      kind: "group",
+      id: "next-js",
+      label: "Next.js",
+    });
+    expect(MENU_ITEMS[1]).toMatchObject({
+      kind: "group",
+      id: "network",
+      label: "Network",
+    });
+    expect(MENU_ITEMS[2]).toMatchObject({
+      kind: "group",
+      id: "api",
+      label: "API",
+    });
+    expect(MENU_ITEMS[3]).toMatchObject({
+      kind: "group",
+      id: "architecture",
+      label: "Architecture",
+    });
+    expect(MENU_ITEMS[4]).toMatchObject({
+      kind: "group",
+      id: "low-level-design",
+      label: "Low-Level Design",
+    });
+    const architectureGroup =
+      MENU_ITEMS[3].kind === "group" ? MENU_ITEMS[3] : null;
+    expect(architectureGroup?.children).toHaveLength(2);
+    expect(architectureGroup?.children?.[0]).toMatchObject({
+      kind: "group",
+      id: "patterns",
+      label: "Patterns",
+    });
+    expect(architectureGroup?.children?.[1]).toMatchObject({
+      kind: "group",
+      id: "fundamentals",
+      label: "Fundamentals",
+    });
+    const patternsGroup =
+      architectureGroup?.children?.[0]?.kind === "group"
+        ? architectureGroup.children[0]
+        : null;
+    expect(patternsGroup?.children?.[0]).toMatchObject({
+      kind: "group",
+      id: "authentication",
+      label: "Authentication",
+    });
+    const lowLevelDesignGroup =
+      MENU_ITEMS[4].kind === "group" ? MENU_ITEMS[4] : null;
+    expect(lowLevelDesignGroup?.children?.length).toBeGreaterThan(0);
+  });
+
+  it("marks placeholder lessons as coming soon in the registry", () => {
+    expect(
+      TOPIC_DEFINITIONS.filter((topic) => topic.status === "coming-soon"),
+    ).toHaveLength(8);
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "html-semantics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "accessibility")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "css-box-model")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "css-layout")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "responsive-design")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "dom-events")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "browser-rendering")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "network-browser-apis")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "performance-fundamentals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "reflow-repaint")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "frontend-security")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "primitive-vs-reference-types")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "closures")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "objects-destructuring-spread-rest")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "promises-async-await")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "error-handling-javascript")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "dom-manipulation-basics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "esm-vs-commonjs")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "immutability")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-type-system-fundamentals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-type-narrowing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-interfaces-vs-types")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-generics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-utility-types")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-advanced-types")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-functions")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-classes-and-oop")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-modules-and-namespaces")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-type-assertions")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-async-typing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-strict-mode-and-tsconfig")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-structural-typing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-immutability-and-readonly")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-runtime-vs-compile-time")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-api-type-design")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-working-with-external-libraries")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-type-safe-patterns-in-real-code")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-performance-and-maintainability")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "typescript-senior-level-judgment")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "unit-testing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "integration-testing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "e2e-testing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "code-splitting")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "tree-shaking")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "caching-strategies")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "core-web-vitals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "webpack-vite")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "babel-typescript")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "cicd-basics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-architecture")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-components-templates-data-binding")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-directives")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-inputs-outputs-component-communication")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-lifecycle-hooks")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-dependency-injection")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-services")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-rxjs-basics")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-http-client")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-routing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-reactive-forms-validation")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-change-detection")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-interceptors")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "angular-signals-standalone-components")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-fundamentals")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-hooks-in-depth")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-rendering-behavior")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-state-management")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-component-design")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-performance")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-effects-and-side-effects")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-forms")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-data-fetching")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-routing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-server-rendering")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-architecture")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "react-error-handling")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-rendering-model")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-app-router-architecture")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-server-vs-client-components")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-data-fetching")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-caching-and-revalidation")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-server-actions-mutations")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-routing")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-api-route-handlers")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-middleware-edge-runtime")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-performance")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-seo-metadata")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-authentication-authorization")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-error-handling-observability")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-deployment-runtime-tradeoffs")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "nextjs-pages-router-legacy")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "dns")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "tcp-ip")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "http-1-2-3")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "tls")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "rest")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "http-status-codes")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "grpc")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "graph-ql")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "rest-graph-grpc")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "access-vs-refresh")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "api-key")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "basic-digest")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "jwt-bearer")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "oauth2-oidc")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "session")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "sso")?.status,
+    ).toBe("coming-soon");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "load-balancer")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "horizontal-vertical-scaling")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "cdn")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "redis")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "latency-vs-throughput")?.status,
+    ).toBe("ready");
+    expect(
+      TOPIC_DEFINITIONS.find((topic) => topic.id === "cap-theorem")?.status,
+    ).toBe("ready");
+  });
+});
